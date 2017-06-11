@@ -1,0 +1,35 @@
+change log for royal lab display (RLD)
+
+june-4-2017
+added 4 icons to MBRBot.dll
+added 4 new icon variables to MBR Global Variables.au3
+Modded MBR GUI Design Bottom.au3 to fit the new indictors
+Added some code to VillageSearch.au3 to hide and show when attack now option is used.
+
+changes to MyBot.run.au3
+	hook into main loop to ck hero status
+	rem added function at end to ck hero status -- moved
+changes to getarmyherocount
+	added old armyherostatusold($hero) function from pre update
+
+note to self... upgrade detect not reliabale (offical version)
+
+june-5-2017
+== Built new royal status detect.
+moved new function into getarmyherocount.au3
+renamed the rebuilt armyherostatusold($hero) to armyherostatus($hero) replaced offical
+New images located $directory = @ScriptDir & "\imgxml\Resources\herostatus"
+
+changed file list:
+ 
+mybot.run.au3 			/ Code Hook to run royal and lab gui indictors early in Func runBot()
+getarmyherocount.au3 		/ restored armyherostatus($hero) but with using QuickMIS
+MBR GUI Design Bottom.au3 	/ new code to resize right bottom and add display
+MBR Global Variables.au3 	/ enum for icons
+VillageSearch.au3		/ hide and show when attack now option is used.
+MBRBot.dll 			/ added icons
+@ScriptDir & "\imgxml\Resources\herostatus" / new folder with new images for royal state detection.
+
+
+just one more image to collect in here @ScriptDir & "\imgxml\Resources\herostatus"
+then test a little more and publish.
