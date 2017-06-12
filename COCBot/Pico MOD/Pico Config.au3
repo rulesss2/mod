@@ -103,10 +103,9 @@ Func ReadConfig_PicoMod()
 	$g_bReqCCFirst = (IniRead($g_sProfileConfigPath, "planned", "ReqCCFirst", 0) = 1)
     
 	; ================================================== CUSTOM DROP ORDER ================================================== ;kychera
-	IniReadS($g_bCustomTrainDropOrderEnable, $g_sProfileConfigPath, "Pico DropOrder", "chkTroopDropOrder", False, "Bool")
-
+	IniReadS($g_bCustomTrainDropOrderEnable, $g_sProfileConfigPath, "Pico DropOrder", "chkTroopDropOrder", $g_bCustomTrainDropOrderEnable, "Bool")
 	For $p = 0 To UBound($icmbDropTroops) - 1
-		IniReadS($icmbDropTroops[$p], $g_sProfileConfigPath, "Pico DropOrder", $g_asTroopNamesPluralDrop[$p], -1)
+		IniReadS($icmbDropTroops[$p], $g_sProfileConfigPath, "Pico DropOrder", "cmbDropTroops[" & $p & "]", $icmbDropTroops[$p] , "Int")
 	Next
 	
 	
@@ -211,10 +210,9 @@ Func SaveConfig_PicoMod()
 	_Ini_Add("planned", "ReqCCFirst", $g_bReqCCFirst ? 1 : 0)
     
 	; ================================================== CUSTOM DROP ORDER ================================================== ;kychera
-	_Ini_Add("Pico DropOrder", "chkTroopDropOrder", $g_bCustomTrainDropOrderEnable ? 1 : 0)
-
+	_Ini_Add("Pico DropOrder", "chkTroopDropOrder", $g_bCustomTrainDropOrderEnable)
 	For $p = 0 To UBound($icmbDropTroops) - 1
-		_Ini_Add("Pico DropOrder", $g_asTroopNamesPluralDrop[$p], $icmbDropTroops[$p])
+		_Ini_Add("Pico DropOrder", "cmbDropTroops[" & $p & "]", _GUICtrlComboBox_GetCurSel($cmbDropTroops[$p]))
 	Next
 	
 	; Multi Finger (LunaEclipse) - Added by rulesss
@@ -322,8 +320,7 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 			$g_bReqCCFirst = GUICtrlRead($chkReqCCFirst) = $GUI_CHECKED ? 1 : 0
 			
 			; ================================================== CUSTOM DROP ORDER ================================================== ;
-			$g_bCustomTrainDropOrderEnable = (GUICtrlRead($g_hChkCustomTrainDropOrderEnable)) = $GUI_CHECKED ? 1 : 0
-
+			$g_bCustomTrainDropOrderEnable = GUICtrlRead($g_hChkCustomTrainDropOrderEnable) = $GUI_CHECKED ? True : False
 			For $p = 0 To UBound($icmbDropTroops) - 1
 				$icmbDropTroops[$p] = _GUICtrlComboBox_GetCurSel($cmbDropTroops[$p])
 			Next
@@ -437,8 +434,7 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 			GUICtrlSetState($chkReqCCFirst, $g_bReqCCFirst = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			
 			; ================================================== CUSTOM DROP ORDER ================================================== ;
-			GUICtrlSetState($g_hChkCustomTrainDropOrderEnable, $g_bCustomTrainDropOrderEnable = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
-
+			GUICtrlSetState($g_hChkCustomTrainDropOrderEnable, $g_bCustomTrainDropOrderEnable = True ? $GUI_CHECKED : $GUI_UNCHECKED)
 			For $p = 0 To UBound($icmbDropTroops) - 1
 				_GUICtrlComboBox_SetCurSel($cmbDropTroops[$p], $icmbDropTroops[$p])
 				GUICtrlSetImage($g_ahImgTroopDropOrder[$p], $g_sLibIconPath, $g_aiTroopOrderDropIcon[$icmbDropTroops[$p] + 1])

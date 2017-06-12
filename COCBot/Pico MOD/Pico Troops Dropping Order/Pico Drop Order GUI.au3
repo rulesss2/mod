@@ -17,26 +17,20 @@
 
 Global $hGUI_Order
 
-Func CustonDropOrder()
-	; prevent user to open a second window impossible to close...
-	GUICtrlSetState($g_BtnCustonDropOrderDB, $GUI_DISABLE)
-	GUICtrlSetState($g_BtnCustonDropOrderAB, $GUI_DISABLE)
+Func CreateDropOrderGUI()
 
-	$hGUI_Order = GUICreate("Attack Custom Drop Order", 452, 437, -1, -1, $WS_BORDER, $WS_EX_CONTROLPARENT)
-
-	; Create a button control.
-	Local $idClose = GUICtrlCreateButton("Close", 350, 370, 85, 25)
-	GUICtrlSetOnEvent(-1, "CloseCustonDropOrder")
+	$hGUI_Order = GUICreate("Attack Custom Dropping Order", 322, 428, -1, -1, $WS_BORDER, $WS_EX_CONTROLPARENT)
 
 	Local $x = 25, $y = 25
-	GUICtrlCreateGroup(GetTranslated(641, 58, "Custom dropping order"), $x - 20, $y - 20, 320, 380)
+	GUICtrlCreateGroup("Custom Dropping Order", $x - 20, $y - 20, 308, 365)
 	$x += 10
 	$y += 20
 
-	$g_hChkCustomTrainDropOrderEnable = GUICtrlCreateCheckbox(GetTranslated(641, 59, "Enable troops order drop"), $x - 10, $y - 20, -1, -1)
+	$g_hChkCustomTrainDropOrderEnable = GUICtrlCreateCheckbox("Enable Custom Dropping Order", $x - 13, $y - 22, -1, -1)
 	GUICtrlSetState(-1, $GUI_UNCHECKED)
-	_GUICtrlSetTip(-1, GetTranslated(641, 60, "Enable to select a custom troop dropping order") & @CRLF & _
-			GetTranslated(641, 61, "Changing drop order can NOT be used with CSV scripted attack! For a standard attack. Live and dead bases. Consistency - all troops"))
+	_GUICtrlSetTip(-1, "Enable to select a custom troops dropping order" & @CRLF & _
+			"Will not have effect on CSV Scripted Attack! It's only for Standard Attack." & @CRLF & _
+			"For Live and Dead Bases")
 	GUICtrlSetOnEvent(-1, "chkTroopDropOrder")
 
 	; Create translated list of Troops for combo box
@@ -46,8 +40,8 @@ Func CustonDropOrder()
 	Next
 	$y += 5
 	For $p = 0 To $eTroopCountDrop - 1
-		If $p < 10 Then
-			GUICtrlCreateLabel($p + 1 & ":", $x - 19, $y + 2, -1, 18)
+		If $p < 11 Then
+			GUICtrlCreateLabel($p + 1 & ":", $x - 19, $y + 3, -1, 18)
 			$cmbDropTroops[$p] = GUICtrlCreateCombo("", $x, $y, 94, 18, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetOnEvent(-1, "GUIDropOrder")
 			GUICtrlSetData(-1, $sComboData, "")
@@ -57,11 +51,11 @@ Func CustonDropOrder()
 			$g_ahImgTroopDropOrder[$p] = GUICtrlCreateIcon($g_sLibIconPath, $eIcnOptions, $x + 96, $y + 1, 18, 18)
 			$y += 25 ; move down to next combobox location
 		Else
-			If $p = 10 Then
+			If $p = 11 Then
 				$x += 128
 				$y = 49
 			EndIf
-			GUICtrlCreateLabel($p + 1 & ":", $x - 5, $y + 2, -1, 18)
+			GUICtrlCreateLabel($p + 1 & ":", $x - 5, $y + 4, -1, 18)
 			$cmbDropTroops[$p] = GUICtrlCreateCombo("", $x + 20, $y, 94, 18, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 			GUICtrlSetOnEvent(-1, "GUIDropOrder")
 			GUICtrlSetData(-1, $sComboData, "")
@@ -74,47 +68,51 @@ Func CustonDropOrder()
 	Next
 
 	$x = 25
-	$y = 350
+	$y = 335
 	; Create push button to set training order once completed
-	$g_hBtnTroopOrderSet2 = GUICtrlCreateButton(GetTranslated(641, 62, "Apply New Order"), $x, $y, 100, 25)
+	$g_hBtnTroopOrderSet2 = GUICtrlCreateButton("Apply New Order", $x, $y, 100, 25)
 	GUICtrlSetState(-1, BitOR($GUI_UNCHECKED, $GUI_ENABLE))
-	_GUICtrlSetTip(-1, GetTranslated(641, 63, "Push button when finished selecting custom troops dropping order") & @CRLF & _
-			GetTranslated(641, 65, "When not all troop slots are filled, will use random troop order in empty slots!"))
+	_GUICtrlSetTip(-1, "Push button when finished selecting custom troops dropping order" & @CRLF & _
+			"When not all troop slots are filled, will use random troop order in empty slots!")
 	GUICtrlSetOnEvent(-1, "btnTroopDropSet")
 	;$g_ahImgTroopOrderSet = GUICtrlCreateIcon($g_sLibIconPath, $eIcnSilverStar, $x + 226, $y + 2, 18, 18)
 	$x += 150
-	$g_hBtnRemoveTroops2 = GUICtrlCreateButton(GetTranslated(641, 66, "Empty drop list"), $x, $y, 110, 25)
+	$g_hBtnRemoveTroops2 = GUICtrlCreateButton("Empty Drop List", $x, $y, 118, 25)
 	GUICtrlSetState(-1, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
-	_GUICtrlSetTip(-1, GetTranslated(641, 67, "Push button to remove all troops from list and start over"))
+	_GUICtrlSetTip(-1, "Push button to remove all troops from list and start over")
 	GUICtrlSetOnEvent(-1, "BtnRemoveDropTroops")
-	; *************************************
-	; Display the GUI.
+
+	GUICtrlCreateGroup("", -99, -99, 1, 1)
+
+	; Create a button control.
+	Local $idClose = GUICtrlCreateButton("Close", 229, 373, 85, 25)
+	GUICtrlSetOnEvent(-1, "CloseCustomDropOrder")
+
+EndFunc   ;==>CreateDropOrderGUI
+
+Func CustomDropOrder()
+	; prevent user to open a second window impossible to close...
+	GUICtrlSetState($g_BtnCustomDropOrderDB, $GUI_DISABLE)
+	GUICtrlSetState($g_BtnCustomDropOrderAB, $GUI_DISABLE)
 	GUISetState(@SW_SHOW, $hGUI_Order)
-	readConfig()
-	applyConfig()
-
-EndFunc   ;==>CustonDropOrder
-
+EndFunc   ;==>CustomDropOrder
 
 ; ================================================== CLOSE PART ================================================== ;
 
-Func CloseCustonDropOrder()
+Func CloseCustomDropOrder()
 	; Delete the previous GUI and all controls.
-
-	;applyConfig()
-	saveConfig()
-	;GUIDelete($hGUI_Order)
 	GUISetState(@SW_HIDE, $hGUI_Order)
-	GUICtrlSetState($g_BtnCustonDropOrderDB, $GUI_ENABLE)
-	GUICtrlSetState($g_BtnCustonDropOrderAB, $GUI_ENABLE)
-EndFunc   ;==>CloseCustonDropOrder
+	GUICtrlSetState($g_BtnCustomDropOrderDB, $GUI_ENABLE)
+	GUICtrlSetState($g_BtnCustomDropOrderAB, $GUI_ENABLE)
+EndFunc   ;==>CloseCustomDropOrder
 
-; ================= Control =======================
+; ================================================== CONTROL PART ================================================== ;
+
 Func chkTroopDropOrder()
 	If GUICtrlRead($g_hChkCustomTrainDropOrderEnable) = $GUI_CHECKED Then
 		$g_bCustomTrainDropOrderEnable = True
-		GUICtrlSetBkColor($g_BtnCustonDropOrderDB, $COLOR_GREEN)
-		GUICtrlSetBkColor($g_BtnCustonDropOrderAB, $COLOR_GREEN)
+		GUICtrlSetBkColor($g_BtnCustomDropOrderDB, $COLOR_GREEN)
+		GUICtrlSetBkColor($g_BtnCustomDropOrderAB, $COLOR_GREEN)
 		GUICtrlSetState($g_hBtnTroopOrderSet2, $GUI_ENABLE)
 		GUICtrlSetState($g_hBtnRemoveTroops2, $GUI_ENABLE)
 		For $i = 0 To UBound($cmbDropTroops) - 1
@@ -123,8 +121,8 @@ Func chkTroopDropOrder()
 		If IsUseCustomDropOrder() = True Then GUICtrlSetImage($g_ahImgTroopOrderSet, $g_sLibIconPath, $eIcnRedLight)
 	Else
 		$g_bCustomTrainDropOrderEnable = False
-		GUICtrlSetBkColor($g_BtnCustonDropOrderDB, $COLOR_RED)
-		GUICtrlSetBkColor($g_BtnCustonDropOrderAB, $COLOR_RED)
+		GUICtrlSetBkColor($g_BtnCustomDropOrderDB, $COLOR_RED)
+		GUICtrlSetBkColor($g_BtnCustomDropOrderAB, $COLOR_RED)
 		GUICtrlSetState($g_hBtnTroopOrderSet2, $GUI_DISABLE) ; disable button
 		GUICtrlSetState($g_hBtnRemoveTroops2, $GUI_DISABLE)
 		For $i = 0 To UBound($cmbDropTroops) - 1
@@ -132,7 +130,6 @@ Func chkTroopDropOrder()
 		Next
 	EndIf
 EndFunc   ;==>chkTroopDropOrder
-
 
 Func GUIDropOrder()
 	Local $bDuplicate = False
@@ -161,7 +158,7 @@ Func GUIDropOrder()
 EndFunc   ;==>GUIDropOrder
 
 Func BtnRemoveDropTroops()
-	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "BtnRemoveDropTroops")
+	;Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "BtnRemoveDropTroops")
 	Local $sComboData = ""
 	For $j = 0 To UBound($g_asTroopDropList) - 1
 		$sComboData &= $g_asTroopDropList[$j] & "|"
@@ -174,11 +171,11 @@ Func BtnRemoveDropTroops()
 	Next
 	GUICtrlSetImage($g_ahImgTroopDropOrderSet, $g_sLibIconPath, $eIcnSilverStar)
 	SetDefaultTroopGroup(False)
-	SetRedrawBotWindow($bWasRedraw, Default, Default, Default, "BtnRemoveDropTroops")
+	;SetRedrawBotWindow($bWasRedraw, Default, Default, Default, "BtnRemoveDropTroops")
 EndFunc   ;==>BtnRemoveDropTroops
 
 Func btnTroopDropSet()
-	Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "btnTroopDropSet")
+	;Local $bWasRedraw = SetRedrawBotWindow(False, Default, Default, Default, "btnTroopDropSet")
 	Local $bReady = True ; Initialize ready to record troop order flag
 	Local $sNewDropList = ""
 
@@ -254,7 +251,7 @@ Func btnTroopDropSet()
 				$sNewDropList &= $g_asTroopNamesPluralDrop[$icmbDropTroops[$i]] & ", "
 			Next
 			$sNewDropList = StringTrimRight($sNewDropList, 2)
-			Setlog("Troop drop order= " & $sNewDropList, $COLOR_INFO)
+			Setlog("Troops Dropping Order = " & $sNewDropList, $COLOR_INFO)
 
 		EndIf
 	Else
@@ -262,7 +259,7 @@ Func btnTroopDropSet()
 		GUICtrlSetImage($g_ahImgTroopDropOrderSet, $g_sLibIconPath, $eIcnRedLight)
 	EndIf
 	GUICtrlSetState($g_hBtnTroopOrderSet2, $GUI_DISABLE)
-	SetRedrawBotWindow($bWasRedraw, Default, Default, Default, "btnTroopDropSet")
+	;SetRedrawBotWindow($bWasRedraw, Default, Default, Default, "btnTroopDropSet")
 EndFunc   ;==>btnTroopDropSet
 
 Func IsUseCustomDropOrder()
@@ -277,7 +274,6 @@ Func IsUseCustomDropOrder()
 EndFunc   ;==>IsUseCustomDropOrder
 
 Func ChangeTroopDropOrder()
-
 	If $g_iDebugSetlog = 1 Then Setlog("Begin Func ChangeTroopDropOrder()", $COLOR_DEBUG) ;Debug
 
 	Local $NewTroopDrop[$eTroopCountDrop]

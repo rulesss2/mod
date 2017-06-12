@@ -42,16 +42,21 @@ Func SwitchAccount($g_bInit = False)
 		;$g_iFirstRun = 1 ; To Update Stats as First Run for each Account
 
 	ElseIf $g_iSwitchAccountLoop <= $g_iTotalAccountsInUse And Not $g_bInit Then
-		SetLog("Continue Initialization of Pico Switch Account...", $COLOR_INFO)
-		$g_iNextAccount = $g_iCurrentAccount
-		Do
-			$g_iNextAccount += 1
-			If $g_iNextAccount > $g_iTotalAccountsOnEmu Then $g_iNextAccount = 1
-		Until $g_iachkCanUse[$g_iNextAccount] = 1
-		$g_iSwitchAccountLoop += 1
-		SetLog("Next Account will be : " & $g_iNextAccount, $COLOR_INFO)
-		GetYCoordinates($g_iNextAccount)
-		;$g_iFirstRun = 1 ; To Update Stats as First Run for each Account
+		If ($g_iCurrentAccountWaitTime <= $g_iMinDelayToSwitch And $g_bForceSwitch) Or ($g_iCurrentAccountWaitTime > $g_iMinDelayToSwitch) Then
+			SetLog("Continue Initialization of Pico Switch Account...", $COLOR_INFO)
+			$g_iNextAccount = $g_iCurrentAccount
+			Do
+				$g_iNextAccount += 1
+				If $g_iNextAccount > $g_iTotalAccountsOnEmu Then $g_iNextAccount = 1
+			Until $g_iachkCanUse[$g_iNextAccount] = 1
+			$g_iSwitchAccountLoop += 1
+			SetLog("Next Account will be : " & $g_iNextAccount, $COLOR_INFO)
+			GetYCoordinates($g_iNextAccount)
+			;$g_iFirstRun = 1 ; To Update Stats as First Run for each Account
+		Else
+			SetLog("Remaining Train delay is short... We will not Switch Account...", $COLOR_INFO)
+			Return
+		EndIf
 
 	ElseIf $g_iSwitchAccountLoop > $g_iTotalAccountsInUse And Not $g_bInit Then
 		If ($g_iCurrentAccountWaitTime <= $g_iMinDelayToSwitch And $g_bForceSwitch) Or ($g_iCurrentAccountWaitTime > $g_iMinDelayToSwitch) Then
@@ -315,10 +320,10 @@ Func FindFirstAccount()
 		$g_iNextAccount = $x
 		If $g_iachkCanUse[$x] = 1 Then ExitLoop
 	Next
-;	$g_iCurrentAccount = $g_iNextAccount
-;	$g_iNextProfile = _GUICtrlComboBox_GetCurSel($g_acmbAccount[$g_iNextAccount])
-;	_GUICtrlComboBox_SetCurSel($g_hCmbProfile, $g_iNextProfile)
-;	cmbProfile()
+	;$g_iCurrentAccount = $g_iNextAccount
+	;$g_iNextProfile = _GUICtrlComboBox_GetCurSel($g_acmbAccount[$g_iNextAccount])
+	;_GUICtrlComboBox_SetCurSel($g_hCmbProfile, $g_iNextProfile)
+	;cmbProfile()
 EndFunc   ;==>FindFirstAccount
 
 Func GetNextAccount()

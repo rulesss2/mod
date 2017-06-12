@@ -10,9 +10,7 @@
 ; Example .......: No
 ; ===============================================================================================================================
 
-
 Func MatchTroopDropName($Num)
-
 	Switch _GUICtrlComboBox_GetCurSel($cmbDropTroops[$Num])
 		Case 0
 			Return $eBarb
@@ -60,7 +58,6 @@ Func MatchTroopDropName($Num)
 EndFunc   ;==>MatchTroopDropName
 
 Func MatchSlotsPerEdge($Num)
-
 	Switch _GUICtrlComboBox_GetCurSel($cmbDropTroops[$Num])
 		Case 0 ;$eBarb
 			Return 0
@@ -163,4 +160,3 @@ EndFunc   ;==>MatchSidesDrop
 Func MatchTroopWaveNb($Num)
 	Return 1
 EndFunc   ;==>MatchTroopWaveNb
-

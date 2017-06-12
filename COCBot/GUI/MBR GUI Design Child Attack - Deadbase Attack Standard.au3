@@ -18,7 +18,7 @@ Global $g_hGUI_DEADBASE_ATTACK_STANDARD = 0
 Global $g_hCmbStandardDropOrderDB = 0, $g_hCmbStandardDropSidesDB = 0, $g_hCmbStandardUnitDelayDB = 0, $g_hCmbStandardWaveDelayDB = 0, $g_hChkRandomSpeedAtkDB = 0, _
 	   $g_hChkSmartAttackRedAreaDB = 0, $g_hCmbSmartDeployDB = 0, $g_hChkAttackNearGoldMineDB = 0, $g_hChkAttackNearElixirCollectorDB = 0, $g_hChkAttackNearDarkElixirDrillDB = 0
 
-Global $g_hLblSmartDeployDB = 0, $g_hPicAttackNearDarkElixirDrillDB = 0, $g_BtnCustonDropOrderDB = 0
+Global $g_hLblSmartDeployDB = 0, $g_hPicAttackNearDarkElixirDrillDB = 0, $g_BtnCustomDropOrderDB = 0
 
 Func CreateAttackSearchDeadBaseStandard()
 
@@ -105,10 +105,10 @@ Func CreateAttackSearchDeadBaseStandard()
 			   _GUICtrlSetTip(-1, $sTxtTip)
 
 			$y += 120
-			$x -= 75
-			$g_BtnCustonDropOrderDB = GUICtrlCreateButton("Drop Order", $x , $y, 85, 25)
-			_GUICtrlSetTip(-1, "Select The Drop Troops Order")
-			GUICtrlSetOnEvent(-1, "CustonDropOrder")
+			$x -= 98
+			$g_BtnCustomDropOrderDB = GUICtrlCreateButton("Drop Order", $x, $y, 85, 25)
+			_GUICtrlSetTip(-1, "Select Custom Troops Dropping Order")
+			GUICtrlSetOnEvent(-1, "CustomDropOrder")
 			GUICtrlCreateGroup("", -99, -99, 1, 1)
        ; ====================================================== MULTI FINGERS ======================================================
 	$x  =  23

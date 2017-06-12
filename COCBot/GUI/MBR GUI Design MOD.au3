@@ -91,7 +91,9 @@ Func CreateMODTab()
 	TabItem4()
 	$g_hGUI_MOD_TAB_ITEM5 = GUICtrlCreateTabItem("Builders Base")
 	TabItem5()
-
+    ; needed to init the window now, like if it's a tab
+	CreateDropOrderGUI()
+	
 	GUICtrlCreateTabItem("")
 
 EndFunc   ;==>CreateMODTab
