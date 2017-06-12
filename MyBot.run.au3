@@ -148,7 +148,7 @@ Func InitializeBot()
 	CreateSplashScreen() ; Create splash window
 
 	; Ensure watchdog is launched (requires Bot Window for messaging)
-	If $g_bBotLaunchOption_NoWatchdog = False Then LaunchWatchdog()
+	;If $g_bBotLaunchOption_NoWatchdog = False Then LaunchWatchdog()
 
 	InitializeMBR($sAndroidInfo)
 
@@ -202,8 +202,8 @@ Func ProcessCommandLine()
 					$g_bBotLaunchOption_Restart = True
 				Case "/autostart", "/a", "-autostart", "-a"
 					$g_bBotLaunchOption_Autostart = True
-				Case "/nowatchdog", "/nwd", "-nowatchdog", "-nwd"
-					$g_bBotLaunchOption_NoWatchdog = True
+				;Case "/nowatchdog", "/nwd", "-nowatchdog", "-nwd"
+				;	$g_bBotLaunchOption_NoWatchdog = True
 				Case "/dpiaware", "/da", "-dpiaware", "-da"
 					$g_bBotLaunchOption_ForceDpiAware = True
 				Case "/dock1", "/d1", "-dock1", "-d1", "/dock", "/d", "-dock", "-d"
@@ -309,6 +309,7 @@ EndFunc   ;==>InitializeAndroid
 ; ===============================================================================================================================
 Func SetupProfileFolder()
 	$g_sProfileConfigPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\config.ini"
+	$chatIni = $g_sProfilePath & "\" & $g_sProfileCurrentName &  "\chat.ini"
 	$g_sProfileBuildingStatsPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\stats_buildings.ini"
 	$g_sProfileBuildingPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\building.ini"
 	$g_sProfileLogsPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\Logs\"
@@ -812,6 +813,9 @@ Func Idle() ;Sequence that runs until Full Army
 		NotifyPendingActions()
 		If _Sleep($DELAYIDLE1) Then Return
 		If $g_iCommandStop = -1 Then SetLog("====== Waiting for full army ======", $COLOR_SUCCESS)
+		If $ChatbotChatGlobal = True Or $ChatbotChatClan = True Then
+		ChatbotMessage()
+		EndIf
 		Local $hTimer = __TimerInit()
 		Local $iReHere = 0
 		;PrepareDonateCC()
@@ -965,6 +969,9 @@ Func AttackMain() ;Main control for attack functions
 				SetLog(_PadStringCenter(" Hero status check" & BitAND($g_aiAttackUseHeroes[$DB], $g_aiSearchHeroWaitEnable[$DB], $g_iHeroAvailable) & "|" & $g_aiSearchHeroWaitEnable[$DB] & "|" & $g_iHeroAvailable, 54, "="), $COLOR_DEBUG)
 				SetLog(_PadStringCenter(" Hero status check" & BitAND($g_aiAttackUseHeroes[$LB], $g_aiSearchHeroWaitEnable[$LB], $g_iHeroAvailable) & "|" & $g_aiSearchHeroWaitEnable[$LB] & "|" & $g_iHeroAvailable, 54, "="), $COLOR_DEBUG)
 				;Setlog("BullyMode: " & $g_abAttackTypeEnable[$TB] & ", Bully Hero: " & BitAND($g_aiAttackUseHeroes[$g_iAtkTBMode], $g_aiSearchHeroWaitEnable[$g_iAtkTBMode], $g_iHeroAvailable) & "|" & $g_aiSearchHeroWaitEnable[$g_iAtkTBMode] & "|" & $g_iHeroAvailable, $COLOR_DEBUG)
+			EndIf
+			If $ChatbotChatGlobal = true or $ChatbotChatClan = True Then
+			ChatbotMessage()
 			EndIf
 			PrepareSearch()
 			If $g_bOutOfGold = True Then Return ; Check flag for enough gold to search

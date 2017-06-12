@@ -153,3 +153,21 @@ Global $iChkUnitFactor = 0
 Global $iTxtUnitFactor = 10
 Global $iChkWaveFactor = 0
 Global $iTxtWaveFactor = 100
+
+;Chatbot - modification by ruless,kychera
+Global $ChatbotChatGlobal = False
+Global $ChatbotScrambleGlobal = False
+Global $ChatbotSwitchLang = False
+Global $ChatbotChatClan = False
+Global $ChatbotClanUseResponses = False
+Global $ChatbotClanAlwaysMsg = False
+Global $ChatbotUsePushbullet = False
+Global $ChatbotPbSendNew = False
+Global $ClanMessages = ""
+Global $ClanResponses = ""
+Global $GlobalMessages1 = ""
+Global $GlobalMessages2 = ""
+Global $GlobalMessages3 = ""
+Global $GlobalMessages4 = ""
+Global $ChatbotStartTime
+Global $message = ""
