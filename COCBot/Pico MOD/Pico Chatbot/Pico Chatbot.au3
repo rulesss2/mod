@@ -13,6 +13,7 @@ Func ChatbotReadSettings()
 	If IniRead($chatIni, "global", "use", "False") = "True" Then $ChatbotChatGlobal = True
 	If IniRead($chatIni, "global", "scramble", "False") = "True" Then $ChatbotScrambleGlobal = True
 	If IniRead($chatIni, "global", "swlang", "False") = "True" Then $ChatbotSwitchLang = True
+    $ichkRusLang = IniRead($chatIni, "Lang", "chkRusLang", "0")
     $icmbLang = IniRead($chatIni, "Lang", "cmbLang", "8")
 	If IniRead($chatIni, "clan", "use", "False") = "True" Then $ChatbotChatClan = True
 	If IniRead($chatIni, "clan", "responses", "False") = "True" Then $ChatbotClanUseResponses = True
@@ -50,11 +51,11 @@ Func ChatbotCreateGui()
 
 	Global $x = 25, $y = 45
 
-	GUICtrlCreateGroup(GetTranslated(106, 2, "Global Chat"), $x - 20, $y - 20, 215, 365)
+	GUICtrlCreateGroup("Global Chat", $x - 20, $y - 20, 215, 365)
 	$x = 20
 	$y -= 5
 	$chkGlobalChat = GUICtrlCreateCheckbox("", $x, $y, 13, 13)
-	_GUICtrlSetTip($chkGlobalChat, "Use global chat to send messages")
+	_GUICtrlSetTip($chkGlobalChat,"Use global chat to send messages")
 	GUICtrlSetState($chkGlobalChat, $ChatbotChatGlobal)
 	GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
 	$g_alblAinGlobal = GUICtrlCreateLabel("Advertise in global", $x + 17, $y, -1, -1)
@@ -64,10 +65,10 @@ Func ChatbotCreateGui()
 	_GUICtrlSetTip($chkGlobalScramble, "Scramble the message pieces defined in the textboxes below to be in a random order")
 	GUICtrlSetState($chkGlobalScramble, $ChatbotScrambleGlobal)
 	GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
-	$g_alblSGchats = GUICtrlCreateLabel(GetTranslated(106, 5, "Scramble global chats"), $x + 17, $y, -1, -1)
+	$g_alblSGchats = GUICtrlCreateLabel("Scramble global chats", $x + 17, $y, -1, -1)
 	$y += 22
 	$chkSwitchLang = GUICtrlCreateCheckbox("", $x, $y, 13, 13)
-	_GUICtrlSetTip($chkSwitchLang, GetTranslated(106, 8, "Switch languages after spamming for a new global chatroom"))
+	_GUICtrlSetTip($chkSwitchLang, "Switch languages after spamming for a new global chatroom")
 	GUICtrlSetState($chkSwitchLang, $ChatbotSwitchLang)
 	GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
 	$g_alblSwitchlang = GUICtrlCreateLabel("Switch languages", $x + 17, $y, -1, -1)
@@ -98,14 +99,14 @@ Func ChatbotCreateGui()
 	$x = 245
 	$y = 45
 
-	GUICtrlCreateGroup( "Clan Chat", $x - 20, $y - 20, 220, 365)
+	GUICtrlCreateGroup("Clan Chat", $x - 20, $y - 20, 220, 365)
 	$x = 240
 	$y -= 5
 	$chkClanChat = GUICtrlCreateCheckbox("", $x, $y, 13, 13)
 	_GUICtrlSetTip($chkClanChat, "Use clan chat to send messages")
 	GUICtrlSetState($chkClanChat, $ChatbotChatClan)
 	GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
-	GUICtrlCreateLabel("Chat in clan chat" & ":", $x + 17, $y, -1, -1)
+	$g_alblChatclan = GUICtrlCreateLabel("Chat in clan chat" & ":", $x + 17, $y, -1, -1)
 	$y += 18
 	$chkUseResponses = GUICtrlCreateCheckbox("Use custom responses", $x - 5, $y)
 	_GUICtrlSetTip($chkUseResponses, "Use the keywords and responses defined below")
@@ -152,6 +153,11 @@ Func ChatGuiCheckboxUpdate()
 	$ChatbotClanAlwaysMsg = GUICtrlRead($chkUseGeneric) = $GUI_CHECKED
 	$ChatbotUsePushbullet = GUICtrlRead($chkChatPushbullet) = $GUI_CHECKED
 	$ChatbotPbSendNew = GUICtrlRead($chkPbSendNewChats) = $GUI_CHECKED
+    If GUICtrlRead($chkRusLang) = $GUI_CHECKED Then
+		$ichkRusLang = 1
+	Else
+		$ichkRusLang = 0
+	EndIf
 	$icmbLang = _GUICtrlComboBox_GetCurSel($cmbLang)
 	IniWrite($chatIni, "Lang", "cmbLang", $icmbLang)
 	IniWrite($chatIni, "global", "use", $ChatbotChatGlobal)
@@ -163,6 +169,7 @@ Func ChatGuiCheckboxUpdate()
 	IniWrite($chatIni, "clan", "always", $ChatbotClanAlwaysMsg)
 	IniWrite($chatIni, "clan", "pushbullet", $ChatbotUsePushbullet)
 	IniWrite($chatIni, "clan", "pbsendnew", $ChatbotPbSendNew)
+    IniWrite($chatIni, "Lang", "chkRusLang", $ichkRusLang)
 	ChatGuiCheckboxUpdateAT()
 
 EndFunc   ;==>ChatGuiCheckboxUpdate
@@ -170,6 +177,7 @@ EndFunc   ;==>ChatGuiCheckboxUpdate
 Func ChatGuiCheckboxUpdateAT()
 	If GUICtrlRead($chkGlobalChat) = $GUI_CHECKED Then
 		GUICtrlSetState($chkGlobalScramble, $GUI_ENABLE)
+		GUICtrlSetState($chkSwitchLang, $GUI_ENABLE)
 		GUICtrlSetState($cmbLang, $GUI_SHOW)
 		GUICtrlSetState($ChatbotChatDelayLabel, $GUI_ENABLE)
 		GUICtrlSetState($chkchatdelay, $GUI_ENABLE)
@@ -205,6 +213,23 @@ Func ChatGuiCheckboxUpdateAT()
 		GUICtrlSetState($editResponses, $GUI_DISABLE)
 		GUICtrlSetState($editGeneric, $GUI_DISABLE)
 	EndIf
+;=====================kychera============
+	If  GUICtrlRead($chkGlobalChat) = $GUI_CHECKED and GUICtrlRead($chkSwitchLang) = $GUI_CHECKED Then
+	    GUICtrlSetState($cmbLang, $GUI_ENABLE)
+	Else
+     	GUICtrlSetState($cmbLang, $GUI_DISABLE)
+	EndIf
+	
+	If $ichkRusLang = 1 Then
+		GUICtrlSetState($chkRusLang, $GUI_CHECKED)
+
+	ElseIf $ichkRusLang = 0 Then
+		GUICtrlSetState($chkRusLang, $GUI_UNCHECKED)
+
+	EndIf
+	_GUICtrlComboBox_SetCurSel($cmbLang, $icmbLang)
+	$icmbLang = _GUICtrlComboBox_GetCurSel($cmbLang)
+;========================================
 EndFunc   ;==>ChatGuiCheckboxUpdateAT
 
 Func ChatGuiCheckboxDisableAT()
@@ -291,6 +316,31 @@ Func ChatbotChatGlobalInput() ; select the textbox for global chat
 	Return True
 EndFunc   ;==>ChatbotChatGlobalInput
 
+;============================================
+;+++++++++++++Kychera Modified +++++++++++++++
+Func ChatbotChatInput($message)
+	   Click(33, 707, 1)
+	If $ichkRusLang = 1 Then
+	  SetLog("Chat send in russia", $COLOR_BLUE)
+	 AutoItWinSetTitle('MyAutoItTitle')
+    _WinAPI_SetKeyboardLayout(WinGetHandle(AutoItWinGetTitle()), 0x0419)
+		Sleep(500)
+		ControlFocus($g_hAndroidWindow, "", "")
+		SendKeepActive($g_hAndroidWindow)
+		Sleep(500)
+	;Opt("SendKeyDelay", 1000)	
+	AutoItSetOption("SendKeyDelay", 50)	
+	  _SendExEx($message)	 
+	   SendKeepActive("")	 
+    Else
+	  Sleep(500)
+ 	 SendText($message)
+	EndIf
+	Return True
+EndFunc   ;==>ChatbotChatInput
+;+++++++++++++++++++++++++++++++++++++++++++++
+;Support for the Russian language.
+;=============================================
 
 Func ChatbotChatSendClan() ; click send
 	If _Sleep(1000) Then Return
@@ -651,3 +701,49 @@ Func ChatbotMessage() ; run the chatbot
 		SetLog(GetTranslated(106, 50, "Chatbot: Done chatting"), $COLOR_GREEN)
 	EndIf
 EndFunc   ;==>ChatbotMessage
+
+#cs ----------------------------------------------------------------------------
+	AutoIt Version: 3.6.0
+	This file was made to software MyBot v5.3.1
+	Author:         ChrisDuh
+    ; Chatbot script fixed by rulesss, Kychera
+	Script Function: Sends chat messages in global and clan chat; 11.2016 switching lang global chat - Kychera
+#ce ----------------------------------------------------------------------------
+;===========Addied kychera=================
+; #FUNCTION# ====================================================================================================================
+; Name ..........: _Encoding_JavaUnicodeDecode
+; Description ...: Decode string from Java Unicode format.
+; Syntax ........: _Encoding_JavaUnicodeDecode($sString)
+; Parameters ....: $sString             - String to decode.
+; Return values .: Decoded string.
+; Author ........: amel27
+; Modified ......:
+; Remarks .......:
+; Related .......:
+; Link ..........:
+; Example .......: No
+; ===============================================================================================================================
+Func _Encoding_JavaUnicodeDecode($sString)
+	Local $iOld_Opt_EVS = Opt('ExpandVarStrings', 0)
+	Local $iOld_Opt_EES = Opt('ExpandEnvStrings', 0)
+
+	Local $sOut = "", $aString = StringRegExp($sString, "(\\\\|\\'|\\u[[:xdigit:]]{4}|[[:ascii:]])", 3)
+
+	For $i = 0 To UBound($aString) - 1
+		Switch StringLen($aString[$i])
+			Case 1
+				$sOut &= $aString[$i]
+			Case 2
+				$sOut &= StringRight($aString[$i], 1)
+			Case 6
+				$sOut &= ChrW(Dec(StringRight($aString[$i], 4)))
+		EndSwitch
+	Next
+
+	Opt('ExpandVarStrings', $iOld_Opt_EVS)
+	Opt('ExpandEnvStrings', $iOld_Opt_EES)
+
+	Return $sOut
+EndFunc ;==>_Encoding_JavaUnicodeDecode
+;============================================
+
