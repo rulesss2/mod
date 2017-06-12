@@ -109,6 +109,17 @@ Func ReadConfig_PicoMod()
 		IniReadS($icmbDropTroops[$p], $g_sProfileConfigPath, "Pico DropOrder", $g_asTroopNamesPluralDrop[$p], -1)
 	Next
 	
+	
+	; Multi Finger (LunaEclipse) - Added by rulesss
+	IniReadS($iMultiFingerStyle, $g_sProfileConfigPath, "MultiFinger", "Select", 2, "int")
+
+	; Unit/Wave Factor (rulesss & kychera) - Added by rulesss
+	IniReadS($iChkUnitFactor, $g_sProfileConfigPath, "SetSleep", "EnableUnitFactor", 0, "Int")
+	IniReadS($iTxtUnitFactor, $g_sProfileConfigPath, "SetSleep", "UnitFactor", 10 ,"Int")
+
+	IniReadS($iChkWaveFactor, $g_sProfileConfigPath, "SetSleep", "EnableWaveFactor", 0, "Int")
+	IniReadS($iTxtWaveFactor, $g_sProfileConfigPath, "SetSleep", "WaveFactor", 100 ,"Int")
+	
 EndFunc   ;==>ReadConfig_PicoMod
 
 Func SaveConfig_PicoMod()
@@ -205,6 +216,16 @@ Func SaveConfig_PicoMod()
 	For $p = 0 To UBound($icmbDropTroops) - 1
 		_Ini_Add("Pico DropOrder", $g_asTroopNamesPluralDrop[$p], $icmbDropTroops[$p])
 	Next
+	
+	; Multi Finger (LunaEclipse) - Added by rulesss
+	_Ini_Add("MultiFinger", "Select", $iMultiFingerStyle)
+
+	; Unit/Wave Factor (rulesss & kychera) - Added by rulesss
+	_Ini_Add("SetSleep", "EnableUnitFactor", $iChkUnitFactor ? 1 : 0)
+	_Ini_Add("SetSleep", "EnableWaveFactor", $iChkWaveFactor ? 1 : 0)
+
+    _Ini_Add("SetSleep", "UnitFactor", GUICtrlRead($TxtUnitFactor))
+	_Ini_Add("SetSleep", "WaveFactor", GUICtrlRead($TxtWaveFactor))
 	
 EndFunc   ;==>SaveConfig_PicoMod
 
@@ -306,6 +327,15 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 			For $p = 0 To UBound($icmbDropTroops) - 1
 				$icmbDropTroops[$p] = _GUICtrlComboBox_GetCurSel($cmbDropTroops[$p])
 			Next
+			
+		    ; Multi Finger - Added by rulesss
+			$iMultiFingerStyle = _GUICtrlComboBox_GetCurSel($CmbDBMultiFinger)
+
+			; Unit/Wave Factor - Added by rulesss
+			$iChkUnitFactor = (GUICtrlRead($ChkUnitFactor) = $GUI_CHECKED)
+			$iChkWaveFactor = (GUICtrlRead($ChkWaveFactor) = $GUI_CHECKED)
+			$iTxtUnitFactor = GUICtrlRead($TxtUnitFactor)
+			$iTxtWaveFactor = GUICtrlRead($TxtWaveFactor)
 			
 		Case "Read"
 
@@ -427,6 +457,18 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 				EndIf
 			EndIf
 			chkTroopDropOrder()
+			
+			; Classic Four Finger  & Multi Finger (LunaEclipse) - Added by rulesss
+			_GUICtrlComboBox_SetCurSel($cmbDBMultiFinger, $iMultiFingerStyle)
+			Bridge()
+			cmbStandardDropSidesAB()
+			; Unit/Wave Factor - Added by rulesss
+			GUICtrlSetState($ChkUnitFactor, $iChkUnitFactor ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetData($TxtUnitFactor, $iTxtUnitFactor)
+			chkUnitFactor()
+			GUICtrlSetState($ChkWaveFactor, $iChkWaveFactor ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetData($TxtWaveFactor, $iTxtWaveFactor)
+			chkWaveFactor()
 			
 	EndSwitch
 

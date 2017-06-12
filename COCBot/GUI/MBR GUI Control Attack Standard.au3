@@ -65,3 +65,26 @@ Func chkSmartAttackRedAreaDB()
 		Next
 	EndIf
 EndFunc   ;==>chkSmartAttackRedAreaDB
+
+; =================== UNIT/WAVE FACTOR =====================
+Func chkUnitFactor()
+	If GUICtrlRead($ChkUnitFactor) = $GUI_CHECKED Then
+		$iChkUnitFactor = 1
+		GUICtrlSetState($TxtUnitFactor, $GUI_ENABLE)
+	Else
+		$iChkUnitFactor = 0
+		GUICtrlSetState($TxtUnitFactor, $GUI_DISABLE)
+	EndIf
+	$iTxtUnitFactor = GUICtrlRead($TxtUnitFactor)
+EndFunc
+
+Func chkWaveFactor()
+	If GUICtrlRead($ChkWaveFactor) = $GUI_CHECKED Then
+		$iChkWaveFactor = 1
+		GUICtrlSetState($TxtWaveFactor, $GUI_ENABLE)
+	Else
+		$iChkWaveFactor = 0
+		GUICtrlSetState($TxtWaveFactor, $GUI_DISABLE)
+	EndIf
+	$iTxtWaveFactor = GUICtrlRead($TxtWaveFactor)
+EndFunc

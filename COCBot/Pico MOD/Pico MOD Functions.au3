@@ -37,3 +37,17 @@
 #include "Pico Builders Base\GoToBBFeatures.au3"
 
 #include "Pico Config.au3"
+
+; Multi Fingers Vectors - (LunaEclipse) - Added by rulesss
+#include "Multi Fingers\Vectors\4FingerStandard.au3"
+#include "Multi Fingers\Vectors\4FingerSpiralLeft.au3"
+#include "Multi Fingers\Vectors\4FingerSpiralRight.au3"
+#include "Multi Fingers\Vectors\8FingerPinWheelLeft.au3"
+#include "Multi Fingers\Vectors\8FingerPinWheelRight.au3"
+#include "Multi Fingers\Vectors\8FingerBlossom.au3"
+#include "Multi Fingers\Vectors\8FingerImplosion.au3"
+; Multi Fingers Profile - (LunaEclipse) - Added by rulesss
+#include "Multi Fingers\4Fingers.au3"
+#include "Multi Fingers\8Fingers.au3"
+#include "Multi Fingers\MultiFinger.au3"
+#include "Multi Fingers\UnitInfo.au3"

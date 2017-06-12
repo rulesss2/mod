@@ -132,4 +132,24 @@ Global Const $g_asTroopDropList[] = [ "", _
    "Minions", "Hog Riders", "Valkyries", "Golems", _
    "Witches","Lava Hounds", "Bowlers", "Clan Castle", "Heroes"]
 
-GloBal $g_iSlotsGiants
+Global $g_iSlotsGiants
+
+; Multi finger - Added by rulesss
+Global $LblDBMultiFinger = 0, $TxtUnitFactor = 0, $TxtWaveFactor = 0
+Global $CmbDBMultiFinger = 0, $ChkUnitFactor = 0, $ChkWaveFactor = 0
+Global Enum $directionLeft, $directionRight
+Global Enum $sideBottomRight, $sideTopLeft, $sideBottomLeft, $sideTopRight
+Global Enum $mfRandom, $mfFFStandard, $mfFFSpiralLeft, $mfFFSpiralRight, $mf8FBlossom, $mf8FImplosion, $mf8FPinWheelLeft, $mf8FPinWheelRight
+
+Global $iMultiFingerStyle = 1
+Global Enum $eCCSpell = $eHaSpell + 1
+
+; Unit and Wave Factor - Added by rulesss
+Global $ChkUnitFactor
+Global $TxtUnitFactor
+Global $ChkWaveFactor
+Global $TxtWaveFactor
+Global $iChkUnitFactor = 0
+Global $iTxtUnitFactor = 10
+Global $iChkWaveFactor = 0
+Global $iTxtWaveFactor = 100
