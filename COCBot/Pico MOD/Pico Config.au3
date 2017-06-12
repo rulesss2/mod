@@ -98,6 +98,9 @@ Func ReadConfig_PicoMod()
 
 	IniReadS($icmbCSVSpeed[$LB], $g_sProfileConfigPath, "Pico CSV Speed", "cmbCSVSpeed[LB]", $icmbCSVSpeed[$LB], "Int")
 	IniReadS($icmbCSVSpeed[$DB], $g_sProfileConfigPath, "Pico CSV Speed", "cmbCSVSpeed[DB]", $icmbCSVSpeed[$DB], "Int")
+	
+	; Move the Request CC Troops - Added By rulesss
+	$g_bReqCCFirst = (IniRead($g_sProfileConfigPath, "planned", "ReqCCFirst", 0) = 1)
 
 EndFunc   ;==>ReadConfig_PicoMod
 
@@ -185,6 +188,9 @@ Func SaveConfig_PicoMod()
 
 	_Ini_Add("Pico CSV Speed", "cmbCSVSpeed[LB]", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB]))
 	_Ini_Add("Pico CSV Speed", "cmbCSVSpeed[DB]", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB]))
+	
+	; Move the Request CC Troops - Added by rulesss
+	_Ini_Add("planned", "ReqCCFirst", $g_bReqCCFirst ? 1 : 0)
 
 EndFunc   ;==>SaveConfig_PicoMod
 
@@ -276,7 +282,10 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 
 			$icmbCSVSpeed[$LB] = _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB])
 			$icmbCSVSpeed[$DB] = _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB])
-
+            
+			;Move the Request CC Troops - Added by rulesss
+			$g_bReqCCFirst = GUICtrlRead($chkReqCCFirst) = $GUI_CHECKED ? 1 : 0
+			
 		Case "Read"
 
 			; ================================================== SWITCH ACCOUNT PART ================================================== ;
@@ -372,7 +381,10 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 
 			_GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$LB], $icmbCSVSpeed[$LB])
 			_GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$DB], $icmbCSVSpeed[$DB])
-
+            
+			;Move the Request CC Troops - Added by rulesss
+			GUICtrlSetState($chkReqCCFirst, $g_bReqCCFirst = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			
 	EndSwitch
 
 EndFunc   ;==>ApplyConfig_PicoMod
