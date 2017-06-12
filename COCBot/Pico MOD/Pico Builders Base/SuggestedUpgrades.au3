@@ -114,7 +114,7 @@ Func MainSuggestedUpgradeCode()
 		; Will Open the Suggested Window and check if is OK
 		If ClickOnBuilder() Then
 			Setlog(" - Upg Window Opened successfully", $COLOR_INFO)
-			Local $y = 102, $y1 = 210, $step = 25, $x = 400, $x1 = 540
+			Local $y = 102, $y1 = 132, $step = 30, $x = 400, $x1 = 540
 			If $g_ichkBBSuggestedUpgradesIgnoreElixir = 0 Then
 				; Proceeds with Elixir icon detection
 				; Only 3 possible Icons appears on Window
@@ -131,11 +131,17 @@ Func MainSuggestedUpgradeCode()
 						EndIf
 					EndIf
 					If $aResult[2] = "New" Then Setlog("[" & $i + 1 & "]" & " New Building detected, continuing...", $COLOR_INFO)
+					If $aResult[2] = "NoResources" Then
+						Setlog("[" & $i + 1 & "]" & " Not enough Elixir, continuing...", $COLOR_INFO)
+						ExitLoop
+					EndIf
 					$y += $step
+					$y1 += $step
 				Next
 			EndIf
 			; Restore the Y to search with Gold Coin
-			If $y <> 102 Then $y = 102
+			$y = 102
+			$y1 = 132
 			; If $b_ReturnNow = True then the upgrade was Done and no Builder available
 			If $g_ichkBBSuggestedUpgradesIgnoreGold = 0 And $b_ReturnNow = False Then
 				; Proceeds with Gold coin detection
@@ -152,7 +158,12 @@ Func MainSuggestedUpgradeCode()
 						EndIf
 					EndIf
 					If $aResult[2] = "New" Then Setlog("[" & $i + 1 & "]" & " New Building detected, continuing...", $COLOR_INFO)
+					If $aResult[2] = "NoResources" Then
+						Setlog("[" & $i + 1 & "]" & " Not enough Gold, continuing...", $COLOR_INFO)
+						ExitLoop
+					EndIf
 					$y += $step
+					$y1 += $step
 				Next
 			EndIf
 		EndIf
@@ -198,6 +209,7 @@ Func GetIconPosition($x, $y, $x1, $y1, $directory, $Name = "Elixir", $Screencap 
 	; [0] = x position , [1] y postion , [2] Gold or Elixir
 	Local $aResult[3] = [-1, -1, ""]
 	Local $sNew_Directory = @ScriptDir & "\imgxml\Resources\PicoBuildersBase\AutoUpgrade\New"
+	Local $sNew_Directory_1 = @ScriptDir & "\imgxml\Resources\PicoBuildersBase\AutoUpgrade\NoResources"
 
 	If QuickMIS("BC1", $directory, $x, $y, $x1, $y1, $Screencap, $Debug) Then
 		; Correct positions to Check Green 'New' Building word
@@ -210,9 +222,12 @@ Func GetIconPosition($x, $y, $x1, $y1, $directory, $Name = "Elixir", $Screencap 
 		; Proceeds with 'New' detection
 		If QuickMIS("BC1", $sNew_Directory, $iX, $iYoffset, $iX1, $iY1offset, True, $Debug) Then
 			; Store new values
-			$aResult[0] = $g_iQuickMISX + $iX
-			$aResult[1] = $g_iQuickMISY + $iYoffset
 			$aResult[2] = "New"
+		EndIf
+		; The pink/salmon color on zeros
+		If QuickMIS("BC1", $sNew_Directory_1, $aResult[0], $iYoffset, $aResult[0] + 100, $iY1offset, True, $Debug) Then
+			; Store new values
+			$aResult[2] = "NoResources"
 		EndIf
 	EndIf
 
