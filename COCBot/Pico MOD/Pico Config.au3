@@ -101,7 +101,14 @@ Func ReadConfig_PicoMod()
 	
 	; Move the Request CC Troops - Added By rulesss
 	$g_bReqCCFirst = (IniRead($g_sProfileConfigPath, "planned", "ReqCCFirst", 0) = 1)
+    
+	; ================================================== CUSTOM DROP ORDER ================================================== ;kychera
+	IniReadS($g_bCustomTrainDropOrderEnable, $g_sProfileConfigPath, "Pico DropOrder", "chkTroopDropOrder", False, "Bool")
 
+	For $p = 0 To UBound($icmbDropTroops) - 1
+		IniReadS($icmbDropTroops[$p], $g_sProfileConfigPath, "Pico DropOrder", $g_asTroopNamesPluralDrop[$p], -1)
+	Next
+	
 EndFunc   ;==>ReadConfig_PicoMod
 
 Func SaveConfig_PicoMod()
@@ -191,7 +198,14 @@ Func SaveConfig_PicoMod()
 	
 	; Move the Request CC Troops - Added by rulesss
 	_Ini_Add("planned", "ReqCCFirst", $g_bReqCCFirst ? 1 : 0)
+    
+	; ================================================== CUSTOM DROP ORDER ================================================== ;kychera
+	_Ini_Add("Pico DropOrder", "chkTroopDropOrder", $g_bCustomTrainDropOrderEnable ? 1 : 0)
 
+	For $p = 0 To UBound($icmbDropTroops) - 1
+		_Ini_Add("Pico DropOrder", $g_asTroopNamesPluralDrop[$p], $icmbDropTroops[$p])
+	Next
+	
 EndFunc   ;==>SaveConfig_PicoMod
 
 Func ApplyConfig_PicoMod($TypeReadSave)
@@ -285,6 +299,13 @@ Func ApplyConfig_PicoMod($TypeReadSave)
             
 			;Move the Request CC Troops - Added by rulesss
 			$g_bReqCCFirst = GUICtrlRead($chkReqCCFirst) = $GUI_CHECKED ? 1 : 0
+			
+			; ================================================== CUSTOM DROP ORDER ================================================== ;
+			$g_bCustomTrainDropOrderEnable = (GUICtrlRead($g_hChkCustomTrainDropOrderEnable)) = $GUI_CHECKED ? 1 : 0
+
+			For $p = 0 To UBound($icmbDropTroops) - 1
+				$icmbDropTroops[$p] = _GUICtrlComboBox_GetCurSel($cmbDropTroops[$p])
+			Next
 			
 		Case "Read"
 
@@ -384,6 +405,28 @@ Func ApplyConfig_PicoMod($TypeReadSave)
             
 			;Move the Request CC Troops - Added by rulesss
 			GUICtrlSetState($chkReqCCFirst, $g_bReqCCFirst = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			
+			; ================================================== CUSTOM DROP ORDER ================================================== ;
+			GUICtrlSetState($g_hChkCustomTrainDropOrderEnable, $g_bCustomTrainDropOrderEnable = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+
+			For $p = 0 To UBound($icmbDropTroops) - 1
+				_GUICtrlComboBox_SetCurSel($cmbDropTroops[$p], $icmbDropTroops[$p])
+				GUICtrlSetImage($g_ahImgTroopDropOrder[$p], $g_sLibIconPath, $g_aiTroopOrderDropIcon[$icmbDropTroops[$p] + 1])
+			Next
+			; process error
+			If $g_bCustomTrainDropOrderEnable = True Then ; only update troop train order if enabled
+				If ChangeTroopDropOrder() = False Then ; process error
+					;SetDefaultTroopGroup()
+					GUICtrlSetState($g_hChkCustomTrainDropOrderEnable, $GUI_UNCHECKED)
+					$g_bCustomTrainDropOrderEnable = False
+					GUICtrlSetState($g_hBtnTroopOrderSet2, $GUI_DISABLE) ; disable button
+					GUICtrlSetState($g_hBtnRemoveTroops2, $GUI_DISABLE)
+					For $i = 0 To UBound($cmbDropTroops) - 1
+						GUICtrlSetState($cmbDropTroops[$i], $GUI_DISABLE) ; disable combo boxes
+					Next
+				EndIf
+			EndIf
+			chkTroopDropOrder()
 			
 	EndSwitch
 

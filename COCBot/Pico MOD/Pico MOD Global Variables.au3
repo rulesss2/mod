@@ -103,3 +103,33 @@ Global $bCanUseUnicodeKeyboard = False
 Global $g_bReqCCFirst = False
 Global $chkReqCCFirst = 0 
 Global $g_hLblEarly
+
+; ================================================== Drop order troops by Kychera ================================================== ;
+
+Global Enum $eTroopBarbarianS, $eTroopArcherS, $eTroopGiantS, $eTroopGoblinS, $eTroopWallBreakerS, $eTroopBalloonS, _
+		$eTroopWizardS, $eTroopHealerS, $eTroopDragonS, $eTroopPekkaS, $eTroopBabyDragonS, $eTroopMinerS, _
+		$eTroopMinionS, $eTroopHogRiderS, $eTroopValkyrieS, $eTroopGolemS, $eTroopWitchS, _
+		$eTroopLavaHoundS, $eTroopBowlerS, $eHeroeS, $eCCS, $eTroopCountDrop
+;Global Enum $eTroopCountDrop = 21
+Global $icmbDropTroops[$eTroopCountDrop] = [-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1]
+Global Const $g_asTroopNamesPluralDrop[$eTroopCountDrop] = ["Barbarians", "Archers", "Giants", "Goblins", "Wall Breakers", "Balloons", "Wizards", "Healers", "Dragons", "Pekkas", "Baby Dragons", "Miners", "Minions", "Hog Riders", "Valkyries", "Golems", "Witches", "Lava Hounds", "Bowlers", "Clan Castle", "Heroes"]
+
+Global Const $g_aiTroopOrderDropIcon[23] = [ _
+		$eIcnOptions, $eIcnBarbarian, $eIcnArcher, $eIcnGiant, $eIcnGoblin, $eIcnWallBreaker, $eIcnBalloon, _
+		$eIcnWizard, $eIcnHealer, $eIcnDragon, $eIcnPekka, $eIcnBabyDragon, $eIcnMiner, $eIcnMinion, _
+		$eIcnHogRider, $eIcnValkyrie, $eIcnGolem, $eIcnWitch, $eIcnLavaHound, $eIcnBowler, $eIcnCC, $eIcnHeroes]
+
+Global $g_hChkCustomTrainDropOrderEnable = 0
+Global $g_bCustomTrainDropOrderEnable = False
+Global $g_hBtnRemoveTroops2, $g_hBtnTroopOrderSet2
+Global $g_ahImgTroopDropOrderSet = 0
+Global $g_ahImgTroopDropOrder[$eTroopCountDrop] = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+Global $cmbDropTroops = [0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0]
+Global Const $g_asTroopDropList[] = [ "", _
+  "Barbarians", "Archers","Giants", "Goblins", _
+   "Wall Breakers", "Balloons", "Wizards", "Healers", _
+   "Dragons", "Pekkas", "Baby Dragons", "Miners", _
+   "Minions", "Hog Riders", "Valkyries", "Golems", _
+   "Witches","Lava Hounds", "Bowlers", "Clan Castle", "Heroes"]
+
+GloBal $g_iSlotsGiants
