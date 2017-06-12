@@ -216,7 +216,7 @@ Func SaveConfig_PicoMod()
 	Next
 	
 	; Multi Finger (LunaEclipse) - Added by rulesss
-	_Ini_Add("MultiFinger", "Select", $iMultiFingerStyle)
+	_Ini_Add("MultiFinger", "Select", _GUICtrlComboBox_GetCurSel($CmbDBMultiFinger))
 
 	; Unit/Wave Factor (rulesss & kychera) - Added by rulesss
 	_Ini_Add("SetSleep", "EnableUnitFactor", $iChkUnitFactor ? 1 : 0)
@@ -456,8 +456,7 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 			
 			; Classic Four Finger  & Multi Finger (LunaEclipse) - Added by rulesss
 			_GUICtrlComboBox_SetCurSel($cmbDBMultiFinger, $iMultiFingerStyle)
-			Bridge()
-			cmbStandardDropSidesAB()
+			Bridge()			
 			; Unit/Wave Factor - Added by rulesss
 			GUICtrlSetState($ChkUnitFactor, $iChkUnitFactor ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetData($TxtUnitFactor, $iTxtUnitFactor)
