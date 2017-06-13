@@ -83,8 +83,8 @@ Func AttackReport()
 					$iCalcMaxBonus = $g_iStatsBonusLast[$eLootGold]
 					SetLog("Bonus [G]: " & _NumberFormat($g_iStatsBonusLast[$eLootGold]) & " [E]: " & _NumberFormat($g_iStatsBonusLast[$eLootElixir]) & " [DE]: " & _NumberFormat($g_iStatsBonusLast[$eLootDarkElixir]), $COLOR_SUCCESS)
 				Else
-					$iCalcMaxBonus = Number($g_iStatsBonusLast[$eLootGold] / ($iBonusLast / 100))
-					$iCalcMaxBonusDark = Number($g_iStatsBonusLast[$eLootDarkElixir] / ($iBonusLast / 100))
+					$iCalcMaxBonus = Ceiling($g_iStatsBonusLast[$eLootGold] / ($iBonusLast / 100))
+					$iCalcMaxBonusDark = Ceiling($g_iStatsBonusLast[$eLootDarkElixir] / ($iBonusLast / 100))
 
 					SetLog("Bonus [G]: " & _NumberFormat($g_iStatsBonusLast[$eLootGold]) & " out of " & _NumberFormat($iCalcMaxBonus) & " [E]: " & _NumberFormat($g_iStatsBonusLast[$eLootElixir]) & " out of " & _NumberFormat($iCalcMaxBonus) & " [DE]: " & _NumberFormat($g_iStatsBonusLast[$eLootDarkElixir]) & " out of " & _NumberFormat($iCalcMaxBonusDark), $COLOR_SUCCESS)
 				EndIf

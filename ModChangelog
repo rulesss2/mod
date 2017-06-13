@@ -19,6 +19,7 @@
 	- Fixed Loot Cart and when was filled , new image and detection
 	- Fixed Quick Train issue , Army Camp values
 	- Fixed Clone Spell detection and Army Window
+	- Fixed Clone Spells Brew before Attack when exist on CSV
 	- Fixed Issues on Heroes status on Army Window
 	- Fixed the retry Button on Clouds
 	- Fixed Dead Bases Lv12 Collectors , adding a new image and fixed apply code
