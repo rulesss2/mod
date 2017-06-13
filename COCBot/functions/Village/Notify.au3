@@ -847,7 +847,7 @@ Func NotifyRemoteControlProc()
 							If $teststr = (GetTranslatedFileIni("MBR Func_Notify", "Bot", -1) & " " & StringUpper($g_sNotifyOrigin) & " " & "") Then
 								SetLog("Notify PushBullet: received command syntax wrong, command ignored.", $COLOR_RED)
 								NotifyPushToPushBullet($g_sNotifyOrigin & " | " & GetTranslatedFileIni("MBR Func_Notify", "Command-Not-Recognized", "Command not recognized") & "\n" & GetTranslatedFileIni("MBR Func_Notify", "Request-For-Help_Info_01", "Please push BOT HELP to obtain a complete command list."))
-                                NotifyDeleteMessageFromPushBullet($iden[$x]
+                                NotifyDeleteMessageFromPushBullet($iden[$x])
                              EndIf
                             ;=================================== "Chat Bot" ===================================	
 							If StringInStr($body[$x], StringUpper($g_sNotifyOrigin) & " SENDCHAT ") Then
@@ -1106,7 +1106,7 @@ Func NotifyRemoteControlProc()
 							ChatbotPushbulletQueueChat($chatMessage)
 							NotifyPushToTelegram($g_sNotifyOrigin & " | " & "Chat queued, will send on next idle")
 						ElseIf StringInStr($TGActionMSG, "GETCHATS") Then
-							$Interval = StringRight($TGActionMSG, StringLen($TGActionMSG) - StringLen("GETCHATS "))
+						Local $Interval = StringRight($TGActionMSG, StringLen($TGActionMSG) - StringLen("GETCHATS "))
 							If $Interval = "STOP" Then
 								ChatbotPushbulletStopChatRead()
 								NotifyPushToTelegram($g_sNotifyOrigin & " | " & "Stopping interval sending")
@@ -1119,7 +1119,7 @@ Func NotifyRemoteControlProc()
 									NotifyPushToTelegram($g_sNotifyOrigin & " | " &  "Command queued, will send clan chat image on interval")
 								Else
 									SetLog("Telegram: received command syntax wrong, command ignored.", $COLOR_RED)
-									NotifyPushToTelegram($g_sNotifyOrigin & " | " & "Command not recognized" & "\n" &  "Please push BOT HELP to obtain a complete command list."))
+									NotifyPushToTelegram($g_sNotifyOrigin & " | " & "Command not recognized" & "\n" &  "Please push BOT HELP to obtain a complete command list.")
 								EndIf
 							EndIf
 						EndIf
