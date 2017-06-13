@@ -5,7 +5,7 @@
 ; Parameters ....: None
 ; Return values .: None
 ; Author ........: AwesomeGamer (2016), Moebius14 06/2016
-; Modified ......: Team AiO & RK MOD++ (2017)
+; Modified ......: rulesss,kychera
 ; Remarks .......: This file is part of MyBot, previously known as ClashGameBot. Copyright 2016
 ;                  MyBot is distributed under the terms of the GNU GPL
 ; Related .......:
