@@ -119,6 +119,20 @@ Func ReadConfig_PicoMod()
 	IniReadS($iChkWaveFactor, $g_sProfileConfigPath, "SetSleep", "EnableWaveFactor", 0, "Int")
 	IniReadS($iTxtWaveFactor, $g_sProfileConfigPath, "SetSleep", "WaveFactor", 100 ,"Int")
 	
+	; ================================================== Forecast PART ================================================== ;
+	
+	IniReadS($iChkForecastBoost, $g_sProfileConfigPath, "Pico Forecast", "chkForecastBoost", 0, "Int")
+	IniReadS($iChkForecastPause, $g_sProfileConfigPath, "Pico Forecast", "chkForecastPause", 0, "Int")
+	IniReadS($iTxtForecastBoost, $g_sProfileConfigPath, "Pico Forecast", "txtForecastBoost", 6, "Int")
+	IniReadS($iTxtForecastPause, $g_sProfileConfigPath, "Pico Forecast", "txtForecastPause", 2, "Int")
+	IniReadS($ichkForecastHopingSwitchMax, $g_sProfileConfigPath, "Pico Forecast", "chkForecastHopingSwitchMax", 0, "Int")
+	IniReadS($icmbForecastHopingSwitchMax, $g_sProfileConfigPath, "Pico Forecast", "cmbForecastHopingSwitchMax", 0, "Int")
+	IniReadS($itxtForecastHopingSwitchMax, $g_sProfileConfigPath, "Pico Forecast", "txtForecastHopingSwitchMax", 2, "Int")
+	IniReadS($ichkForecastHopingSwitchMin, $g_sProfileConfigPath, "Pico Forecast", "chkForecastHopingSwitchMin", 0, "Int")
+	IniReadS($icmbForecastHopingSwitchMin, $g_sProfileConfigPath, "Pico Forecast", "cmbForecastHopingSwitchMin", 0, "Int")
+	IniReadS($itxtForecastHopingSwitchMin, $g_sProfileConfigPath, "Pico Forecast", "txtForecastHopingSwitchMin", 2, "Int")
+	IniReadS($icmbSwLang, $g_sProfileConfigPath, "Pico Forecast", "cmbSwLang", 1, "int")
+	
 EndFunc   ;==>ReadConfig_PicoMod
 
 Func SaveConfig_PicoMod()
@@ -206,7 +220,7 @@ Func SaveConfig_PicoMod()
 	_Ini_Add("Pico CSV Speed", "cmbCSVSpeed[LB]", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB]))
 	_Ini_Add("Pico CSV Speed", "cmbCSVSpeed[DB]", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB]))
 	
-	; Move the Request CC Troops - Added by rulesss
+	; Move the Request CC Troops 
 	_Ini_Add("planned", "ReqCCFirst", $g_bReqCCFirst ? 1 : 0)
     
 	; ================================================== CUSTOM DROP ORDER ================================================== ;kychera
@@ -215,15 +229,29 @@ Func SaveConfig_PicoMod()
 		_Ini_Add("Pico DropOrder", "cmbDropTroops[" & $p & "]", _GUICtrlComboBox_GetCurSel($cmbDropTroops[$p]))
 	Next
 	
-	; Multi Finger (LunaEclipse) - Added by rulesss
+	; Multi Finger (LunaEclipse) 
 	_Ini_Add("MultiFinger", "Select", _GUICtrlComboBox_GetCurSel($CmbDBMultiFinger))
 
-	; Unit/Wave Factor (rulesss & kychera) - Added by rulesss
+	; Unit/Wave Factor 
 	_Ini_Add("SetSleep", "EnableUnitFactor", $iChkUnitFactor ? 1 : 0)
 	_Ini_Add("SetSleep", "EnableWaveFactor", $iChkWaveFactor ? 1 : 0)
 
     _Ini_Add("SetSleep", "UnitFactor", GUICtrlRead($TxtUnitFactor))
 	_Ini_Add("SetSleep", "WaveFactor", GUICtrlRead($TxtWaveFactor))
+	
+	; ================================================== Forecast PART ================================================== ;
+	
+	_Ini_Add("Pico Forecast", "txtForecastBoost", GUICtrlRead($txtForecastBoost))
+	_Ini_Add("Pico Forecast", "txtForecastPause", GUICtrlRead($txtForecastPause))
+	_Ini_Add("Pico Forecast", "cmbForecastHopingSwitchMax", _GUICtrlComboBox_GetCurSel($cmbForecastHopingSwitchMax))
+	_Ini_Add("Pico Forecast", "txtForecastHopingSwitchMax", GUICtrlRead($txtForecastHopingSwitchMax))
+	_Ini_Add("Pico Forecast", "cmbForecastHopingSwitchMin", _GUICtrlComboBox_GetCurSel($cmbForecastHopingSwitchMin))
+	_Ini_Add("Pico Forecast", "txtForecastHopingSwitchMin", GUICtrlRead($txtForecastHopingSwitchMin))
+	_Ini_Add("Pico Forecast", "chkForecastBoost", $iChkForecastBoost ? 1 : 0)
+	_Ini_Add("Pico Forecast", "chkForecastPause", $iChkForecastPause ? 1 : 0)
+	_Ini_Add("Pico Forecast", "chkForecastHopingSwitchMax", $ichkForecastHopingSwitchMax ? 1 : 0)
+	_Ini_Add("Pico Forecast", "chkForecastHopingSwitchMin", $ichkForecastHopingSwitchMin ? 1 : 0)
+	_Ini_Add("Pico Forecast", "cmbSwLang", _GUICtrlComboBox_GetCurSel($cmbSwLang))
 	
 EndFunc   ;==>SaveConfig_PicoMod
 
@@ -316,7 +344,7 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 			$icmbCSVSpeed[$LB] = _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB])
 			$icmbCSVSpeed[$DB] = _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB])
             
-			;Move the Request CC Troops - Added by rulesss
+			;Move the Request CC Troops 
 			$g_bReqCCFirst = GUICtrlRead($chkReqCCFirst) = $GUI_CHECKED ? 1 : 0
 			
 			; ================================================== CUSTOM DROP ORDER ================================================== ;
@@ -325,14 +353,28 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 				$icmbDropTroops[$p] = _GUICtrlComboBox_GetCurSel($cmbDropTroops[$p])
 			Next
 			
-		    ; Multi Finger - Added by rulesss
+		    ; Multi Finger
 			$iMultiFingerStyle = _GUICtrlComboBox_GetCurSel($CmbDBMultiFinger)
 
-			; Unit/Wave Factor - Added by rulesss
+			; Unit/Wave Factor 
 			$iChkUnitFactor = (GUICtrlRead($ChkUnitFactor) = $GUI_CHECKED)
 			$iChkWaveFactor = (GUICtrlRead($ChkWaveFactor) = $GUI_CHECKED)
 			$iTxtUnitFactor = GUICtrlRead($TxtUnitFactor)
 			$iTxtWaveFactor = GUICtrlRead($TxtWaveFactor)
+			
+			; ================================================== Forecast PART ================================================== ;
+			
+			$iChkForecastBoost = (GUICtrlRead($chkForecastBoost) = $GUI_UNCHECKED)
+			$iTxtForecastBoost = GUICtrlRead($txtForecastBoost)
+			$iChkForecastPause = (GUICtrlRead($chkForecastPause) = $GUI_UNCHECKED)
+			$iTxtForecastPause = GUICtrlRead($txtForecastPause)
+			$ichkForecastHopingSwitchMax = (GUICtrlRead($chkForecastHopingSwitchMax) = $GUI_UNCHECKED)
+			$icmbForecastHopingSwitchMax = _GUICtrlComboBox_GetCurSel($cmbForecastHopingSwitchMax)
+			$itxtForecastHopingSwitchMax = GUICtrlRead($txtForecastHopingSwitchMax)
+			$ichkForecastHopingSwitchMin = (GUICtrlRead($chkForecastHopingSwitchMin) = $GUI_UNCHECKED)
+			$icmbForecastHopingSwitchMin = _GUICtrlComboBox_GetCurSel($cmbForecastHopingSwitchMin)
+			$itxtForecastHopingSwitchMin = GUICtrlRead($txtForecastHopingSwitchMin)
+			$icmbSwLang = _GUICtrlComboBox_GetCurSel($cmbSwLang)
 			
 		Case "Read"
 
@@ -430,7 +472,7 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 			_GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$LB], $icmbCSVSpeed[$LB])
 			_GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$DB], $icmbCSVSpeed[$DB])
             
-			;Move the Request CC Troops - Added by rulesss
+			;Move the Request CC Troops 
 			GUICtrlSetState($chkReqCCFirst, $g_bReqCCFirst = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			
 			; ================================================== CUSTOM DROP ORDER ================================================== ;
@@ -454,10 +496,10 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 			EndIf
 			chkTroopDropOrder()
 			
-			; Classic Four Finger  & Multi Finger (LunaEclipse) - Added by rulesss
+			; Classic Four Finger  & Multi Finger (LunaEclipse) 
 			_GUICtrlComboBox_SetCurSel($cmbDBMultiFinger, $iMultiFingerStyle)
 			Bridge()			
-			; Unit/Wave Factor - Added by rulesss
+			; Unit/Wave Factor 
 			GUICtrlSetState($ChkUnitFactor, $iChkUnitFactor ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetData($TxtUnitFactor, $iTxtUnitFactor)
 			chkUnitFactor()
@@ -465,6 +507,24 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 			GUICtrlSetData($TxtWaveFactor, $iTxtWaveFactor)
 			chkWaveFactor()
 			
+			; ================================================== Forecast PART ================================================== ;
+			
+			GUICtrlSetState($chkForecastBoost, $iChkForecastBoost = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetData($txtForecastBoost, $iTxtForecastBoost)
+			chkForecastBoost()
+			GUICtrlSetState($chkForecastPause, $iChkForecastPause = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetData($txtForecastPause, $iTxtForecastPause)
+			chkForecastPause()
+			GUICtrlSetState($chkForecastHopingSwitchMax, $ichkForecastHopingSwitchMax = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			_GUICtrlComboBox_SetCurSel($cmbForecastHopingSwitchMax, $icmbForecastHopingSwitchMax)
+			GUICtrlSetData($txtForecastHopingSwitchMax, $itxtForecastHopingSwitchMax)
+			chkForecastHopingSwitchMax()
+			GUICtrlSetState($chkForecastHopingSwitchMin, $ichkForecastHopingSwitchMin = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			_GUICtrlComboBox_SetCurSel($cmbForecastHopingSwitchMin, $icmbForecastHopingSwitchMin)
+			GUICtrlSetData($txtForecastHopingSwitchMin, $itxtForecastHopingSwitchMin)
+			chkForecastHopingSwitchMin()
+			_GUICtrlComboBox_SetCurSel($cmbSwLang, $icmbSwLang)
+
 	EndSwitch
 
 EndFunc   ;==>ApplyConfig_PicoMod

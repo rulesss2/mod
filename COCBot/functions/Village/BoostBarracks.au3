@@ -24,8 +24,18 @@ Func BoostBarracks()
 			SetLog("Boost Barracks are not Planned, Skipped..", $COLOR_BLUE)
 			Return ; exit func if no planned Boost Barracks checkmarks
 		EndIf
+	EndIf   
+	If GUICtrlRead($chkForecastBoost) = $GUI_CHECKED Then
+	If $currentForecast > Number($iTxtForecastBoost, 3) Then
+		Local $hour = StringSplit(_NowTime(4), ":", $STR_NOCOUNT)
+		If $g_abBoostBarracksHours[$hour[0]] = False Then
+			SetLog("No planned boosting for this hour.", $COLOR_RED)
+			Return ; exit func if no planned Boost Barracks checkmarks
+		EndIf
+	Else
+		Return
 	EndIf
-
+EndIf	
 	If OpenArmyWindow() = True Then
 		Local $CheckArmyWindow = ISArmyWindow()
 		OpenTrainTabNumber(1, "BoostBarracks")
@@ -41,8 +51,8 @@ Func BoostBarracks()
 			EndIf
 		EndIf
 
-		ClickP($aAway, 1, 0, "#0161")
-		PureClickP($aAway, 1, 0, "#0140")
+	ClickP($aAway, 1, 0, "#0161")
+	PureClickP($aAway, 1, 0, "#0140")
 	EndIf
 	_Sleep($DELAYBOOSTBARRACKS5 + 1000)
 	checkMainScreen(False) ; Check for errors during function
@@ -52,8 +62,8 @@ EndFunc   ;==>BoostBarracks
 Func BoostSpellFactory()
 	If $g_bTrainEnabled = False Then Return
 	If $g_iCmbBoostSpellFactory >= 1 Then
-		SetLog("Boosting Spell Factory...", $COLOR_BLUE)
-
+		SetLog("Boosting Spell Factory...", $COLOR_BLUE)  
+	If $iChkForecastBoost = 1 And $currentForecast <= Number($iTxtForecastBoost, 3) Then Return
 		If OpenArmyWindow() = True Then
 			Local $CheckArmyWindow = ISArmyWindow()
 			OpenTrainTabNumber(2, "BoostSpellFactory")

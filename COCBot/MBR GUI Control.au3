@@ -660,16 +660,66 @@ Func GUIControl_WM_NOTIFY($hWind, $iMsg, $wParam, $lParam)
 		Case $g_hTabMain
 			; Handle RichText controls
 			tabMain()
+			If GUICtrlRead($g_hTabMain, 1) = $g_hGUI_MOD And GUICtrlRead($g_hGUI_MOD_TAB, 1) = $g_hGUI_MOD_TAB_ITEM7 Then
+				Local $tTag  = DllStructCreate("hwnd;int;int;int;int;int;int;ptr;int;int;int;int;int;int;int;int;int;int;int;int", $lParam)
+				Local $hFrom = DllStructGetData($tTag, 1)
+				Local $iID   = DllStructGetData($tTag, 2)
+				Local $iCode = DllStructGetData($tTag, 3)
+				Local $iPos  = DllStructGetData($tTag, 4)
+
+				If $iCode = -551 Then
+					GUICtrlSetState($g_hGUI_MOD_TAB_ITEM7, $GUI_SHOW)
+					Sleep(100)
+					If TimerDiff($TimerForecast) > (1 * 10000) Then ; 1 Refresh Graphique toutes les 5 mn maxi, faut pas abuser
+						cmbSwLang()
+						$TimerForecast = TimerInit()
+					EndIf
+				EndIf
+			EndIf
 		Case $g_hGUI_VILLAGE_TAB
 			tabVillage()
 		Case $g_hGUI_DONATE_TAB
 			tabDONATE()
 		Case $g_hGUI_ATTACK_TAB
-			tabAttack()
-; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
+			tabAttack()       		
+	  ; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
 		Case $g_hGUI_MOD_TAB
 			;tabMOD()
-; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
+       ; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
+	   If GUICtrlRead($g_hGUI_MOD_TAB, 1) = $g_hGUI_MOD_TAB_ITEM7 Then
+				Local $tTag  = DllStructCreate("hwnd;int;int;int;int;int;int;ptr;int;int;int;int;int;int;int;int;int;int;int;int", $lParam)
+				Local $hFrom = DllStructGetData($tTag, 1)
+				Local $iID   = DllStructGetData($tTag, 2)
+				Local $iCode = DllStructGetData($tTag, 3)
+				Local $iPos  = DllStructGetData($tTag, 4)
+
+				If $iCode = -551 Then ;tab selected
+					GUICtrlSetState($g_hGUI_MOD_TAB_ITEM7, $GUI_SHOW)
+					Sleep(100)
+					If TimerDiff($TimerForecast) > (1 * 10000) Then ; 1 Refresh Graphique toutes les 5 mn maxi, faut pas abuser
+						setForecast()
+					EndIf
+				EndIf
+			EndIf
+
+			tabMain()
+
+			If GUICtrlRead($g_hGUI_MOD_TAB, 1) = $g_hGUI_MOD_TAB_ITEM7 Then
+				Local $tTag  = DllStructCreate("hwnd;int;int;int;int;int;int;ptr;int;int;int;int;int;int;int;int;int;int;int;int", $lParam)
+				Local $hFrom = DllStructGetData($tTag, 1)
+				Local $iID   = DllStructGetData($tTag, 2)
+				Local $iCode = DllStructGetData($tTag, 3)
+				Local $iPos  = DllStructGetData($tTag, 4)
+
+				If $iCode = -551 Then ;tab selected
+					GUICtrlSetState($g_hGUI_MOD_TAB_ITEM7, $GUI_SHOW)
+					Sleep(100)
+					If TimerDiff($TimerForecast) > (1 * 10000) Then ; 1 Refresh Graphique toutes les 5 mn maxi, faut pas abuser
+						cmbSwLang()
+						$TimerForecast = TimerInit()
+					EndIf
+				EndIf
+			EndIf
 		Case $g_hGUI_SEARCH_TAB
 			tabSEARCH()
 		Case $g_hGUI_DEADBASE_TAB
@@ -1262,6 +1312,7 @@ Func SetRedrawBotWindow($bEnableRedraw, $bCheckRedrawBotWindow = Default, $bForc
 		; set dirty redraw flag
 		$g_bRedrawBotWindow[1] = True
 	EndIf
+	redrawForecast()
 	Return $bWasRedraw
 EndFunc   ;==>SetRedrawBotWindow
 
