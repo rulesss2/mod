@@ -73,7 +73,8 @@ Func RequestCC($ClickPAtEnd = True, $specifyText = "")
 	;exit from army overview
 	If _Sleep($DELAYREQUESTCC1) Then Return
 	If $ClickPAtEnd Then ClickP($aAway, 2, 0, "#0335")
-
+    If _Sleep($DELAYREQUESTCC1) Then Return
+	
 EndFunc   ;==>RequestCC
 
 

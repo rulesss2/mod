@@ -352,9 +352,9 @@ Func IsFullClanCastleSpells($bReturnOnly = False)
 
 	If $bCCSpellFull And ($g_abSearchCastleSpellsWaitEnable[$DB] Or $g_abSearchCastleSpellsWaitEnable[$LB]) Then
 		Local $Text = ""
-		If $g_abSearchCastleSpellsWaitEnable[$DB] then $Text += "DB"
-		If $g_abSearchCastleSpellsWaitEnable[$LB] then $Text += "LB"
-		If $g_iDebugSetlogTrain Then Setlog("[" & $Text &"] Getting current available spell in Clan Castle.")
+		If $g_abSearchCastleSpellsWaitEnable[$DB] Then $Text += "DB"
+		If $g_abSearchCastleSpellsWaitEnable[$LB] Then $Text += "LB"
+		If $g_iDebugSetlogTrain Then Setlog("[" & $Text & "] Getting current available spell in Clan Castle.")
 		; Imgloc Detection
 		If $g_iTotalCCSpell >= 1 Then $sCurCCSpell1 = GetCurCCSpell(1)
 		If $g_iTotalCCSpell >= 2 Then $sCurCCSpell2 = GetCurCCSpell(2)
@@ -850,6 +850,7 @@ Func HowManyTimesWillBeUsed($Spell) ;ONLY ONLY ONLY FOR SPELLS, TO SEE IF NEEDED
 		If $g_aiAttackAlgorithm[$DB] = 1 Then ; Scripted Attack is Selected
 			If IsGUICheckedForSpell($Spell, $DB) Then
 				$ToReturn = CountCommandsForSpell($Spell, $DB)
+				If $g_iDebugSetlogTrain Then Setlog("IsGUICheckedForSpell[" & $Spell & ", DB]", $COLOR_DEBUG)
 				If $ToReturn = 0 Then $ToReturn = -1
 			Else ; Spell not selected to be used in GUI so bot will not use Spell
 				$ToReturn = -1
@@ -863,6 +864,7 @@ Func HowManyTimesWillBeUsed($Spell) ;ONLY ONLY ONLY FOR SPELLS, TO SEE IF NEEDED
 	If $g_abAttackTypeEnable[$LB] Then
 		If $g_aiAttackAlgorithm[$LB] = 1 Then ; Scripted Attack is Selected
 			If IsGUICheckedForSpell($Spell, $LB) Then
+				If $g_iDebugSetlogTrain Then Setlog("IsGUICheckedForSpell[" & $Spell & ", LB]", $COLOR_DEBUG)
 				$ToReturn = CountCommandsForSpell($Spell, $LB)
 				If $ToReturn = 0 Then $ToReturn = -1
 			EndIf
@@ -873,6 +875,7 @@ Func HowManyTimesWillBeUsed($Spell) ;ONLY ONLY ONLY FOR SPELLS, TO SEE IF NEEDED
 EndFunc   ;==>HowManyTimesWillBeUsed
 
 Func CountCommandsForSpell($Spell, $Mode)
+	If $g_iDebugSetlogTrain Then Setlog("CSV|CountCommandsForSpell [" & $Spell & "] starting ", $COLOR_DEBUG)
 	Local $ToReturn = 0
 	Local $filename = ""
 	If $g_bRunState = False Then Return
@@ -885,7 +888,7 @@ Func CountCommandsForSpell($Spell, $Mode)
 	Local $rownum = 0
 	If FileExists($g_sCSVAttacksPath & "\" & $filename & ".csv") Then
 		Local $f, $line, $acommand, $command
-		Local $value1, $Troop
+		Local $value1, $SpellName, $quant
 		$f = FileOpen($g_sCSVAttacksPath & "\" & $filename & ".csv", 0)
 		; Read in lines of text until the EOF is reached
 		While 1
@@ -895,10 +898,12 @@ Func CountCommandsForSpell($Spell, $Mode)
 			$acommand = StringSplit($line, "|")
 			If $acommand[0] >= 8 Then
 				$command = StringStripWS(StringUpper($acommand[1]), 2)
-				$Troop = StringStripWS(StringUpper($acommand[5]), 2)
-				If $Troop = $Spell Then $ToReturn += 1
+				$SpellName = StringStripWS(StringUpper($acommand[5]), 2)
+				$quant = Number(StringStripWS(StringUpper($acommand[4]), 2))
+				If $SpellName = $Spell Then $ToReturn += $quant
 			EndIf
 		WEnd
+		If $ToReturn > 0 and $g_iDebugSetlogTrain Then Setlog("CSV|Spell [" & $Spell & "] detected " & $ToReturn & "x", $COLOR_INFO)
 		FileClose($f)
 	Else
 		$ToReturn = 0
@@ -927,6 +932,9 @@ Func IsGUICheckedForSpell($Spell, $Mode)
 		Case $eFSpell
 			$sSpell = "Freeze"
 			$aVal = $g_abAttackUseFreezeSpell
+		Case $eCSpell
+			$sSpell = "Clone"
+			$aVal = $g_abAttackUseCloneSpell
 		Case $ePSpell
 			$sSpell = "Poison"
 			$aVal = $g_abAttackUsePoisonSpell
@@ -1388,6 +1396,7 @@ Func WhatToTrain($ReturnExtraTroopsOnly = False, $bSetLog = True)
 			If $g_bRunState = False Then Return
 			If TotalSpellsToBrewInGUI() = 0 Then ExitLoop
 			If $g_aiArmyCompSpells[$BrewIndex] > 0 Then
+				If $g_iDebugSetlogTrain Then Setlog("$g_asSpellShortNames[" & $BrewIndex & "]: " & $g_asSpellShortNames[$BrewIndex])
 				If HowManyTimesWillBeUsed($g_asSpellShortNames[$BrewIndex]) > 0 Then
 					$ToReturn[UBound($ToReturn) - 1][0] = $g_asSpellShortNames[$BrewIndex]
 					$ToReturn[UBound($ToReturn) - 1][1] = $g_aiArmyCompSpells[$BrewIndex]
