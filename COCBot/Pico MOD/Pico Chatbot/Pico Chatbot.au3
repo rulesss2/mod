@@ -350,21 +350,21 @@ EndFunc   ;==>ChatbotIsLastChatNew
 
 Func ChatbotPushbulletSendChat()
    If Not $ChatbotUsePushbullet Then Return
-   _CaptureRegion(0, 0, 320, 675)
+   
    Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
    Local $Time = @HOUR & "." & @MIN & "." & @SEC
-
+_CaptureRegion(0, 0, 320, 675)
    Local $ChatFile = $Date & "__" & $Time & ".jpg" ; separator __ is need  to not have conflict with saving other files if $TakeSS = 1 and $chkScreenshotLootInfo = 0
-   $g_sProfileLootsPath = ""
+   ;$g_sProfileLootsPath = ""
    _GDIPlus_ImageSaveToFile($g_hBitmap, $g_sProfileLootsPath & $ChatFile)
-   _GDIPlus_ImageDispose($g_hBitmap)
+	_GDIPlus_ImageDispose($g_hBitmap)
    ;push the file
    SetLog("Chatbot: Sent chat image", $COLOR_GREEN)
-   ;========Modified Kychera===========
-   NotifyPushFileToBoth($ChatFile, "Loots", "image/jpeg", $g_sNotifyOrigin & " | Last Clan Chats" & "\n" & $ChatFile)
+   ;========Modified Kychera===========   
+ NotifyPushFileToBoth($ChatFile, "Loots", "image/jpeg", $g_sNotifyOrigin & " | Last Clan Chats" & "\n" & $ChatFile)
    ;===================
    ;wait a second and then delete the file
-   _Sleep(500)
+   If _Sleep($DELAYPUSHMSG2) Then Return
    Local $iDelete = FileDelete($g_sProfileLootsPath & $ChatFile)
    If Not ($iDelete) Then SetLog("Chatbot: Failed to delete temp file", $COLOR_RED)
 EndFunc
@@ -599,7 +599,7 @@ Func ChatbotMessage() ; run the chatbot
 			ChangeLanguageToEN()
 			   Sleep(3000)
 			waitMainScreen()
-			Sleep(3000)
+			   Sleep(3000)
 		EndIf
 ;=================================================================================
 	EndIf
@@ -610,7 +610,7 @@ Func ChatbotMessage() ; run the chatbot
 		If Not ChatbotSelectClanChat() Then Return
 
 		Local $SentClanChat = False
-
+          Sleep(2000)
 		If $ChatbotReadQueued Then
 			ChatbotPushbulletSendChat()
 			$ChatbotReadQueued = False
@@ -637,7 +637,7 @@ Func ChatbotMessage() ; run the chatbot
 
 			Dim $Tmp[0] ; clear queue
 			$ChatbotQueuedChats = $Tmp
-
+             _sleep(2000)
 			ChatbotPushbulletSendChat()
 
 			If Not ChatbotChatClose() Then Return
