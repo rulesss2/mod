@@ -110,7 +110,7 @@ Global $g_iDebugMakeIMGCSV = $UserDebugEnable ; Saves "clean" iamge and image wi
 Global $g_iDebugVillageSearchImages = 0 ; will fill drive with huge number of images, enable "Delete Temp Files" to reduce lag created with too many images in folder
 
 ; <><><><> Debug Dead Base search problems <><><><>
-Global $g_iDebugDeadBaseImage = 1 ; Enable collection of zombie base images where loot is above search filter, no dead base detected
+Global $g_iDebugDeadBaseImage = $UserDebugEnable ; Enable collection of zombie base images where loot is above search filter, no dead base detected
 Global $g_aiSearchEnableDebugDeadBaseImage = 200 ; If $g_iDebugDeadBaseImage is 0 and more than these searches reached, set $g_iDebugDeadBaseImage = 1, 0 = disabled
 
 ; <><><><> Enable when debugging Milk attack errors! <><><><>

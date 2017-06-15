@@ -1,4 +1,5 @@
-﻿; #FUNCTION# ====================================================================================================================
+﻿
+; #FUNCTION# ====================================================================================================================
 ; Name ..........: MBR Bot
 ; Description ...: This file contains the initialization and main loop sequences f0r the MBR Bot
 ; Author ........:  (2014)
@@ -17,7 +18,6 @@
 #AutoIt3Wrapper_Run_Au3Stripper=y
 #Au3Stripper_Parameters=/rsln /MI=3
 ;/SV=0
-
 #AutoIt3Wrapper_Change2CUI=y
 #pragma compile(Console, true)
 #pragma compile(Icon, "Images\MyBot.ico")
@@ -736,6 +736,16 @@ Func runBot() ;Bot that runs everything in order
 				EndIf
 			EndIf
 
+;===========Ezeck 6-14-2017=================
+;when 'train/donate only' is the condition.. and camps fill. and func idle is never called (it happens)... donates never happen because of IsSearchAttackEnabled
+; Adding a Call to donateCC() when train donate only is the condition
+
+			If ($g_iCommandStop = 3 Or $g_iCommandStop = 0) Then ; Train Donate only - force a donate cc everytime, Ignore any SkipDonate Near Full Values
+				DonateCC()
+			EndIf
+;============================================
+
+
 ; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
 			AutoUpgrade()
 ; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
@@ -762,7 +772,7 @@ Func runBot() ;Bot that runs everything in order
 				UpgradeWall()
 				If _Sleep($DELAYRUNBOT3) Then Return
 				If $g_bRestart = True Then ContinueLoop
-				Idle()
+				Idle() ; Note When train/donate only.. Idle func can at times never be called.. causeing no donates.. since idle is inside searchattack enabled function
 				;$g_bFullArmy1 = $g_bFullArmy
 				If _Sleep($DELAYRUNBOT3) Then Return
 				If $g_bRestart = True Then ContinueLoop
@@ -844,11 +854,18 @@ Func Idle() ;Sequence that runs until Full Army
 			Local $aHeroResult = CheckArmyCamp(True, True, True, False)
 			While $iReHere < 7
 				$iReHere += 1
+
+				If ($g_iCommandStop = 3 Or $g_iCommandStop = 0) Then ; Train Donate only - force a donate cc everytime, Ignore any SkipDonate Near Full Values
+					DonateCC()
+					ExitLoop
+				EndIf
+
 				If $iReHere = 1 And SkipDonateNearFullTroops(True, $aHeroResult) = False And BalanceDonRec(True) Then
 					DonateCC(True)
 				ElseIf SkipDonateNearFullTroops(False, $aHeroResult) = False And BalanceDonRec(False) Then
 					DonateCC(True)
 				EndIf
+
 				If _Sleep($DELAYIDLE2) Then ExitLoop
 				If $g_bRestart = True Then ExitLoop
 				If checkAndroidReboot() Then ContinueLoop 2
