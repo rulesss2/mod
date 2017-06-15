@@ -232,7 +232,9 @@ Func CheckIfArmyIsReady()
 	EndIf
 
 	$g_bCheckSpells = CheckSpells()
-	$bFullArmyHero = BitAND($g_aiSearchHeroWaitEnable[$DB], $g_iHeroAvailable) > 0 Or BitAND($g_aiSearchHeroWaitEnable[$LB], $g_iHeroAvailable) > 0 Or ($g_aiSearchHeroWaitEnable[$DB] = $eHeroNone And $g_aiSearchHeroWaitEnable[$LB] = $eHeroNone)
+	$bFullArmyHero = BitAND($g_aiSearchHeroWaitEnable[$DB], $g_iHeroAvailable) > 0 Or _
+					 BitAND($g_aiSearchHeroWaitEnable[$LB], $g_iHeroAvailable) > 0 Or _
+					 ((IsSearchModeActive($DB) and $g_aiSearchHeroWaitEnable[$DB] = $eHeroNone) or (IsSearchModeActive($LB) and $g_aiSearchHeroWaitEnable[$LB] = $eHeroNone))
 	$bFullArmyCCSpells = IsFullClanCastleSpells()
 	$bFullArmyCCTroops = IsFullClanCastleTroops()
 

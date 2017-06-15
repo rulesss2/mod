@@ -21,6 +21,7 @@ Global $g_iDonTroopsQuantityAv = 0, $g_iDonTroopsQuantity = 0, $g_iDonSpellsQuan
 Global $g_bSkipDonTroops = False, $g_bSkipDonSpells = False
 Global $g_bDonateAllRespectBlk = False ; is turned on off durning donate all section, must be false all other times
 Global $g_aiDonatePixel ; array holding x, y position of donate button in chat window
+Global $g_bSetlogOnlyOnce = 0
 
 Func PrepareDonateCC()
 	$g_abPrepDon[0] = 0
@@ -58,6 +59,10 @@ Func DonateCC($Check = False)
 	Local $ReturnT = ($g_CurrentCampUtilization >= ($g_iTotalCampSpace * $g_iTrainArmyFullTroopPct / 100) * .95) ? (True) : (False)
 
 	Local $ClanString = ""
+
+	Local $TimerDiff = 0 ;Used for DonateTrain only behavior change
+	Local $iReturntoTrainTime = 0 ;Used for DonateTrain only behavior change
+	$g_bSetlogOnlyOnce = 0 ; Set as global Used in 3 Functions  Used for DonateTrain only behavior change
 
 	If Not $bDonate Or Not $g_bDonationEnabled Then
 		If $g_iDebugSetlog = 1 Then Setlog("Donate Clan Castle troops skip", $COLOR_DEBUG)
@@ -465,22 +470,38 @@ Func DonateCC($Check = False)
 			ContinueLoop
 		Else
 			If $g_iDebugSetlog = 1 Then Setlog("No more Donate buttons found, closing chat ($y=" & $y & ")", $COLOR_DEBUG)
+
+
+			;train Donate only; Stay in Donate for a time Waiting for more requests
+				; Conditions to leave
+					;Train timer < 2 min
+
+			If ($g_iCommandStop = 3 Or $g_iCommandStop = 0) Then
+				If $g_bSetlogOnlyOnce = 0 Then SetLog ( "Train Donate Only - Waiting for more requests")
+
+				$TimerDiff = 0
+				$TimerDiff = int( ( TimerDiff($g_hTrainTimeLeft) / 1000) / 60 ) ; Convert to Mins
+				$iReturntoTrainTime = ($g_aiTimeTrain[0] - 2) - $TimerDiff ; Allows for a 2min buffer on train
+				If $iReturntoTrainTime <= 0 Then $iReturntoTrainTime = 0
+					If $g_bSetlogOnlyOnce = 0 Then SetLog ( "Donate will Return to Train in " & $iReturntoTrainTime & " Min's")
+					$g_bSetlogOnlyOnce = 1 ; Value is Reset to zero after a Donated Troop/Spell Click
+					If $iReturntoTrainTime > 0 Then
+						$y = 400 ; only watch bottom half...of scroll list
+						ContinueLoop
+					EndIf
+			EndIf
 		EndIf
-		; Scroll Down
 
-		ForceCaptureRegion()
-
+	; Scroll Down
 		$Scroll = _PixelSearch(293, 687 - 30, 295, 693 - 30, Hex(0xFFFFFF, 6), 20)
-
-
 		If IsArray($Scroll) Then
 			$bDonate = True
 			Click($Scroll[0], $Scroll[1], 1, 0, "#0172")
 			$y = 600
-
 			If _Sleep($DELAYDONATECC2) Then ExitLoop
 			ContinueLoop
 		EndIf
+
 		$bDonate = False
 	WEnd
 
@@ -579,14 +600,21 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $Custom = False, Cons
 	Local $donateposinrow = -1
 	Local $sTextToAll = ""
 
+
 	If $g_iTotalDonateCapacity = 0 Then Return
 	If $g_iDebugSetlog = 1 Then Setlog("$DonateTroopType Start: " & $g_asTroopNames[$iTroopIndex], $COLOR_DEBUG)
 
-	; Space to donate troop?
+	; Space to donate troop?  Added Ezeck 6-14-2017 If Requested Troop dont fit in av. space, top off with Archers.. Cause everyone has an archer or two
 	$g_iDonTroopsQuantityAv = Floor($g_iTotalDonateCapacity / $g_aiTroopSpace[$iTroopIndex])
+
 	If $g_iDonTroopsQuantityAv < 1 Then
 		Setlog("Sorry Chief! " & $g_asTroopNamesPlural[$iTroopIndex] & " don't fit in the remaining space!")
-		Return
+			If $g_asTroopNames[$iTroopIndex] = "Archer" Then ; Prevents endless loops
+				Return
+			Else
+				Setlog("Changing Troop Type to Archers")
+				DonateTroopType(1, 0, False, False)
+			EndIf
 	EndIf
 
 	If $g_iDonTroopsQuantityAv >= $g_iDonTroopsLimit Then
@@ -651,6 +679,7 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $Custom = False, Cons
 								_ColorCheck(_GetPixelColor(360 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x306ca8, 6), 20) Then ; check for 'blue'
 
 							Click(365 + ($Slot * 68), $g_iDonationWindowY + 100 + $YComp, 1, $DELAYDONATECC3, "#0175")
+							$g_bSetlogOnlyOnce = 0
 							If $g_iCommandStop = 3 Then
 								$g_iCommandStop = 0
 								$g_bFullArmy = False
@@ -667,6 +696,7 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $Custom = False, Cons
 							_ColorCheck(_GetPixelColor(360 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x306ca8, 6), 20) Then ; check for 'blue'
 
 						Click(365 + ($Slot * 68), $g_iDonationWindowY + 100 + $YComp, $Quant, $DELAYDONATECC3, "#0175")
+						$g_bSetlogOnlyOnce = 0
 						$g_aiDonateStatsTroops[$iTroopIndex][0] += $Quant
 						If $g_iCommandStop = 3 Then
 							$g_iCommandStop = 0
@@ -704,6 +734,7 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $Custom = False, Cons
 								_ColorCheck(_GetPixelColor(360 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x306ca8, 6), 20) Then ; check for 'blue'
 
 							Click(365 + ($Slot * 68), $g_iDonationWindowY + 100 + $YComp, 1, $DELAYDONATECC3, "#0175")
+							$g_bSetlogOnlyOnce = 0
 							$icount += 1
 							If $g_iCommandStop = 3 Then
 								$g_iCommandStop = 0
@@ -720,6 +751,7 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $Custom = False, Cons
 							_ColorCheck(_GetPixelColor(360 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x306ca8, 6), 20) Then ; check for 'blue'
 
 						Click(365 + ($Slot * 68), $g_iDonationWindowY + 100 + $YComp, $g_iDonTroopsQuantity, $DELAYDONATECC3, "#0175")
+						$g_bSetlogOnlyOnce = 0
 						$g_aiDonateStatsTroops[$iTroopIndex][0] += $g_iDonTroopsQuantity
 						If $g_iCommandStop = 3 Then
 							$g_iCommandStop = 0
@@ -824,7 +856,7 @@ Func DonateSpellType(Const $iSpellIndex, $Quant = 0, Const $Custom = False, Cons
 		EndIf
 		If $g_iDebugOCRdonate = 0 Then
 			Click(365 + ($Slot * 68), $g_iDonationWindowY + 100 + $YComp, $g_iDonSpellsQuantity, $DELAYDONATECC3, "#0600")
-
+			$g_bSetlogOnlyOnce = 0
 			$g_bFullArmySpells = False
 			$g_bFullArmy = False
 			$g_aiDonateSpells[$iSpellIndex] += 1
@@ -1197,11 +1229,11 @@ EndFunc   ;==>DetectSlotSpell
 
 Func SkipDonateNearFullTroops($bSetLog = False, $aHeroResult = Default)
 
+	If $g_iCommandStop = 0 And $g_iCommandStop = 3 Then Return False ; IF is halt Attack and Train/Donate ....Enable the donation ; works better with command stop 3 ; Must be first. if train donate mode.. Should over ride all other settings.
+		; had issues of train donate only mode stop donating after the camps fill
 	If Not $g_bDonationEnabled Then Return True ; will disable the donation
 
 	If Not $g_bDonateSkipNearFullEnable Then Return False ; will enable the donation
-
-	If $g_iCommandStop = 0 And $g_iCommandStop = 3 Then Return False ; IF is halt Attack and Train/Donate ....Enable the donation ; works better with command stop 3
 
 	Local $hour = StringSplit(_NowTime(4), ":", $STR_NOCOUNT)
 
