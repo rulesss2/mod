@@ -678,7 +678,7 @@ Func runBot() ;Bot that runs everything in order
 			EndIf
 			; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
 			;Local $aRndFuncList = ['Collect', 'CheckTombs', 'ReArm', 'CleanYard']
-			Local $aRndFuncList = ['Collect', 'CheckTombs', 'ReArm', 'CleanYard', 'CollectTreasury', 'GoToBBFeatures']
+			Local $aRndFuncList = ['Collect', 'CheckTombs', 'ReArm', 'CleanYard', 'CollectTreasury', 'SendChat', 'GoToBBFeatures']
 			; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
 
 			While 1
@@ -825,6 +825,7 @@ Func Idle() ;Sequence that runs until Full Army
 	Static $iCollectCounter = 0 ; Collect counter, when reaches $g_iCollectAtCount, it will collect
 
 	Local $TimeIdle = 0 ;In Seconds
+	ForecastSwitch()
 	If $g_iDebugSetlog = 1 Then SetLog("Func Idle ", $COLOR_DEBUG)
 
 	; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
@@ -1123,6 +1124,10 @@ Func _RunFunction($action)
 				If SkipDonateNearFullTroops(True) = False And BalanceDonRec(True) Then DonateCC()
 				If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
 			EndIf
+		Case "SendChat"
+		    If $ChatbotChatGlobal = True Or $ChatbotChatClan = True Then
+               ChatbotMessage()
+		    EndIf
 		Case "DonateCC,Train"
 			If $g_iActiveDonate And $g_bChkDonate Then
 				If $g_bFirstStart Then
