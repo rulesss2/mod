@@ -519,6 +519,7 @@ Func DonateCC($Check = False)
 					ExitLoop
 				EndIf
 			EndIf
+
 		EndIf
 
 		$bDonate = False
