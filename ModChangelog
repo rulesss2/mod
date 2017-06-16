@@ -25,6 +25,7 @@
 	- Fixed Dead Bases Lv12 Collectors , adding a new image and fixed apply code
 	- Fixed some issues on Heores activation
 	- Fixed Profile values , SC May update
+	- Fixed Profile Page report when exist a 'claim reward' button visible
 	- Improvements to donate window detection and when grayed troop is in first slot fix
 	- Mod version
 	- Compile BOT with a console option, this console option can receive the DLL errors too, 

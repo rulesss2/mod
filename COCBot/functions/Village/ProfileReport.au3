@@ -25,16 +25,40 @@ Func ProfileReport()
 
 	SetLog("Profile Report", $COLOR_INFO)
 	SetLog("Opening Profile page to read atk, def, donated and received...", $COLOR_INFO)
-	Click(30, 40, 1, 0, "#0222") ; Click Info Profile Button
+
+	; ********* OPEN TAB AND CHECK IT ***********
+	Local $sPageDirectory = @ScriptDir & "\imgxml\Resources\Pages\Profile"
+
+	; Click Info Profile Button
+	Click(30, 40, 1, 0, "#0222")
 	If _Sleep($DELAYPROFILEREPORT2) Then Return
 
-	While _ColorCheck(_GetPixelColor(400, 188, True), Hex(0xA2A6BE, 6), 20) = False ; wait for Info Profile to open ; MAY UPDATE
-		If $g_iDebugSetlog = 1 Then Setlog("Profile wait time: " & $iCount & ", color= " & _GetPixelColor(400, 104 + $g_iMidOffsetY, True) & " pos (400," & 188 & ")", $COLOR_DEBUG)
+	; Check the 'My Profile' tab region
+	While Not QuickMIS("BC1", $sPageDirectory, 110, 67, 250, 100, True, False)
+		If $g_iDebugSetlog = 1 Then Setlog("Profile wait time: " & $iCount, $COLOR_DEBUG)
+		; 1000ms between checks
+		If _Sleep($DELAYPROFILEREPORT2) Then Return
 		$iCount += 1
-		If _Sleep($DELAYPROFILEREPORT1) Then Return
-		If $iCount >= 25 Then ExitLoop
+		If $iCount > 12 Then
+			Setlog("Excess wait time for profile to open: " & $iCount, $COLOR_DEBUG)
+			Return
+		EndIf
 	WEnd
-	If $g_iDebugSetlog = 1 And $iCount >= 25 Then Setlog("Excess wait time for profile to open: " & $iCount, $COLOR_DEBUG)
+
+	; Check If exist 'Claim Reward' button , click and return to Top of the Profile Page
+	Local $sClaimDirectory = @ScriptDir & "\imgxml\Resources\Pico Humanization\ClaimReward"
+	; Local to check if was all dragclick to top
+	Local $CheckTopProfile[4] = [180, 272, 0x8f93b2, 5]
+	If QuickMIS("BC1", $sClaimDirectory, 680, 165, 855, 680) Then
+		Click($g_iQuickMISX + 680, $g_iQuickMISY)
+		SetLog("Reward collected !!! Good Job Chief :D !!!", $COLOR_SUCCESS)
+		For $i = 0 To 9
+			ClickDrag(421, 200, 421, 630, 2000)
+			If _Sleep($DELAYPROFILEREPORT1) Then Return ; 500ms
+			If _ColorCheck(_GetPixelColor($CheckTopProfile[0], $CheckTopProfile[1], True), Hex($CheckTopProfile[2], 6), $CheckTopProfile[3]) = True Then ExitLoop
+		Next
+	EndIf
+
 	If _Sleep($DELAYPROFILEREPORT1) Then Return
 	$AttacksWon = ""
 
