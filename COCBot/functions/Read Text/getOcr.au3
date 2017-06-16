@@ -96,7 +96,12 @@ Func getHeroUpgradeTime($x_start, $y_start) ; -> Gets complete upgrade time for 
 EndFunc   ;==>getHeroUpgradeTime
 
 Func getChatString($x_start, $y_start, $language) ; -> Get string chat request - Latin Alphabetic - EN "DonateCC.au3"
-	Return getOcrAndCapture($language, $x_start, $y_start, 280, 16)
+	Static $_hHBitmap = 0
+	Local $result
+	$_hHBitmap = GetHHBitmapArea($g_hCurrentDonateButtonBitMap, $x_start, $y_start, $x_start + 280, $y_start + 16)
+	$result = getOcr($_hHBitmap, $language)
+	GdiDeleteHBitmap($_hHBitmap)
+	Return $result
 EndFunc   ;==>getChatString
 
 Func getBuilders($x_start, $y_start) ;  -> Gets Builders number - main screen --> getBuilders(324,23)  coc-profile
@@ -168,7 +173,13 @@ Func getOcrClanLevel($x_start, $y_start) ;  -> Get the clan level from clan info
 EndFunc   ;==>getOcrClanLevel
 
 Func getOcrSpaceCastleDonate($x_start, $y_start) ;  -> Get the number of troops donated/capacity from a request
-	Return getOcrAndCapture("coc-totalreq", $x_start, $y_start, 45, 12, True)
+	Static $_hHBitmap = 0
+	Local $result
+	$_hHBitmap = GetHHBitmapArea($g_hCurrentDonateButtonBitMap, $x_start, $y_start, $x_start + 45, $y_start + 12)
+	$result = getOcr($_hHBitmap, "coc-totalreq")
+	GdiDeleteHBitmap($_hHBitmap)
+	Return $result
+	;Return getOcrAndCapture("coc-totalreq", $x_start, $y_start, 45, 12, True)
 EndFunc   ;==>getOcrSpaceCastleDonate
 
 Func getOcrDonationTroopsDetection($x_start, $y_start) ;  -> Get the type of troop from the donate window
