@@ -27,8 +27,12 @@
 	- Fixed some issues on Heores activation
 	- Fixed Profile values , SC May update
 	- Fixed Profile Page report when exist a 'claim reward' button visible
+	- Fixed CC Request Remain Time, May SC update
+	- Fixed the Weak Base detection for Air Defenses
+	- Improvements on Weak Base log
 	- Improvements to donate window detection and when grayed troop is in first slot fix
 	- Improvements Zoomout Setlog and Tidy code
+	- Added 'Sleep Before' cmd for CSV attack
 	- Added Giants deploy on standard attack on middle of the side not at corner
 	- Added the CSV '%' cmd from Mr.Viper
 	- Added 'REMAIN' cmd added.
