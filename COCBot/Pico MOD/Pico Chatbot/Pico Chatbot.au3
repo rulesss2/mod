@@ -110,7 +110,7 @@ Func ChatGuiCheckboxUpdateAT()
 		GUICtrlSetState($editGeneric, $GUI_DISABLE)
 	EndIf
 ;=====================kychera============
-	If  GUICtrlRead($chkGlobalChat) = $GUI_CHECKED and GUICtrlRead($chkSwitchLang) = $GUI_CHECKED Then
+	If  GUICtrlRead($chkGlobalChat) = $GUI_CHECKED And GUICtrlRead($chkSwitchLang) = $GUI_CHECKED Then
 	    GUICtrlSetState($cmbLang, $GUI_ENABLE)
 	Else
      	GUICtrlSetState($cmbLang, $GUI_DISABLE)
@@ -207,9 +207,9 @@ EndFunc   ;==>ChatbotChatGlobalInput
 ;============================================
 ;+++++++++++++Kychera Modified +++++++++++++++
 Func ChatbotChatInput($message)
- If _Sleep(1000) Then Return
-	   Click(33, 707, 1)	
- 	 SendText($message)	
+    If _Sleep(1000) Then Return
+	Click(33, 707, 1)	
+    SendText($message)	
 	Return True
 EndFunc   ;==>ChatbotChatInput
 ;+++++++++++++++++++++++++++++++++++++++++++++
@@ -235,7 +235,7 @@ Func ChatbotStartTimer()
 EndFunc   ;==>ChatbotStartTimer
 
 Func ChatbotIsInterval()
-Local $Time_Difference = TimerDiff($ChatbotStartTime)
+    Local $Time_Difference = TimerDiff($ChatbotStartTime)
 	If $Time_Difference > $ChatbotReadInterval * 1000 Then
 		Return True
 	Else
@@ -256,15 +256,14 @@ Func ChatbotPushbulletSendChat()
    
    Local $Date = @YEAR & "-" & @MON & "-" & @MDAY
    Local $Time = @HOUR & "." & @MIN & "." & @SEC
-_CaptureRegion(0, 0, 320, 675)
+   _CaptureRegion(0, 0, 320, 675)
    Local $ChatFile = $Date & "__" & $Time & ".jpg" ; separator __ is need  to not have conflict with saving other files if $TakeSS = 1 and $chkScreenshotLootInfo = 0
-   ;$g_sProfileLootsPath = ""
    _GDIPlus_ImageSaveToFile($g_hBitmap, $g_sProfileLootsPath & $ChatFile)
 	_GDIPlus_ImageDispose($g_hBitmap)
    ;push the file
    SetLog("Chatbot: Sent chat image", $COLOR_GREEN)
    ;========Modified Kychera===========   
- NotifyPushFileToBoth($ChatFile, "Loots", "image/jpeg", $g_sNotifyOrigin & " | Last Clan Chats" & "\n" & $ChatFile)
+   NotifyPushFileToBoth($ChatFile, "Loots", "image/jpeg", $g_sNotifyOrigin & " | Last Clan Chats" & "\n" & $ChatFile)
    ;===================
    ;wait a second and then delete the file
    If _Sleep($DELAYPUSHMSG2) Then Return
@@ -440,19 +439,16 @@ EndFunc   ;==>ChangeLanguageToTR
 ; MAIN SCRIPT ==============================================
 
 Func ChatbotMessage() ; run the chatbot
+
+    Local $sendGlobalChat = chatTimer($startGlobChatTimer, "GLOBAL")
+	
 	If $ChatbotChatGlobal Then
 		SetLog(GetTranslated(106, 37, "Chatbot: Sending some chats"), $COLOR_GREEN)
 	ElseIf $ChatbotChatClan Then
 		SetLog(GetTranslated(106, 38, "Chatbot: Sending some chats"), $COLOR_GREEN)
 	EndIf
-	If $ChatbotChatGlobal Then
-		If $chatdelaycount < $ichkchatdelay Then
-			SetLog(GetTranslated(106, 39, "Delaying Chat ") & ($ichkchatdelay - $chatdelaycount) & GetTranslated(106, 40, " more times"), $COLOR_GREEN)
-			$chatdelaycount += 1
-			Return
-		ElseIf $chatdelaycount = $ichkchatdelay Then
-			$chatdelaycount = 0
-		EndIf
+	If $ChatbotChatGlobal = 1 And $sendGlobalChat Then
+	   $startGlobChatTimer = TimerInit()	
 ;========================Kychera modified==========================================
 		If $ChatbotSwitchLang = 1 Then
 		Switch GUICtrlRead($cmbLang)
@@ -606,8 +602,6 @@ Func ChatbotMessage() ; run the chatbot
 EndFunc   ;==>ChatbotMessage
 
 #cs ----------------------------------------------------------------------------
-	AutoIt Version: 3.6.0
-	This file was made to software MyBot v5.3.1
 	Author:         ChrisDuh
     ; Chatbot script fixed by rulesss, Kychera
 	Script Function: Sends chat messages in global and clan chat; 11.2016 switching lang global chat - Kychera
@@ -650,3 +644,16 @@ Func _Encoding_JavaUnicodeDecode($sString)
 EndFunc ;==>_Encoding_JavaUnicodeDecode
 ;============================================
 
+;Timer
+Func chatTimer($startTimer, $chatType)
+    Local $timeDiff = TimerDiff($startTimer) / 1000
+    If $chatType = "GLOBAL" Then
+ 	   If $timeDiff > $globChatIdleTime Then
+ 		  Return True
+ 	   Else
+ 		  SetLog("Skip sending chats to global chat", $COLOR_RED)
+ 		  SetLog("Time Delay : [" & $globChatIdleTime - $timeDiff & "]")
+ 		  Return False
+ 	   EndIf
+    EndIf
+EndFunc
