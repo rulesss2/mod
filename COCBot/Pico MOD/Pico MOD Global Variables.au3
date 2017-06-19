@@ -171,6 +171,9 @@ Global $GlobalMessages3 = ""
 Global $GlobalMessages4 = ""
 Global $ChatbotStartTime
 Global $message = ""
+Global $globChatTimeDalay 
+Global $ichkGlobChatIdleTime = 0
+Global $startGlobChatTimer = TimerInit()
 
 ; Forecast - (modification rulesss,kychera)
 Global Const $COLOR_DEEPPINK = 0xFF1493

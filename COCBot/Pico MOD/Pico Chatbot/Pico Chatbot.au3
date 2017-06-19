@@ -644,15 +644,15 @@ Func _Encoding_JavaUnicodeDecode($sString)
 EndFunc ;==>_Encoding_JavaUnicodeDecode
 ;============================================
 
-;Timer
+;Timer for global chat(Time Delay)
 Func chatTimer($startTimer, $chatType)
     Local $timeDiff = TimerDiff($startTimer) / 1000
     If $chatType = "GLOBAL" Then
- 	   If $timeDiff > $globChatIdleTime Then
+ 	   If $timeDiff > $globChatTimeDalay Then
  		  Return True
  	   Else
  		  SetLog("Skip sending chats to global chat", $COLOR_RED)
- 		  SetLog("Time Delay : [" & $globChatIdleTime - $timeDiff & "]")
+ 		  SetLog("Time Delay : [" & $globChatTimeDalay - $timeDiff & "]")
  		  Return False
  	   EndIf
     EndIf
