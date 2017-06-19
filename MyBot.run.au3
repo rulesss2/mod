@@ -1126,13 +1126,10 @@ Func _RunFunction($action)
 				If SkipDonateNearFullTroops(True) = False And BalanceDonRec(True) Then DonateCC()
 				If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
 			EndIf
-<<<<<<< .merge_file_a04112
-=======
 		Case "SendChat"
 		    If $ChatbotChatGlobal = True Or $ChatbotChatClan = True Then
                ChatbotMessage()
 		    EndIf
->>>>>>> .merge_file_a00688
 		Case "DonateCC,Train"
 			If $g_iActiveDonate And $g_bChkDonate Then
 				If $g_bFirstStart Then
