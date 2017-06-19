@@ -34,8 +34,19 @@ Func getArmyTroopTime($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bSet
 		EndIf
 	EndIf
 
+	; Verify is the Barracks is Boosted
+	Local $bBoosted = False
+	If QuickMIS("BC1", @ScriptDir & "\imgxml\Resources\Boosted", 690, 155, 750, 190) Then ; search for treasury button
+		$bBoosted = True
+	Endif
+
 	Local $sResultTroops = getRemainTrainTimer(756, 169) ;Get time via OCR.
 	$g_aiTimeTrain[0] = ConvertOCRTime("Troops", $sResultTroops, $bSetLog) ; update global array ;value is in min's
+
+	If $bBoosted then
+		$g_aiTimeTrain[0] = $g_aiTimeTrain[0] / 4
+		Setlog("Boosted Barracks detected!", $COLOR_INFO)
+	EndIf
 
 ;==================================================
 	; Used in Donate/Train only Mode - Ezeck 6-14-17

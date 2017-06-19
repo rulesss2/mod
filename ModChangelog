@@ -14,8 +14,9 @@
  |_____/ \___/ \___(_)____/ \___|   \_/|____(_)_/    
                                                    
 	- MBR Official v7.2
+	- Mod Version Rename
 	- Fixed the way to detect the Builder base
-	- Fixed Train detection ( from ProMac previous versions )
+	- Fixed Train icon detection
 	- Fixed Loot Cart and when was filled , new image and detection
 	- Fixed Quick Train issue , Army Camp values
 	- Fixed Clone Spell detection and Army Window
@@ -25,21 +26,25 @@
 	- Fixed Dead Bases Lv12 Collectors , adding a new image and fixed apply code
 	- Fixed some issues on Heores activation
 	- Fixed Profile values , SC May update
+	- Fixed Profile Page report when exist a 'claim reward' button visible
 	- Improvements to donate window detection and when grayed troop is in first slot fix
-	- Mod version
-	- Compile BOT with a console option, this console option can receive the DLL errors too, 
-	  «« great option to debug without autoit »»
-	- Zoomout Setlog and Tidy code
+	- Improvements Zoomout Setlog and Tidy code
 	- Added Giants deploy on standard attack on middle of the side not at corner
 	- Added the CSV '%' cmd from Mr.Viper
 	- Added 'REMAIN' cmd added.
   	  «« DROP remain to use DropTroopFromINI for drop remain troops »»
 	- Added Collect resource on Builder Base
 	- Added Clock Tower Activation on Builder Base
+	- Added Suggested Upgrades on Builder Island
+	- Added Suggested Upgrades on Main Village with ignore list
 	- Added Classic FFF
 	- Added 'Start' cmd to Telegram
 	- Added Unicode send text on Request CC with **MEmu**
-	- Merged the PicoMod from rorotiti
+	- Added check if the Barracks or Spell Factory are boosted , divide by 4 the remain train time.
+	- Added Switch Account from Rorotiti
+	- Added Treasury from Rorotiti
+	- Added Humanization Features from Rorotiti
+	- Added Drop Troops Order on standard Attack
 							
 							
  				 Doc Oc v3.6.1												   

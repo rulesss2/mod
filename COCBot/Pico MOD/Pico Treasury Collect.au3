@@ -21,8 +21,8 @@ Func CollectTreasury()
 		Setlog("Collecting treasury...", $COLOR_INFO)
 
 		If OpenTreasuryMenu() Then
-
-			If _ColorCheck(_GetPixelColor(430, 510, True), "60AC10", 20) Then
+			If _Sleep(1500) Then Return
+			If _ColorCheck(_GetPixelColor(430, 510, True), "6db91d", 20) Then ; 6db91d  | 60AC10
 
 				If $g_ichkForceTrCollect = 1 Then
 					CollectTreasuryStand()
@@ -100,7 +100,7 @@ Func CollectTreasuryStand()
 		Click(435, 490)
 		randomSleep(1500)
 		If _ColorCheck(_GetPixelColor(520, 450, True), "60AD10", 20) And _ColorCheck(_GetPixelColor(590, 280, True), "E8E8E0", 20) Then ; check okay button
-			Click(520, 430)
+			Click(520, 450)
 			SetLog("Treasury collected successfully", $COLOR_SUCCESS)
 		Else
 			SetLog("Error when trying to find Okay button... skipping...", $COLOR_WARNING)

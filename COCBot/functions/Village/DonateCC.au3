@@ -480,6 +480,15 @@ Func DonateCC($Check = False)
 		Else
 			If $g_iDebugSetlog = 1 Then Setlog("No more Donate buttons found, closing chat ($y=" & $y & ")", $COLOR_DEBUG)
 
+		; Scroll Down
+			$Scroll = _PixelSearch(293, 687 - 30, 295, 693 - 30, Hex(0xFFFFFF, 6), 20)
+			If IsArray($Scroll) Then
+				$bDonate = True
+				Click($Scroll[0], $Scroll[1], 1, 0, "#0172")
+				$y = 600
+				If _Sleep($DELAYDONATECC2) Then ExitLoop
+				ContinueLoop
+			EndIf
 
 			;train Donate only; Stay in Donate for a time Waiting for more requests
 				; Conditions to leave
@@ -503,24 +512,13 @@ Func DonateCC($Check = False)
 				If $g_bSetlogOnlyOnce = 0 Then SetLog ( "Donate will Return to Train in " & $iReturntoTrainTime & " Min's")
 				$g_bSetlogOnlyOnce = 1 ; Value is Reset to zero after a Donated Troop/Spell Click
 				If $iReturntoTrainTime > 0 Then
-					$y = 570 ; only watch bottom last space need for a donate.
+					$y = 400 ; 400 approx bottom half - 570 bottom last space need for a donate.
 					ContinueLoop
 				Else
 					SetLog ( "Returning to Check on Troop Training")
 					ExitLoop
 				EndIf
 			EndIf
-
-		EndIf
-
-	; Scroll Down
-		$Scroll = _PixelSearch(293, 687 - 30, 295, 693 - 30, Hex(0xFFFFFF, 6), 20)
-		If IsArray($Scroll) Then
-			$bDonate = True
-			Click($Scroll[0], $Scroll[1], 1, 0, "#0172")
-			$y = 600
-			If _Sleep($DELAYDONATECC2) Then ExitLoop
-			ContinueLoop
 		EndIf
 
 		$bDonate = False
@@ -773,7 +771,13 @@ Func DonateTroopType(Const $iTroopIndex, $Quant = 0, Const $Custom = False, Cons
 							_ColorCheck(_GetPixelColor(355 + ($Slot * 68), $g_iDonationWindowY + 106 + $YComp, True), Hex(0x306ca8, 6), 20) Or _
 							_ColorCheck(_GetPixelColor(360 + ($Slot * 68), $g_iDonationWindowY + 107 + $YComp, True), Hex(0x306ca8, 6), 20) Then ; check for 'blue'
 
-						Click(365 + ($Slot * 68), $g_iDonationWindowY + 57 + $YComp, $g_iDonTroopsQuantity, $DELAYDONATECC3, "#0175")
+						;add a verify if donate window still open to prevent extra click closing the chat window
+						For $x = 0 To $g_iDonTroopsQuantity
+							If _ColorCheck(_GetPixelColor(331, $g_aiDonatePixel[1], True, "DonateWindow"), Hex(0xffffff, 6), 0) = True Then ; Verify if open, otherwise do nothing
+								Click(365 + ($Slot * 68), $g_iDonationWindowY + 57 + $YComp, 1, $DELAYDONATECC3, "#0175") ; delay is 50
+							EndIf
+						Next
+
 						$g_bSetlogOnlyOnce = 0
 						$g_hTimerPreventTimeOut = TimerInit()
 						$g_aiDonateStatsTroops[$iTroopIndex][0] += $g_iDonTroopsQuantity

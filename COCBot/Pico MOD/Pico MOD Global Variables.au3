@@ -193,3 +193,7 @@ Global $chkForecastHopingSwitchMax = 0, $lblForecastHopingSwitchMax = 0, $txtFor
 Global $ichkForecastHopingSwitchMax = 0, $icmbForecastHopingSwitchMax = 0 , $itxtForecastHopingSwitchMax = 2, $ichkForecastHopingSwitchMin = 0, $icmbForecastHopingSwitchMin = 0, $itxtForecastHopingSwitchMin = 2
 Global $icmbSwLang = 0
 Global $cmbSwLang = 0
+
+; Ezeck0001
+
+Global $g_hCurrentDonateButtonBitMap = 0
