@@ -85,6 +85,7 @@ Func displayWeakBaseLog($aResult, $showLog = False)
 		SetLog("Highest Air Defense: " & $aResult[6][0] & " - Level: " & $aResult[6][2], $COLOR_INFO)
 		SetLog("Time taken: " & $aResult[0][2] & " " & $aResult[0][3], $COLOR_INFO)
 		SetLog("================ Weak Base Detection Stop =================", $COLOR_INFO)
+
 	EndIf
 EndFunc   ;==>displayWeakBaseLog
 
@@ -140,12 +141,28 @@ Func getMinUISetting($settingArray, $iDefenseType)
 EndFunc   ;==>getMinUISetting
 
 Func getIsWeak($aResults, $searchType)
-	Return $aResults[$eWeakEagle][2] <= Number($g_aiFilterMaxEagleLevel[$searchType]) _
+
+	Local $result = $aResults[$eWeakEagle][2] <= Number($g_aiFilterMaxEagleLevel[$searchType]) _
 			And $aResults[$eWeakInferno][2] <= Number($g_aiFilterMaxInfernoLevel[$searchType]) _
 			And $aResults[$eWeakXBow][2] <= Number($g_aiFilterMaxXBowLevel[$searchType]) _
 			And $aResults[$eWeakWizard][2] <= Number($g_aiFilterMaxWizTowerLevel[$searchType]) _
 			And $aResults[$eWeakMortar][2] <= Number($g_aiFilterMaxMortarLevel[$searchType]) _
 			And $aResults[$eWeakAirDefense][2] <= Number($g_aiFilterMaxAirDefenseLevel[$searchType])
+
+	Local $text = "DB"
+	If $searchType = 1 Then $text = "LB"
+	Setlog("================ Weak Base Detection Start ================")
+	If $g_abFilterMaxEagleEnable[$searchType] Then Setlog("[" & $text & "] Eagle level " & $g_aiFilterMaxEagleLevel[$searchType] & " as max, detection higher level : " & $aResults[$eWeakEagle][2], $COLOR_DEBUG)
+	If $g_abFilterMaxInfernoEnable[$searchType] Then Setlog("[" & $text & "] Inferno level " & $g_aiFilterMaxInfernoLevel[$searchType] & " as max, detection higher level: " & $aResults[$eWeakInferno][2], $COLOR_DEBUG)
+	If $g_abFilterMaxXBowEnable[$searchType] Then Setlog("[" & $text & "] XBow level " & $g_aiFilterMaxXBowLevel[$searchType] & " as max, detection higher level: " & $aResults[$eWeakXBow][2], $COLOR_DEBUG)
+	If $g_abFilterMaxWizTowerEnable[$searchType] Then Setlog("[" & $text & "] WTower level " & $g_aiFilterMaxWizTowerLevel[$searchType] & " as max, detection higher level: " & $aResults[$eWeakWizard][2], $COLOR_DEBUG)
+	If $g_abFilterMaxMortarEnable[$searchType] Then Setlog("[ " & $text & "] Mortar level " & $g_aiFilterMaxMortarLevel[$searchType] & " as max, detection higher level: " & $aResults[$eWeakMortar][2], $COLOR_DEBUG)
+	If $g_abFilterMaxAirDefenseEnable[$searchType] Then Setlog("[" & $text & "] AirDef level " & $g_aiFilterMaxAirDefenseLevel[$searchType] & " as max, detection higher level: " & $aResults[$eWeakAirDefense][2], $COLOR_DEBUG)
+	Setlog("Is a Weak Base? " & $result)
+	Setlog("================ Weak Base Detection Stop =================")
+
+	Return $result
+
 EndFunc   ;==>getIsWeak
 
 Func IsWeakBaseActive($type)
@@ -178,16 +195,18 @@ Func defenseSearch(ByRef $aResult, $directory, $townHallLevel, $settingArray, $i
 		If $guiCheckDefense And $maxSearchLevel >= $minSearchLevel Then
 			; Check the defense.
 			Local $sDefenseName = StringSplit($directory, "\", $STR_NOCOUNT)
-			If $g_iDebugSetlog Then SetLog("checkDefense :" & $sDefenseName[UBound($sDefenseName) - 1] & " > " & $minSearchLevel & " < " & $maxSearchLevel & " For TH:" & $townHallLevel, $COLOR_ORANGE)
+			If $g_iDebugSetlog Then SetLog("check Defense :" & $sDefenseName[UBound($sDefenseName) - 1] & " >= " & $minSearchLevel & " =< " & $maxSearchLevel & " For TH:" & $townHallLevel, $COLOR_ORANGE)
 			$aDefenseResult = DefenseSearchMultiMatch($iDefenseType, $directory, $aResult[0][0], $g_sProfileBuildingStatsPath, $minSearchLevel, $maxSearchLevel, $bForceCaptureRegion)
 			; Store the redlines retrieved for use in the later searches, if you don't currently have redlines saved.
 			If $aResult[0][0] = "" Then $aResult[0][0] = $aDefenseResult[6]
 			; Check to see if further searches are required, $performSearch is passed ByRef, so this will update the value in the calling function
 			If Number($aDefenseResult[2]) > getMaxUISetting($settingArray, $iDefenseType) Then $performSearch = False
-			If $g_iDebugSetlog = 1 Then SetLog("checkDefense: " & $g_aWeakDefenseNames[$iDefenseType] & " - " & Round(__TimerDiff($defenseTimer) / 1000, 2) & " seconds")
+			If $g_iDebugSetlog = 1 Then SetLog("check Defense: " & $g_aWeakDefenseNames[$iDefenseType] & " - " & Round(__TimerDiff($defenseTimer) / 1000, 2) & " seconds")
 		Else
 			$aDefenseResult = $aNotNecessary
-			If $g_iDebugSetlog = 1 Then SetLog("checkDefense: " & $g_aWeakDefenseNames[$iDefenseType] & " not necessary!")
+			If $g_iDebugSetlog = 1 Then SetLog("check Defense: " & $g_aWeakDefenseNames[$iDefenseType] & " not necessary!")
+			If Not $guiCheckDefense Then SetLog($g_aWeakDefenseNames[$iDefenseType] & " Not Checked on GUI")
+			If $maxSearchLevel < $minSearchLevel Then SetLog($g_aWeakDefenseNames[$iDefenseType] & " Min to detect is higher for Enemy TownHall level")
 		EndIf
 	EndIf
 
@@ -260,7 +279,7 @@ Func IsWeakBase($townHallLevel = 11, $redlines = "", $bForceCaptureRegion = True
 	; Forces the display of the various statistical displays, if set to true
 	; displayWeakBaseLog($aResult, true)
 	; Displays the various statistical displays, if debug logging is enabled
-	displayWeakBaseLog($aResult, $g_iDebugSetlog = 1)
+	; displayWeakBaseLog($aResult, $g_iDebugSetlog = 1)
 
 	If $g_iDebugSetlog = 1 Then
 		_LogObjList($g_oBldgAttackInfo) ; raw debug only!
@@ -570,6 +589,7 @@ Func isScriptedAttackActive()
 	If ($g_abAttackTypeEnable[$DB] And $g_aiAttackAlgorithm[$DB] = 1) Or ($g_abAttackTypeEnable[$LB] And $g_aiAttackAlgorithm[$LB] = 1) Then Return True
 	Return False
 EndFunc   ;==>isScriptedAttackActive
+
 
 
 
