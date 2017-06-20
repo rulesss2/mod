@@ -19,7 +19,7 @@
 #Au3Stripper_Parameters=/rsln /MI=3
 ;/SV=0
 #AutoIt3Wrapper_Change2CUI=y
-#pragma compile(Console, true)
+;#pragma compile(Console, true)
 #pragma compile(Icon, "Images\MyBot.ico")
 #pragma compile(FileDescription, Clash of Clans Bot - A Free Clash of Clans bot - https://mybot.run)
 #pragma compile(ProductName, My Bot)

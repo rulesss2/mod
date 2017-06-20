@@ -29,6 +29,7 @@
 	- Fixed Profile Page report when exist a 'claim reward' button visible
 	- Fixed CC Request Remain Time, May SC update
 	- Fixed the Weak Base detection for Air Defenses
+	- Fixed Boosted Heroes Buttons
 	- Improvements on Weak Base log
 	- Improvements to donate window detection and when grayed troop is in first slot fix
 	- Improvements Zoomout Setlog and Tidy code
@@ -44,11 +45,12 @@
 	- Added Classic FFF
 	- Added 'Start' cmd to Telegram
 	- Added Unicode send text on Request CC with **MEmu**
-	- Added check if the Barracks or Spell Factory are boosted , divide by 4 the remain train time.
+	- Added Check if the Barracks or Spell Factory are boosted.
 	- Added Switch Account from Rorotiti
 	- Added Treasury from Rorotiti
 	- Added Humanization Features from Rorotiti
 	- Added Drop Troops Order on standard Attack
+	- Removed The Donate Ratio from Donate, only disable Castle usage on attack
 							
 							
  				 Doc Oc v3.6.1												   

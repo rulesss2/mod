@@ -44,7 +44,7 @@ Func getArmySpellTime($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bSet
 	$g_aiTimeTrain[1] = ConvertOCRTime("Spells", $sResultSpells, $bSetLog) ; update global array
 
 	If $bBoosted then
-		$g_aiTimeTrain[1] = $g_aiTimeTrain[1] / 4
+		;$g_aiTimeTrain[1] = $g_aiTimeTrain[1] / 4
 		Setlog("Boosted Spells Factory detected!", $COLOR_INFO)
 	EndIf
 

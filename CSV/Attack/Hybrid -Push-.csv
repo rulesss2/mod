@@ -21,11 +21,11 @@ MAKE  |C          |FRONT-LEFT |8          |1          |EXT-INT    |0          |1
 MAKE  |D          |FRONT-RIGHT|8          |1          |EXT-INT    |0          |1          |           |
 MAKE  |E          |LEFT-FRONT |10         |1          |INT-EXT    |0          |1          |           |
 MAKE  |F          |RIGHT-FRONT|10         |1          |INT-EXT    |0          |1          |           |
-MAKE  |G          |FRONT-RIGHT|14         |1          |EXT-INT    |0          |1          |           | 
+MAKE  |G          |FRONT-RIGHT|14         |1          |EXT-INT    |0          |1          |           |
 MAKE  |H          |FRONT-RIGHT|1          |0          |IGNORE     |0          |0          |INFERNO    |
 MAKE  |I          |FRONT-LEFT |0          |0          |IGNORE     |0          |0          |EAGLE      |
 MAKE  |J          |FRONT-RIGHT|1          |0          |IGNORE     |0          |0          |TOWNHALL   |
-MAKE  |K          |FRONT-LEFT |14         |1          |EXT-INT    |0          |1          |           | 
+MAKE  |K          |FRONT-LEFT |14         |1          |EXT-INT    |0          |1          |           |
 MAKE  |L          |FRONT-LEFT |10         |3          |INT-EXT    |0          |1          |           |
 MAKE  |M          |FRONT-RIGHT|10         |3          |INT-EXT    |0          |1          |           |
 MAKE  |N          |BACK-RIGHT |14         |1          |EXT-INT    |0          |1          |           | EXTRA
@@ -61,6 +61,7 @@ DROP  |G-K        |1-14       |50%        |arch       |20-30      |20-30      |1
 DROP  |C-D        |1-4        |15%        |wiza       |20-30      |0          |100-200    |           |
 DROP  |A-B        |1-8        |35%        |wiza       |20-30      |0          |100-200    |           |
 DROP  |B          |1          |1          |castle     |0          |0          |200-300    |           |
+DROP  |B          |0          |100%       |Wall       |0          |0          |50         |           |
 DROP  |A-B        |1,4        |50%        |Witc       |10-50      |0          |500-1000   |           |
 DROP  |A          |1          |1          |warden     |0          |0          |500-600    |           |
 DROP  |C-D        |2-8        |50%        |drag       |20-30      |20-30      |300-600    |           |
@@ -71,7 +72,6 @@ DROP  |Z          |11         |1          |HaSpell    |0          |0          |1
 DROP  |C-D        |2-8        |50%        |Mini       |50-60      |20-30      |300-500    |           |
 DROP  |Z          |0          |1          |RSpell     |1          |0          |100-200    |           |
 DROP  |A          |1          |1          |king       |0          |0          |200-300    |           |
-DROP  |B          |0          |100%       |Wall       |0          |0          |50         |           |
 DROP  |X          |0          |1          |Jspell     |0          |0          |500-600    |           |
 DROP  |P          |0          |1          |Jspell     |0          |0          |500-600    |           |
 DROP  |I          |1          |1          |FSpell     |0          |0          |0          |           |
@@ -90,7 +90,7 @@ DROP  |A-B        |3          |80%        |gobl       |10-20      |10-20      |4
 DROP  |A          |1          |1          |warden     |0          |0          |500-600    |           |
 DROP  |H          |1          |1          |FSpell     |0          |0          |0          |           |
 DROP  |R          |0          |1          |RSpell     |0          |0          |100-200    |3000-4000  |
-DROP  |R          |0          |1          |HSpell     |1          |0          |100-200    |3000-4000  |
+DROP  |R          |0          |1          |HSpell     |1          |0          |100-200    |2000-3000  |
 DROP  |S          |0          |1          |HaSpell    |0          |0          |100        |           |
 RECALC|           |           |           |           |0          |0          |0          |           |
 DROP  |S          |5          |1          |HaSpell    |0          |0          |100        |           |

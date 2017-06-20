@@ -44,7 +44,7 @@ Func getArmyTroopTime($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bSet
 	$g_aiTimeTrain[0] = ConvertOCRTime("Troops", $sResultTroops, $bSetLog) ; update global array ;value is in min's
 
 	If $bBoosted then
-		$g_aiTimeTrain[0] = $g_aiTimeTrain[0] / 4
+		;$g_aiTimeTrain[0] = $g_aiTimeTrain[0] / 4
 		Setlog("Boosted Barracks detected!", $COLOR_INFO)
 	EndIf
 
