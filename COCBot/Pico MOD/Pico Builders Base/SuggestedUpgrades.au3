@@ -292,24 +292,26 @@ EndFunc   ;==>GetUpgradeButton
 
 Func NewBuildings($aResult)
 
+	Local $Screencap = True, $Debug = False
+
 	If UBound($aResult) = 3 And $aResult[2] = "New" Then
 		Local $directory = @ScriptDir & "\imgxml\Resources\PicoBuildersBase\AutoUpgrade\NewBuildings\Shop"
 		; The $g_iQuickMISX and $g_iQuickMISY haves the coordinates compansation from 'New' | GetIconPosition()
 		Click($aResult[0], $aResult[1], 1)
 		If _Sleep(3000) Then Return
 		; Shop page opened , let see if exist the White zero from Building costs and click
-		If QuickMIS("BC1", $directory, 320, 520, 542, 562, True, True) Then
+		If QuickMIS("BC1", $directory, 320, 520, 542, 562, $Screencap, $Debug) Then
 			Click($g_iQuickMISX + 320, $g_iQuickMISY + 520, 1)
 			If _Sleep(3000) Then Return
 			; Lets search for the Correct Symbol on field
 			$directory = @ScriptDir & "\imgxml\Resources\PicoBuildersBase\AutoUpgrade\NewBuildings\Yes"
-			If QuickMIS("BC1", $directory, 150, 150, 650, 550, True, True) Then
+			If QuickMIS("BC1", $directory, 150, 150, 650, 550, $Screencap, $Debug) Then
 				Click($g_iQuickMISX + 150, $g_iQuickMISY + 150, 1)
 				Setlog("Placed a new Building on Builder Island! [" & $g_iQuickMISX + 150 & "," & $g_iQuickMISY + 150 & "]", $COLOR_INFO)
 				Return True
 			Else
 				$directory = @ScriptDir & "\imgxml\Resources\PicoBuildersBase\AutoUpgrade\NewBuildings\No"
-				If QuickMIS("BC1", $directory, 150, 150, 650, 550, True, True) Then
+				If QuickMIS("BC1", $directory, 150, 150, 650, 550, $Screencap, $Debug) Then
 					Setlog("Sorry! Wrong place to deploy a new building on BB! [" & $g_iQuickMISX + 150 & "," & $g_iQuickMISY + 150 & "]", $COLOR_ERROR)
 					Click($g_iQuickMISX + 150, $g_iQuickMISY + 150, 1)
 				Else
