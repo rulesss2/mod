@@ -20,6 +20,7 @@
 #include "Pico QuickMIS.au3"
 #include "Pico Four Finger Classic.au3"
 #include "Pico SendText.au3"
+#include "Pico Attack Now.au3"
 
 #include "Pico Troops Dropping Order\Pico Drop Order GUI.au3"
 #include "Pico Troops Dropping Order\Pico Drop Order.au3"

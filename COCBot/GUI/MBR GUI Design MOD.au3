@@ -523,7 +523,7 @@ Func TabItem5()
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 
 	; New group
-	Local $x = 13, $y = 220
+	Local $x = 13, $y = 215
 
 	GUICtrlCreateGroup("Suggested Upgrades ", $x - 10, $y - 20, 442, 233)
 

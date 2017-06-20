@@ -126,10 +126,10 @@ Func InitializeBot()
 
 	InitAndroidConfig()
 
-	If FileExists(@ScriptDir & "\EnableMBRDebug.txt") Then  ; Set developer mode
+	If FileExists(@ScriptDir & "\EnableMBRDebug.txt") Then ; Set developer mode
 		$g_bDevMode = True
 		Local $aText = FileReadToArray(@ScriptDir & "\EnableMBRDebug.txt") ; check if special debug flags set inside EnableMBRDebug.txt file
-		If Not @error  Then
+		If Not @error Then
 			For $l = 0 To UBound($aText) - 1
 				If StringInStr($aText[$l], "DISABLEWATCHDOG", $STR_NOCASESENSEBASIC) <> 0 Then
 					$g_bBotLaunchOption_NoWatchdog = True
@@ -148,7 +148,7 @@ Func InitializeBot()
 	CreateSplashScreen() ; Create splash window
 
 	; Ensure watchdog is launched (requires Bot Window for messaging)
-	;If $g_bBotLaunchOption_NoWatchdog = False Then LaunchWatchdog()
+	If $g_bBotLaunchOption_NoWatchdog = False Then LaunchWatchdog()
 
 	InitializeMBR($sAndroidInfo)
 
@@ -202,8 +202,8 @@ Func ProcessCommandLine()
 					$g_bBotLaunchOption_Restart = True
 				Case "/autostart", "/a", "-autostart", "-a"
 					$g_bBotLaunchOption_Autostart = True
-				;Case "/nowatchdog", "/nwd", "-nowatchdog", "-nwd"
-				;	$g_bBotLaunchOption_NoWatchdog = True
+				Case "/nowatchdog", "/nwd", "-nowatchdog", "-nwd"
+					$g_bBotLaunchOption_NoWatchdog = True
 				Case "/dpiaware", "/da", "-dpiaware", "-da"
 					$g_bBotLaunchOption_ForceDpiAware = True
 				Case "/dock1", "/d1", "-dock1", "-d1", "/dock", "/d", "-dock", "-d"
@@ -574,9 +574,9 @@ Func MainLoop()
 	While 1
 		_Sleep($DELAYSLEEP, True, False)
 
-		If $g_bRunState = False AND ($g_bNotifyPBEnable = True Or $g_bNotifyTGEnable = True) AND $g_bNotifyRemoteEnable = True  Then
-	      NotifyRemoteControlProcBtnStart()
-	    EndIf
+		If $g_bRunState = False And ($g_bNotifyPBEnable = True Or $g_bNotifyTGEnable = True) And $g_bNotifyRemoteEnable = True Then
+			NotifyRemoteControlProcBtnStart()
+		EndIf
 
 		Switch $g_iBotAction
 			Case $eBotStart
@@ -606,11 +606,11 @@ EndFunc   ;==>MainLoop
 Func runBot() ;Bot that runs everything in order
 	Local $iWaitTime
 
-; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
+	; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
 	; if Emulator is MEmu, is necessary to make the emulator ready to be used with Unicode send text
 	If $g_sAndroidEmulator = "MEmu" Then prepareAndroidForUnicodeText()
 	If $g_bFirstInit Then SwitchAccount(True)
-; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
+	; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
 
 	While 1
 		;Check for debug wait command
@@ -648,10 +648,10 @@ Func runBot() ;Bot that runs everything in order
 			checkMainScreen(False)
 
 
-;====== Added Ezeck
+			;====== Added Ezeck
 			Setlog("Checking the Hero's / Lab Status", $COLOR_INFO)
 			HeroLabGuiDisplay() ; Early Update of Hero Lab Status
-;==================
+			;==================
 
 
 			If $g_bRestart = True Then ContinueLoop
@@ -736,19 +736,19 @@ Func runBot() ;Bot that runs everything in order
 				EndIf
 			EndIf
 
-;===========Ezeck 6-14-2017=================
-;when 'train/donate only' is the condition.. and camps fill. and func idle is never called (it happens)... donates never happen because of IsSearchAttackEnabled
-; Adding a Call to donateCC() when train donate only is the condition
+			;===========Ezeck 6-14-2017=================
+			;when 'train/donate only' is the condition.. and camps fill. and func idle is never called (it happens)... donates never happen because of IsSearchAttackEnabled
+			; Adding a Call to donateCC() when train donate only is the condition
 
 			If ($g_iCommandStop = 3 Or $g_iCommandStop = 0) Then ; Train Donate only - force a donate cc everytime, Ignore any SkipDonate Near Full Values
 				DonateCC()
 			EndIf
-;============================================
+			;============================================
 
 
-; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
+			; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
 			AutoUpgrade()
-; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
+			; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
 
 			Local $aRndFuncList = ['Laboratory', 'UpgradeHeroes', 'UpgradeBuilding']
 			While 1
@@ -833,7 +833,7 @@ Func Idle() ;Sequence that runs until Full Army
 	; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
 	;While $g_bIsFullArmywithHeroesAndSpells = False
 	While ($g_bIsFullArmywithHeroesAndSpells = False) Or (CheckDelayStayOnAccount() = True)
-	; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
+		; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
 
 		checkAndroidReboot()
 
@@ -863,9 +863,15 @@ Func Idle() ;Sequence that runs until Full Army
 					ExitLoop
 				EndIf
 
-				If $iReHere = 1 And SkipDonateNearFullTroops(True, $aHeroResult) = False And BalanceDonRec(True) Then
+;~ 				If $iReHere = 1 And SkipDonateNearFullTroops(True, $aHeroResult) = False And BalanceDonRec(True) Then
+;~ 					DonateCC(True)
+;~ 				ElseIf SkipDonateNearFullTroops(False, $aHeroResult) = False And BalanceDonRec(False) Then
+;~ 					DonateCC(True)
+;~ 				EndIf
+
+				If $iReHere = 1 And SkipDonateNearFullTroops(True, $aHeroResult) = False Then
 					DonateCC(True)
-				ElseIf SkipDonateNearFullTroops(False, $aHeroResult) = False And BalanceDonRec(False) Then
+				ElseIf SkipDonateNearFullTroops(False, $aHeroResult) = False Then
 					DonateCC(True)
 				EndIf
 
@@ -1097,14 +1103,14 @@ Func _RunFunction($action)
 			Collect()
 			_Sleep($DELAYRUNBOT1)
 
-; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
+			; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
 		Case "CollectTreasury"
 			CollectTreasury()
 			_Sleep($DELAYRUNBOT1)
 		Case "GoToBBFeatures"
 			GoToBBFeatures()
 			_Sleep($DELAYRUNBOT1)
-; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
+			; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
 
 		Case "CheckTombs"
 			CheckTombs()
@@ -1123,7 +1129,8 @@ Func _RunFunction($action)
 		Case "DonateCC"
 			If $g_iActiveDonate And $g_bChkDonate Then
 				;If $g_bDonateSkipNearFullEnable = True and $g_bFirstStart = False Then getArmyCapacity(True, True)
-				If SkipDonateNearFullTroops(True) = False And BalanceDonRec(True) Then DonateCC()
+				;If SkipDonateNearFullTroops(True) = False And BalanceDonRec(True) Then DonateCC()
+				If SkipDonateNearFullTroops(True) = False Then DonateCC()
 				If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
 			EndIf
 		Case "SendChat"
@@ -1136,7 +1143,8 @@ Func _RunFunction($action)
 					getArmyCapacity(True, False)
 					getArmySpellCapacity(False, True)
 				EndIf
-				If SkipDonateNearFullTroops(True) = False And BalanceDonRec(True) Then DonateCC()
+				;If SkipDonateNearFullTroops(True) = False And BalanceDonRec(True) Then DonateCC()
+				If SkipDonateNearFullTroops(True) = False Then DonateCC()
 			EndIf
 			If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
 			If $g_bTrainEnabled Then ; check for training enabled in halt mode
