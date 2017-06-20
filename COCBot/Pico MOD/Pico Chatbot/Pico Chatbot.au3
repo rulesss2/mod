@@ -70,6 +70,17 @@
 
 ;EndFunc   ;==>ChatGuiCheckboxUpdate
 
+
+Func chkGlobalChat()
+    $ChatbotChatGlobal = 1
+	If GUICtrlRead($chkForecastPause) = $GUI_CHECKED Then
+		GUICtrlSetState($ChatbotChatGlobal, $GUI_ENABLE)
+	Else
+	$ChatbotChatGlobal = 0
+		GUICtrlSetState($ChatbotChatGlobal, $GUI_DISABLE)
+	EndIf
+EndFunc
+
 Func ChatGuiCheckbox()
 	If GUICtrlRead($chkGlobalChat) = $GUI_CHECKED Then
 		GUICtrlSetState($chkGlobalScramble, $GUI_ENABLE)
