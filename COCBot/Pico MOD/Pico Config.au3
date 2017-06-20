@@ -133,7 +133,7 @@ Func ReadConfig_PicoMod()
 	IniReadS($itxtForecastHopingSwitchMin, $g_sProfileConfigPath, "Pico Forecast", "txtForecastHopingSwitchMin", 2, "Int")
 	IniReadS($icmbSwLang, $g_sProfileConfigPath, "Pico Forecast", "cmbSwLang", 1, "int")
 	
-	IniReadS($ChatbotChatGlobal, $g_sProfileConfigPath, "Pico Chatbot", "ChatbotChatGlobal", 0, "Int")
+	IniReadS($ChatbotChatGlobal, $g_sProfileConfigPath, "Pico Chatbot", "ChatbotChatGlobal", False, "Int")
 	
 EndFunc   ;==>ReadConfig_PicoMod
 
@@ -255,7 +255,7 @@ Func SaveConfig_PicoMod()
 	_Ini_Add("Pico Forecast", "chkForecastHopingSwitchMin", $ichkForecastHopingSwitchMin ? 1 : 0)
 	_Ini_Add("Pico Forecast", "cmbSwLang", _GUICtrlComboBox_GetCurSel($cmbSwLang))
 	
-	_Ini_Add("Pico Chatbot", "ChatbotChatGlobal", $ChatbotChatGlobal ? 1 : 0)
+	_Ini_Add("Pico Chatbot", "ChatbotChatGlobal", $ChatbotChatGlobal ? True : False)
 
 EndFunc   ;==>SaveConfig_PicoMod
 
@@ -380,7 +380,7 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 			$itxtForecastHopingSwitchMin = GUICtrlRead($txtForecastHopingSwitchMin)
 			$icmbSwLang = _GUICtrlComboBox_GetCurSel($cmbSwLang)
 			
-			$ChatbotChatGlobal = GUICtrlRead($chkGlobalChat) = $GUI_CHECKED ? 1 : 0
+			$ChatbotChatGlobal = GUICtrlRead($chkGlobalChat) = $GUI_CHECKED ? True : False
 			
 		Case "Read"
 

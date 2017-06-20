@@ -641,10 +641,8 @@ Func TabItem6()
    $editGeneric = GUICtrlCreateEdit(_ArrayToString($ClanMessages, @CRLF), $x - 15, $y, 206, 80)
    GUICtrlSetTip($editGeneric, "Generic messages to send, one per line")
    GUICtrlSetOnEvent(-1, "editGeneric")
-
-   ChatGuicheckbox()
-   ChatGuiEditUpdate()
    
+   chkGlobalChat()   
 EndFunc   ;==>TabItem6
 
 Func TabItem7()

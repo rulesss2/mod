@@ -72,60 +72,61 @@
 
 
 Func chkGlobalChat()
-    $ChatbotChatGlobal = 1
-	If GUICtrlRead($chkForecastPause) = $GUI_CHECKED Then
-		GUICtrlSetState($ChatbotChatGlobal, $GUI_ENABLE)
+    $ChatbotChatGlobal = True
+    If GUICtrlRead(chkGlobalChat) = $GUI_CHECKED Then
+		GUICtrlSetState($chkGlobalScramble, $GUI_ENABLE)
 	Else
-	$ChatbotChatGlobal = 0
-		GUICtrlSetState($ChatbotChatGlobal, $GUI_DISABLE)
+	$ChatbotChatGlobal = False
+		GUICtrlSetState($chkGlobalScramble, $GUI_DISABLE)
 	EndIf
 EndFunc
 
-Func ChatGuiCheckbox()
-	If GUICtrlRead($chkGlobalChat) = $GUI_CHECKED Then
-		GUICtrlSetState($chkGlobalScramble, $GUI_ENABLE)
-		GUICtrlSetState($chkGlobChatTimeDalay, $GUI_ENABLE)
-		GUICtrlSetState($chkSwitchLang, $GUI_ENABLE)
-		GUICtrlSetState($cmbLang, $GUI_SHOW)
-		GUICtrlSetState($editGlobalMessages1, $GUI_ENABLE)
-		GUICtrlSetState($editGlobalMessages2, $GUI_ENABLE)
-		GUICtrlSetState($editGlobalMessages3, $GUI_ENABLE)
-		GUICtrlSetState($editGlobalMessages4, $GUI_ENABLE)
-	Else
-		GUICtrlSetState($chkGlobalScramble, $GUI_DISABLE)
-		GUICtrlSetState($chkGlobChatTimeDalay, $GUI_DISABLE)
-		GUICtrlSetState($chkSwitchLang, $GUI_DISABLE)
-	    GUICtrlSetState($cmbLang, $GUI_INDETERMINATE)
-		GUICtrlSetState($editGlobalMessages1, $GUI_DISABLE)
-		GUICtrlSetState($editGlobalMessages2, $GUI_DISABLE)
-		GUICtrlSetState($editGlobalMessages3, $GUI_DISABLE)
-		GUICtrlSetState($editGlobalMessages4, $GUI_DISABLE)
-	EndIf
-	If GUICtrlRead($chkClanChat) = $GUI_CHECKED Then
-		GUICtrlSetState($chkUseResponses, $GUI_ENABLE)
-		GUICtrlSetState($chkUseGeneric, $GUI_ENABLE)
-		GUICtrlSetState($chkChatPushbullet, $GUI_ENABLE)
-		GUICtrlSetState($chkPbSendNewChats, $GUI_ENABLE)
-		GUICtrlSetState($editResponses, $GUI_ENABLE)
-		GUICtrlSetState($editGeneric, $GUI_ENABLE)
-	Else
-		GUICtrlSetState($chkUseResponses, $GUI_DISABLE)
-		GUICtrlSetState($chkUseGeneric, $GUI_DISABLE)
-		GUICtrlSetState($chkChatPushbullet, $GUI_DISABLE)
-		GUICtrlSetState($chkPbSendNewChats, $GUI_DISABLE)
-		GUICtrlSetState($editResponses, $GUI_DISABLE)
-		GUICtrlSetState($editGeneric, $GUI_DISABLE)
-	EndIf
+
+;Func ChatGuiCheckbox()
+;   If GUICtrlRead($chkGlobalChat) = $GUI_CHECKED Then
+;	   GUICtrlSetState($chkGlobalScramble, $GUI_ENABLE)
+;		GUICtrlSetState($chkGlobChatTimeDalay, $GUI_ENABLE)
+;		GUICtrlSetState($chkSwitchLang, $GUI_ENABLE)
+;		GUICtrlSetState($cmbLang, $GUI_SHOW)
+;		GUICtrlSetState($editGlobalMessages1, $GUI_ENABLE)
+;		GUICtrlSetState($editGlobalMessages2, $GUI_ENABLE)
+;		GUICtrlSetState($editGlobalMessages3, $GUI_ENABLE)
+;		GUICtrlSetState($editGlobalMessages4, $GUI_ENABLE)
+;	Else
+;		GUICtrlSetState($chkGlobalScramble, $GUI_DISABLE)
+;		GUICtrlSetState($chkGlobChatTimeDalay, $GUI_DISABLE)
+;		GUICtrlSetState($chkSwitchLang, $GUI_DISABLE)
+;	    GUICtrlSetState($cmbLang, $GUI_INDETERMINATE)
+;		GUICtrlSetState($editGlobalMessages1, $GUI_DISABLE)
+;		GUICtrlSetState($editGlobalMessages2, $GUI_DISABLE)
+;		GUICtrlSetState($editGlobalMessages3, $GUI_DISABLE)
+;		GUICtrlSetState($editGlobalMessages4, $GUI_DISABLE)
+;	EndIf
+;	If GUICtrlRead($chkClanChat) = $GUI_CHECKED Then
+;		GUICtrlSetState($chkUseResponses, $GUI_ENABLE)
+;		GUICtrlSetState($chkUseGeneric, $GUI_ENABLE)
+;		GUICtrlSetState($chkChatPushbullet, $GUI_ENABLE)
+;		GUICtrlSetState($chkPbSendNewChats, $GUI_ENABLE)
+;		GUICtrlSetState($editResponses, $GUI_ENABLE)
+;		GUICtrlSetState($editGeneric, $GUI_ENABLE)
+;	Else
+;		GUICtrlSetState($chkUseResponses, $GUI_DISABLE)
+;		GUICtrlSetState($chkUseGeneric, $GUI_DISABLE)
+;		GUICtrlSetState($chkChatPushbullet, $GUI_DISABLE)
+;		GUICtrlSetState($chkPbSendNewChats, $GUI_DISABLE)
+;		GUICtrlSetState($editResponses, $GUI_DISABLE)
+;		GUICtrlSetState($editGeneric, $GUI_DISABLE)
+;	EndIf
 ;=====================kychera============
-	If  GUICtrlRead($chkGlobalChat) = $GUI_CHECKED And GUICtrlRead($chkSwitchLang) = $GUI_CHECKED Then
-	    GUICtrlSetState($cmbLang, $GUI_ENABLE)
-	Else
-     	GUICtrlSetState($cmbLang, $GUI_DISABLE)
-	EndIf	
-	_GUICtrlComboBox_SetCurSel($cmbLang, $icmbLang)
-	$icmbLang = _GUICtrlComboBox_GetCurSel($cmbLang)
+;	If  GUICtrlRead($chkGlobalChat) = $GUI_CHECKED And GUICtrlRead($chkSwitchLang) = $GUI_CHECKED Then
+;	    GUICtrlSetState($cmbLang, $GUI_ENABLE)
+;	Else
+ ;    	GUICtrlSetState($cmbLang, $GUI_DISABLE)
+	;EndIf	
+;	_GUICtrlComboBox_SetCurSel($cmbLang, $icmbLang)
+;	$icmbLang = _GUICtrlComboBox_GetCurSel($cmbLang)
 ;========================================
-EndFunc   ;==>ChatGuiCheckbox
+;EndFunc   ;==>ChatGuiCheckbox
 
 Func ChatGuiCheckboxDisableAT()
 	For $i = $chkGlobalChat To $editGeneric ; Save state of all controls on tabs
