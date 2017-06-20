@@ -172,7 +172,7 @@ Global $GlobalMessages4 = ""
 Global $ChatbotStartTime
 Global $message = ""
 Global $globChatTimeDalay 
-Global $ichkGlobChatIdleTime = 0
+Global $ichkGlobChatTimeDalay = 0
 Global $startGlobChatTimer = TimerInit()
 
 ; Forecast - (modification rulesss,kychera)
