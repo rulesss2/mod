@@ -75,6 +75,7 @@ Global $chkUseResponses = 0,$chkUseGeneric = 0,$chkChatPushbullet = 0,$chkPbSend
 Global $editGlobalMessages1 = "", $editGlobalMessages2 = "",$editGlobalMessages3 = "",$editGlobalMessages4 = ""
 Global $editResponses = 0,$editGeneric = 0,$ChatbotQueuedChats[0],$ChatbotReadQueued = False,$ChatbotReadInterval = 0,$ChatbotIsOnInterval = False,$TmpResp
 Global $g_alblAinGlobal,$g_alblSGchats,$g_alblSwitchlang,$g_alblChatclan,$g_alblUsecustomresp,$g_alblUsegenchats,$g_alblNotifyclanchat,$g_alblSwitchlang,$g_alblUseremotechat
+Global $g_chkPlacingNewBuildings = 0
 
 Global $g_hGUI_MOD = 0
 
@@ -539,6 +540,10 @@ Func TabItem5()
 		$g_chkBBSuggestedUpgradesIgnoreHall = GUICtrlCreateCheckbox("Ignore Builder Hall", $x + 320, $y + 28, -1, -1)
 			;GUICtrlSetState(-1, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
 			GUICtrlSetOnEvent(-1, "chkActivateBBSuggestedUpgradesGold")
+			
+    Local $x = 13, $y = 220
+		$g_chkPlacingNewBuildings = GUICtrlCreateCheckbox("Palcing 'New' B.", $x + 80, $y + 50, -1, -1)
+			GUICtrlSetOnEvent(-1, "chkPlacingNewBuildings")	
 
 	GUICtrlCreateGroup("", -99, -99, 1, 1)
 

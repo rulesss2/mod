@@ -23,10 +23,10 @@ Func CheckPrerequisites($bSilent = False)
 			SetLog("Please download here : https://www.microsoft.com/en-US/download/details.aspx?id=17718", $COLOR_ERROR)
 		EndIf
 		#cs
-		If ($isNetFramework4dot5Installed = False And Not $bSilent) Then
+			If ($isNetFramework4dot5Installed = False And Not $bSilent) Then
 			SetLog("The .Net Framework 4.5 is not installed", $COLOR_ERROR)
 			SetLog("Please download here : https://www.microsoft.com/en-US/download/details.aspx?id=30653", $COLOR_ERROR)
-		EndIf
+			EndIf
 		#ce
 		If ($isVC2010Installed = False And Not $bSilent) Then
 			SetLog("The VC 2010 x86 is not installed", $COLOR_ERROR)
@@ -34,6 +34,13 @@ Func CheckPrerequisites($bSilent = False)
 		EndIf
 		$isAllOK = False
 	EndIf
+
+	If isNetFrame460() = false then
+		$isAllOK = False
+		SetLog("The .Net Framework 4.6.2 is not installed", $COLOR_ERROR)
+		SetLog("Please download here : https://www.microsoft.com/en-us/download/details.aspx?id=53344", $COLOR_ERROR)
+	EndIf
+
 	If isEveryFileInstalled($bSilent) = False Then $isAllOK = False
 	If Not checkAutoitVersion($bSilent) Then $isAllOK = False
 	checkIsAdmin($bSilent)
@@ -62,12 +69,39 @@ Func isNetFramework4dot5Installed()
 	;https://msdn.microsoft.com/it-it/library/hh925568%28v=vs.110%29.aspx#net_b
 	Local $z = 0, $sKeyValue, $success = False
 	$sKeyValue = RegRead("HKLM\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full\", "Release")
-	If Number($sKeyValue) >= 378389 Then $success = True
+	If Number($sKeyValue) >= 378389 Then $success = True ; 379893
 	Return $success
 EndFunc   ;==>isNetFramework4dot5Installed
 
+Func isNetFrame460()
+
+	Local $version = Number(RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Client", "Version"))
+
+	If @error Then
+		$version = Number(RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full", "Version"))
+
+		If @error Then
+			$version = Number(RegRead("HKEY_LOCAL_MACHINE\SOFTWARE\Microsoft\NET Framework Setup\NDP\v4\Full", "Release"))
+
+			If @error Then
+				ConsoleWrite("Net Framework v4 and higher version are not installed" & @CRLF)
+
+			Else
+				$version = Number(Dec($version))
+				Return False
+			EndIf
+		EndIf
+	EndIf
+
+	If $version >= 4.6 then return true
+	; If $version Then ConsoleWrite("At least Net Framework v4 is installed with version: " & $version & @CRLF)
+
+	Return False
+
+EndFunc   ;==>InNEtFrame452
+
 Func isVC2010Installed()
-	Local $hDll = DLLOpen("msvcp100.dll")
+	Local $hDll = DllOpen("msvcp100.dll")
 	Local $success = $hDll <> -1
 	If $success = False Then Return $success
 	DllClose($hDll)

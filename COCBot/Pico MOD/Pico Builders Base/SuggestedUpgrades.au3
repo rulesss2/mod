@@ -51,6 +51,7 @@
 ; Setlog
 
 Global $g_ichkBBSuggestedUpgrades = 0, $g_ichkBBSuggestedUpgradesIgnoreGold = 0, $g_ichkBBSuggestedUpgradesIgnoreElixir = 0, $g_ichkBBSuggestedUpgradesIgnoreHall = 0
+Global $g_ichkPlacingNewBuildings = 0
 
 #Region GUI control Event [Update values and State]
 Func chkActivateBBSuggestedUpgrades()
@@ -60,11 +61,13 @@ Func chkActivateBBSuggestedUpgrades()
 		GUICtrlSetState($g_chkBBSuggestedUpgradesIgnoreGold, $GUI_ENABLE)
 		GUICtrlSetState($g_chkBBSuggestedUpgradesIgnoreElixir, $GUI_ENABLE)
 		GUICtrlSetState($g_chkBBSuggestedUpgradesIgnoreHall, $GUI_ENABLE)
+		GUICtrlSetState($g_chkPlacingNewBuildings, $GUI_ENABLE)
 	Else
 		$g_ichkBBSuggestedUpgrades = 0
 		GUICtrlSetState($g_chkBBSuggestedUpgradesIgnoreGold, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
 		GUICtrlSetState($g_chkBBSuggestedUpgradesIgnoreElixir, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
 		GUICtrlSetState($g_chkBBSuggestedUpgradesIgnoreHall, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
+		GUICtrlSetState($g_chkPlacingNewBuildings, BitOR($GUI_UNCHECKED, $GUI_DISABLE))
 	EndIf
 EndFunc   ;==>chkActivateBBSuggestedUpgrades
 
@@ -94,6 +97,12 @@ Func chkActivateBBSuggestedUpgradesElixir()
 		$g_ichkBBSuggestedUpgradesIgnoreGold = 0
 	EndIf
 EndFunc   ;==>chkActivateBBSuggestedUpgradesElixir
+
+Func chkPlacingNewBuildings()
+
+	$g_ichkPlacingNewBuildings = (GUICtrlRead($g_chkPlacingNewBuildings) = $GUI_CHECKED) ? 1 : 0
+
+EndFunc   ;==>chkPlacingNewBuildings
 #EndRegion GUI control Event [Update values and State]
 
 #Region Main Function
@@ -120,7 +129,7 @@ Func MainSuggestedUpgradeCode()
 				; Only 3 possible Icons appears on Window
 				For $i = 0 To 2
 					; Just a small amount to keep
-					If  $g_iElixirBB < 250 then ExitLoop
+					If $g_iElixirBB < 250 Then ExitLoop
 					Local $aResult = GetIconPosition($x, $y, $x1, $y1, $sElixirDirectory, "Elixir", $bScreencap, $bDebug)
 					If $aResult[2] = "Elixir" Then
 						Click($aResult[0], $aResult[1], 1)
@@ -130,7 +139,13 @@ Func MainSuggestedUpgradeCode()
 							ExitLoop
 						EndIf
 					EndIf
-					If $aResult[2] = "New" Then Setlog("[" & $i + 1 & "]" & " New Building detected, continuing...", $COLOR_INFO)
+					If $aResult[2] = "New" And $g_ichkPlacingNewBuildings = 1 Then
+						Setlog("[" & $i + 1 & "]" & " New Building detected, Placing it...", $COLOR_INFO)
+						If NewBuildings($aResult) Then
+							$b_ReturnNow = True
+							ExitLoop
+						EndIf
+					EndIf
 					If $aResult[2] = "NoResources" Then
 						Setlog("[" & $i + 1 & "]" & " Not enough Elixir, continuing...", $COLOR_INFO)
 						ExitLoop
@@ -148,7 +163,7 @@ Func MainSuggestedUpgradeCode()
 				; Only 3 possible Icons appears on Window
 				For $i = 0 To 2
 					; Just a small amount to keep
-					If  $g_iGoldBB < 250 then ExitLoop
+					If $g_iGoldBB < 250 Then ExitLoop
 					Local $aResult = GetIconPosition($x, $y, $x1, $y1, $sCoinDirectory, "Gold", $bScreencap, $bDebug)
 					If $aResult[2] = "Gold" Then
 						Click($aResult[0], $aResult[1], 1)
@@ -157,7 +172,13 @@ Func MainSuggestedUpgradeCode()
 							ExitLoop
 						EndIf
 					EndIf
-					If $aResult[2] = "New" Then Setlog("[" & $i + 1 & "]" & " New Building detected, continuing...", $COLOR_INFO)
+					If $aResult[2] = "New" And $g_ichkPlacingNewBuildings = 1 Then
+						Setlog("[" & $i + 1 & "]" & " New Building detected, Placing it...", $COLOR_INFO)
+						If NewBuildings($aResult) Then
+							$b_ReturnNow = True
+							ExitLoop
+						EndIf
+					EndIf
 					If $aResult[2] = "NoResources" Then
 						Setlog("[" & $i + 1 & "]" & " Not enough Gold, continuing...", $COLOR_INFO)
 						ExitLoop
@@ -213,7 +234,7 @@ Func GetIconPosition($x, $y, $x1, $y1, $directory, $Name = "Elixir", $Screencap 
 
 	If QuickMIS("BC1", $directory, $x, $y, $x1, $y1, $Screencap, $Debug) Then
 		; Correct positions to Check Green 'New' Building word
-		Local $iYoffset =  $y + $g_iQuickMISY - 15, $iY1offset = $y + $g_iQuickMISY + 7
+		Local $iYoffset = $y + $g_iQuickMISY - 15, $iY1offset = $y + $g_iQuickMISY + 7
 		Local $iX = 300, $iX1 = $g_iQuickMISX + $x
 		; Store the values
 		$aResult[0] = $g_iQuickMISX + $x
@@ -222,6 +243,8 @@ Func GetIconPosition($x, $y, $x1, $y1, $directory, $Name = "Elixir", $Screencap 
 		; Proceeds with 'New' detection
 		If QuickMIS("BC1", $sNew_Directory, $iX, $iYoffset, $iX1, $iY1offset, True, $Debug) Then
 			; Store new values
+			$aResult[0] = $g_iQuickMISX + $iX + 35
+			$aResult[1] = $g_iQuickMISY + $iYoffset
 			$aResult[2] = "New"
 		EndIf
 		; The pink/salmon color on zeros
@@ -267,7 +290,41 @@ Func GetUpgradeButton($sUpgButtom = "", $Debug = False)
 	Return False
 EndFunc   ;==>GetUpgradeButton
 
+Func NewBuildings($aResult)
 
+	If UBound($aResult) = 3 And $aResult[2] = "New" Then
+		Local $directory = @ScriptDir & "\imgxml\Resources\PicoBuildersBase\AutoUpgrade\NewBuildings\Shop"
+		; The $g_iQuickMISX and $g_iQuickMISY haves the coordinates compansation from 'New' | GetIconPosition()
+		Click($aResult[0], $aResult[1], 1)
+		If _Sleep(3000) Then Return
+		; Shop page opened , let see if exist the White zero from Building costs and click
+		If QuickMIS("BC1", $directory, 320, 520, 542, 562, True, True) Then
+			Click($g_iQuickMISX + 320, $g_iQuickMISY + 520, 1)
+			If _Sleep(3000) Then Return
+			; Lets search for the Correct Symbol on field
+			$directory = @ScriptDir & "\imgxml\Resources\PicoBuildersBase\AutoUpgrade\NewBuildings\Yes"
+			If QuickMIS("BC1", $directory, 150, 150, 650, 550, True, True) Then
+				Click($g_iQuickMISX + 150, $g_iQuickMISY + 150, 1)
+				Setlog("Placed a new Building on Builder Island! [" & $g_iQuickMISX + 150 & "," & $g_iQuickMISY + 150 & "]", $COLOR_INFO)
+				Return True
+			Else
+				$directory = @ScriptDir & "\imgxml\Resources\PicoBuildersBase\AutoUpgrade\NewBuildings\No"
+				If QuickMIS("BC1", $directory, 150, 150, 650, 550, True, True) Then
+					Setlog("Sorry! Wrong place to deploy a new building on BB! [" & $g_iQuickMISX + 150 & "," & $g_iQuickMISY + 150 & "]", $COLOR_ERROR)
+					Click($g_iQuickMISX + 150, $g_iQuickMISY + 150, 1)
+				Else
+					Setlog("Error on Undo symbol!", $COLOR_ERROR)
+				EndIf
+			EndIf
+		Else
+			Setlog("Error on Shop pages!", $COLOR_ERROR)
+		EndIf
+	Else
+		Setlog("Error on NewBuildings!", $COLOR_ERROR)
+	EndIf
+
+	Return False
+
+EndFunc   ;==>NewBuildings
 
 #EndRegion Main Function
-

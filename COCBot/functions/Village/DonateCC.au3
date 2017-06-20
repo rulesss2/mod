@@ -1353,7 +1353,7 @@ Func BalanceDonRec($bSetlog = False)
 		If Number($g_iTroopsReceived) <> 0 Then
 			If Number(Number($g_iTroopsDonated) / Number($g_iTroopsReceived)) >= (Number($g_iCCDonated) / Number($g_iCCReceived)) Then
 				;Stop Donating
-				If $bSetlog Then SetLog("Skipping Donation because Donate/Recieve Ratio is wrong", $COLOR_INFO)
+				If $bSetlog Then SetLog("Skipping Donation because Donate/Recieve Ratio is not " & $g_iCCDonated & "/" & $g_iCCReceived, $COLOR_INFO)
 				Return False
 			Else
 				; Continue
