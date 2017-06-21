@@ -70,7 +70,7 @@ Global $g_chkBBSuggestedUpgrades = 0, $g_chkBBSuggestedUpgradesIgnoreGold = 0 , 
 ; ================================================== ChatBot FEATURES PART ================================================== ;
 Global $chatIni = ""
 Global $cmblang = 0,  $icmblang = 0
-Global $chkGlobalChat = 0,$chkGlobalScramble = 0,$chkSwitchLang = 0,$chkchatdelay = 0,$ichkchatdelay = 0,$chkGlobChatTimeDalay = 0, $chkClanChat = 0
+Global $chkGlobalChat = 0,$chkGlobalScramble = 0,$chkSwitchLang = 0,$chkGlobChatTimeDalay = 0, $chkClanChat = 0
 Global $chkUseResponses = 0,$chkUseGeneric = 0,$chkChatPushbullet = 0,$chkPbSendNewChats = 0
 Global $editGlobalMessages1 = "", $editGlobalMessages2 = "",$editGlobalMessages3 = "",$editGlobalMessages4 = ""
 Global $editResponses = 0,$editGeneric = 0,$ChatbotQueuedChats[0],$ChatbotReadQueued = False,$ChatbotReadInterval = 0,$ChatbotIsOnInterval = False,$TmpResp

@@ -260,7 +260,7 @@ Func SaveConfig_PicoMod()
 	; ================================================== Chat PART ================================================== ;
 	
 	_Ini_Add("Pico Chatbot", "ChatbotChatGlobal", $ChatbotChatGlobal ? True : False)
-
+   
 EndFunc   ;==>SaveConfig_PicoMod
 
 Func ApplyConfig_PicoMod($TypeReadSave)
