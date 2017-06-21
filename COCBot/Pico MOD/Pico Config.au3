@@ -138,6 +138,7 @@ Func ReadConfig_PicoMod()
 	IniReadS($ChatbotChatGlobal, $g_sProfileConfigPath, "Pico Chatbot", "chkGlobalChat", $ChatbotChatGlobal, "Int")
 	IniReadS($ChatbotScrambleGlobal, $g_sProfileConfigPath, "Pico Chatbot", "chkGlobalScramble", $ChatbotScrambleGlobal, "Int")
 	IniReadS($ChatbotSwitchLang, $g_sProfileConfigPath, "Pico Chatbot", "$chkSwitchLang", $ChatbotSwitchLang, "Int")
+	IniReadS($iTxtGlobChatTimeDalay, $g_sProfileConfigPath, "Pico Chatbot", "TxtGlobChatTimeDalay", 0 ,"Int")
 	
 EndFunc   ;==>ReadConfig_PicoMod
 
@@ -263,7 +264,8 @@ Func SaveConfig_PicoMod()
 	
 	_Ini_Add("Pico Chatbot", "chkGlobalChat", $ChatbotChatGlobal)
 	_Ini_Add("Pico Chatbot", "chkGlobalScramble", $ChatbotScrambleGlobal)
-    _Ini_Add("Pico Chatbot", "$chkSwitchLang", $ChatbotSwitchLang)
+    _Ini_Add("Pico Chatbot", "chkSwitchLang", $ChatbotSwitchLang)
+	_Ini_Add("Pico Chatbot", "TxtGlobChatTimeDalay", GUICtrlRead($TxtGlobChatTimeDalay))
 	
 EndFunc   ;==>SaveConfig_PicoMod
 
@@ -387,12 +389,13 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 			$icmbForecastHopingSwitchMin = _GUICtrlComboBox_GetCurSel($cmbForecastHopingSwitchMin)
 			$itxtForecastHopingSwitchMin = GUICtrlRead($txtForecastHopingSwitchMin)
 			$icmbSwLang = _GUICtrlComboBox_GetCurSel($cmbSwLang)
-			
+			$iTxtForecastPause = GUICtrlRead($txtForecastPause)
 			; ================================================== Chat PART ================================================== ;
 			
-			$ChatbotChatGlobal = (GUICtrlRead($chkGlobalChat) = $GUI_CHECKED) ? 1 : 0
-			$ChatbotScrambleGlobal = (GUICtrlRead($chkGlobalScramble) = $GUI_CHECKED) ? 1 : 0
-			$ChatbotSwitchLang = (GUICtrlRead($chkSwitchLang) = $GUI_CHECKED) ? 1 : 0
+			$ChatbotChatGlobal = GUICtrlRead($chkGlobalChat) = $GUI_CHECKED ? 1 : 0
+			$ChatbotScrambleGlobal = GUICtrlRead($chkGlobalScramble) = $GUI_CHECKED ? 1 : 0
+			$ChatbotSwitchLang = GUICtrlRead($chkSwitchLang) = $GUI_CHECKED ? 1 : 0
+			$iTxtGlobChatTimeDalay = GUICtrlRead($TxtGlobChatTimeDalay)
 			
 		Case "Read"
 
@@ -548,7 +551,10 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 			GUICtrlSetState($chkGlobalChat, $ChatbotChatGlobal = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($chkGlobalScramble, $ChatbotScrambleGlobal = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
 			GUICtrlSetState($chkSwitchLang, $ChatbotSwitchLang = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
-            chkGlobalChat()
+			GUICtrlSetData($TxtGlobChatTimeDalay, $iTxtGlobChatTimeDalay)
+			chkGlobalChat()
+			chkGlobalScramble()
+			chkSwitchLang()
 			
 	EndSwitch
 

@@ -67,10 +67,10 @@ Global $g_SmartMinGold = 0, $g_SmartMinElixir = 0, $g_SmartMinDark = 0
 Global $g_alblBldBaseStats[4] = ["", "", ""], $g_chkCollectBldGE = 0, $g_chkCollectBldGems = 0, $g_chkActivateClockTower = 0
 Global $g_chkBBSuggestedUpgrades = 0, $g_chkBBSuggestedUpgradesIgnoreGold = 0 , $g_chkBBSuggestedUpgradesIgnoreElixir , $g_chkBBSuggestedUpgradesIgnoreHall = 0
 
-; ================================================== ChatBot FEATURES PART ================================================== ;
+; ================================================== Chat FEATURES PART ================================================== ;
 Global $chatIni = ""
 Global $cmblang = 0,  $icmblang = 0
-Global $chkGlobalChat = 0,$chkGlobalScramble = 0,$chkSwitchLang = 0,$chkGlobChatTimeDalay = 0, $chkClanChat = 0
+Global $chkGlobalChat = 0,$chkGlobalScramble = 0,$chkSwitchLang = 0,$TxtGlobChatTimeDalay = 0, $chkClanChat = 0
 Global $chkUseResponses = 0,$chkUseGeneric = 0,$chkChatPushbullet = 0,$chkPbSendNewChats = 0
 Global $editGlobalMessages1 = "", $editGlobalMessages2 = "",$editGlobalMessages3 = "",$editGlobalMessages4 = ""
 Global $editResponses = 0,$editGeneric = 0,$ChatbotQueuedChats[0],$ChatbotReadQueued = False,$ChatbotReadInterval = 0,$ChatbotIsOnInterval = False,$TmpResp
@@ -565,11 +565,11 @@ Func TabItem6()
    $g_alblSGchats = GUICtrlCreateLabel("Scramble global chats", $x + 7, $y, -1, -1)
    $y += 22
    $g_alblTimeDalay = GUICtrlCreateLabel("Time Dalay", $x + 8, $y - 2, -1, -1)
-   $chkGlobChatTimeDalay = GUICtrlCreateInput("0", $x + 70, $y - 5, 30, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
-   _GUICtrlSetTip($chkGlobChatTimeDalay, "Global Chat time dalay in seconds.")
+   $TxtGlobChatTimeDalay = GUICtrlCreateInput("0", $x + 70, $y - 5, 30, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+   _GUICtrlSetTip($TxtGlobChatTimeDalay, "Global Chat time dalay in seconds.")
    GUICtrlSetLimit(-1, 3)
-   GUICtrlSetOnEvent(-1, "chkGlobChatTimeDalay")
-   GUICtrlSetState($chkGlobChatTimeDalay, $ichkGlobChatTimeDalay)
+   GUICtrlSetOnEvent(-1, "txtGlobChatTimeDalay")
+   GUICtrlSetState($TxtGlobChatTimeDalay, $iTxtGlobChatTimeDalay)
    $y += 18
    $chkSwitchLang = GUICtrlCreateCheckbox("", $x - 10, $y, 13, 13)
 	_GUICtrlSetTip($chkSwitchLang, "Switch languages after spamming for a new global chatroom")

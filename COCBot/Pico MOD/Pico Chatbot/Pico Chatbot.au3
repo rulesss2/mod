@@ -75,7 +75,7 @@ Func chkGlobalChat()
     $ChatbotChatGlobal = 1
     If GUICtrlRead($chkGlobalChat) = $GUI_CHECKED Then
 		GUICtrlSetState($chkGlobalScramble, $GUI_ENABLE)
-		GUICtrlSetState($chkGlobChatTimeDalay, $GUI_ENABLE)
+		GUICtrlSetState($TxtGlobChatTimeDalay, $GUI_ENABLE)
 		GUICtrlSetState($chkSwitchLang, $GUI_ENABLE)
 		GUICtrlSetState($cmbLang, $GUI_SHOW)
 		GUICtrlSetState($editGlobalMessages1, $GUI_ENABLE)
@@ -85,13 +85,31 @@ Func chkGlobalChat()
 	Else
 	$ChatbotChatGlobal = 0
 		GUICtrlSetState($chkGlobalScramble, $GUI_DISABLE)
-		GUICtrlSetState($chkGlobChatTimeDalay, $GUI_DISABLE)
+		GUICtrlSetState($TxtGlobChatTimeDalay, $GUI_DISABLE)
 		GUICtrlSetState($chkSwitchLang, $GUI_DISABLE)
 		GUICtrlSetState($cmbLang, $GUI_INDETERMINATE)
 		GUICtrlSetState($editGlobalMessages1, $GUI_DISABLE)
 		GUICtrlSetState($editGlobalMessages2, $GUI_DISABLE)
 		GUICtrlSetState($editGlobalMessages3, $GUI_DISABLE)
 		GUICtrlSetState($editGlobalMessages4, $GUI_DISABLE)
+	EndIf
+	$iTxtGlobChatTimeDalay = GUICtrlRead($TxtGlobChatTimeDalay)
+EndFunc ;==>chkGlobalChat
+
+
+Func chkGlobalScramble()
+	If GUICtrlRead($chkGlobalScramble) = $GUI_CHECKED Then
+		$ChatbotScrambleGlobal = 1
+	Else
+		$ChatbotScrambleGlobal = 0
+	EndIf
+EndFunc   ;==>chkGlobalScramble	 
+
+Func chkSwitchLang()
+	If GUICtrlRead($chkSwitchLang) = $GUI_CHECKED Then
+		$ChatbotSwitchLang = 1
+	Else
+		$ChatbotSwitchLang = 0
 	EndIf
 	If  GUICtrlRead($chkGlobalChat) = $GUI_CHECKED And GUICtrlRead($chkSwitchLang) = $GUI_CHECKED Then
 	    GUICtrlSetState($cmbLang, $GUI_ENABLE)
@@ -100,8 +118,7 @@ Func chkGlobalChat()
 	EndIf	
 	_GUICtrlComboBox_SetCurSel($cmbLang, $icmbLang)
 	$icmbLang = _GUICtrlComboBox_GetCurSel($cmbLang)
-EndFunc ;==>chkGlobalChat
-
+EndFunc   ;==>chkSwitchLang	
 
 ;Func ChatGuiCheckbox()
 ;   If GUICtrlRead($chkGlobalChat) = $GUI_CHECKED Then
