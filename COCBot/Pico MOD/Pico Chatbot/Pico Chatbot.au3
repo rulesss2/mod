@@ -72,7 +72,7 @@
 
 
 Func chkGlobalChat()
-    $ChatbotChatGlobal = True
+    $ChatbotChatGlobal = 1
     If GUICtrlRead($chkGlobalChat) = $GUI_CHECKED Then
 		GUICtrlSetState($chkGlobalScramble, $GUI_ENABLE)
 		GUICtrlSetState($chkGlobChatTimeDalay, $GUI_ENABLE)
@@ -83,7 +83,7 @@ Func chkGlobalChat()
 		GUICtrlSetState($editGlobalMessages3, $GUI_ENABLE)
 		GUICtrlSetState($editGlobalMessages4, $GUI_ENABLE)
 	Else
-	$ChatbotChatGlobal = False
+	$ChatbotChatGlobal = 0
 		GUICtrlSetState($chkGlobalScramble, $GUI_DISABLE)
 		GUICtrlSetState($chkGlobChatTimeDalay, $GUI_DISABLE)
 		GUICtrlSetState($chkSwitchLang, $GUI_DISABLE)
