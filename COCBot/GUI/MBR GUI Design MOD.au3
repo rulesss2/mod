@@ -642,7 +642,10 @@ Func TabItem6()
    GUICtrlSetTip($editGeneric, "Generic messages to send, one per line")
    GUICtrlSetOnEvent(-1, "editGeneric")
    
-   chkGlobalChat()  
+   chkGlobalChat() 
+   
+   GUICtrlCreateGroup("", -99, -99, 1, 1)
+   
 EndFunc   ;==>TabItem6
 
 Func TabItem7()
