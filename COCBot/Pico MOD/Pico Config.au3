@@ -133,6 +133,8 @@ Func ReadConfig_PicoMod()
 	IniReadS($itxtForecastHopingSwitchMin, $g_sProfileConfigPath, "Pico Forecast", "txtForecastHopingSwitchMin", 2, "Int")
 	IniReadS($icmbSwLang, $g_sProfileConfigPath, "Pico Forecast", "cmbSwLang", 1, "int")
 	
+	; ================================================== Chat PART ================================================== ;
+	
 	IniReadS($ChatbotChatGlobal, $g_sProfileConfigPath, "Pico Chatbot", "ChatbotChatGlobal", False, "Int")
 	
 EndFunc   ;==>ReadConfig_PicoMod
@@ -254,6 +256,8 @@ Func SaveConfig_PicoMod()
 	_Ini_Add("Pico Forecast", "chkForecastHopingSwitchMax", $ichkForecastHopingSwitchMax ? 1 : 0)
 	_Ini_Add("Pico Forecast", "chkForecastHopingSwitchMin", $ichkForecastHopingSwitchMin ? 1 : 0)
 	_Ini_Add("Pico Forecast", "cmbSwLang", _GUICtrlComboBox_GetCurSel($cmbSwLang))
+	
+	; ================================================== Chat PART ================================================== ;
 	
 	_Ini_Add("Pico Chatbot", "ChatbotChatGlobal", $ChatbotChatGlobal ? True : False)
 
@@ -379,6 +383,8 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 			$icmbForecastHopingSwitchMin = _GUICtrlComboBox_GetCurSel($cmbForecastHopingSwitchMin)
 			$itxtForecastHopingSwitchMin = GUICtrlRead($txtForecastHopingSwitchMin)
 			$icmbSwLang = _GUICtrlComboBox_GetCurSel($cmbSwLang)
+			
+			; ================================================== Chat PART ================================================== ;
 			
 			$ChatbotChatGlobal = GUICtrlRead($chkGlobalChat) = $GUI_CHECKED ? True : False
 			
@@ -531,7 +537,9 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 			chkForecastHopingSwitchMin()
 			_GUICtrlComboBox_SetCurSel($cmbSwLang, $icmbSwLang)
 			
-			GUICtrlSetState($chkGlobalChat, $ChatbotChatGlobal = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			; ================================================== Chat PART ================================================== ;
+			
+			GUICtrlSetState($chkGlobalChat, $ChatbotChatGlobal = True ? $GUI_CHECKED : $GUI_UNCHECKED)
             chkGlobalChat()
 			
 	EndSwitch

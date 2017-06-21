@@ -20,29 +20,29 @@
 ;	If IniRead($chatIni, "clan", "pushbullet", "False") = "True" Then $ChatbotUsePushbullet = True
 ;	If IniRead($chatIni, "clan", "pbsendnew", "False") = "True" Then $ChatbotPbSendNew = True
 
-	$ClanMessages = StringSplit(IniRead($chatIni, "clan", "genericMsg", "Testing on Chat|Hey all"), "|", 2)
-	Global $ClanResponses0 = StringSplit(IniRead($chatIni, "clan", "responseMsg", "keyword:Response|hello:Hi, Welcome to the clan|hey:Hey, how's it going?"), "|", 2)
-	Global $ClanResponses1[UBound($ClanResponses0)][2] ;
-	For $a = 0 To UBound($ClanResponses0) - 1
-		$TmpResp = StringSplit($ClanResponses0[$a], ":", 2)
-		If UBound($TmpResp) > 0 Then
-			$ClanResponses1[$a][0] = $TmpResp[0]
-		Else
-			$ClanResponses1[$a][0] = "<invalid>"
-		EndIf
-		If UBound($TmpResp) > 1 Then
-			$ClanResponses1[$a][1] = $TmpResp[1]
-		Else
-			$ClanResponses1[$a][1] = "<undefined>"
-		EndIf
-	Next
+;	$ClanMessages = StringSplit(IniRead($chatIni, "clan", "genericMsg", "Testing on Chat|Hey all"), "|", 2)
+;	Global $ClanResponses0 = StringSplit(IniRead($chatIni, "clan", "responseMsg", "keyword:Response|hello:Hi, Welcome to the clan|hey:Hey, how's it going?"), "|", 2)
+;	Global $ClanResponses1[UBound($ClanResponses0)][2] ;
+;	For $a = 0 To UBound($ClanResponses0) - 1
+;		$TmpResp = StringSplit($ClanResponses0[$a], ":", 2)
+;		If UBound($TmpResp) > 0 Then
+;			$ClanResponses1[$a][0] = $TmpResp[0]
+;		Else
+;			$ClanResponses1[$a][0] = "<invalid>"
+;		EndIf
+;		If UBound($TmpResp) > 1 Then
+;			$ClanResponses1[$a][1] = $TmpResp[1]
+;		Else
+;			$ClanResponses1[$a][1] = "<undefined>"
+;		EndIf
+;	Next
 
-	$ClanResponses = $ClanResponses1
+;	$ClanResponses = $ClanResponses1
 
-	$GlobalMessages1 = StringSplit(IniRead($chatIni, "global", "globalMsg1", "War Clan Recruiting|Active War Clan accepting applications"), "|", 2)
-	$GlobalMessages2 = StringSplit(IniRead($chatIni, "global", "globalMsg2", "Join now|Apply now"), "|", 2)
-	$GlobalMessages3 = StringSplit(IniRead($chatIni, "global", "globalMsg3", "250 war stars min|Must have 250 war stars"), "|", 2)
-	$GlobalMessages4 = StringSplit(IniRead($chatIni, "global", "globalMsg4", "Adults Only| 18+"), "|", 2)
+;	$GlobalMessages1 = StringSplit(IniRead($chatIni, "global", "globalMsg1", "War Clan Recruiting|Active War Clan accepting applications"), "|", 2)
+;	$GlobalMessages2 = StringSplit(IniRead($chatIni, "global", "globalMsg2", "Join now|Apply now"), "|", 2)
+;	$GlobalMessages3 = StringSplit(IniRead($chatIni, "global", "globalMsg3", "250 war stars min|Must have 250 war stars"), "|", 2)
+;	$GlobalMessages4 = StringSplit(IniRead($chatIni, "global", "globalMsg4", "Adults Only| 18+"), "|", 2)
 ;EndFunc   ;==>ChatbotReadSettings
 
 ;Func ChatGuiCheckboxUpdate()
@@ -73,13 +73,34 @@
 
 Func chkGlobalChat()
     $ChatbotChatGlobal = True
-    If GUICtrlRead(chkGlobalChat) = $GUI_CHECKED Then
+    If GUICtrlRead($chkGlobalChat) = $GUI_CHECKED Then
 		GUICtrlSetState($chkGlobalScramble, $GUI_ENABLE)
+		GUICtrlSetState($chkGlobChatTimeDalay, $GUI_ENABLE)
+		GUICtrlSetState($chkSwitchLang, $GUI_ENABLE)
+		GUICtrlSetState($cmbLang, $GUI_SHOW)
+		GUICtrlSetState($editGlobalMessages1, $GUI_ENABLE)
+		GUICtrlSetState($editGlobalMessages2, $GUI_ENABLE)
+		GUICtrlSetState($editGlobalMessages3, $GUI_ENABLE)
+		GUICtrlSetState($editGlobalMessages4, $GUI_ENABLE)
 	Else
 	$ChatbotChatGlobal = False
 		GUICtrlSetState($chkGlobalScramble, $GUI_DISABLE)
+		GUICtrlSetState($chkGlobChatTimeDalay, $GUI_DISABLE)
+		GUICtrlSetState($chkSwitchLang, $GUI_DISABLE)
+		GUICtrlSetState($cmbLang, $GUI_INDETERMINATE)
+		GUICtrlSetState($editGlobalMessages1, $GUI_DISABLE)
+		GUICtrlSetState($editGlobalMessages2, $GUI_DISABLE)
+		GUICtrlSetState($editGlobalMessages3, $GUI_DISABLE)
+		GUICtrlSetState($editGlobalMessages4, $GUI_DISABLE)
 	EndIf
-EndFunc
+	If  GUICtrlRead($chkGlobalChat) = $GUI_CHECKED And GUICtrlRead($chkSwitchLang) = $GUI_CHECKED Then
+	    GUICtrlSetState($cmbLang, $GUI_ENABLE)
+	Else
+    	GUICtrlSetState($cmbLang, $GUI_DISABLE)
+	EndIf	
+	_GUICtrlComboBox_SetCurSel($cmbLang, $icmbLang)
+	$icmbLang = _GUICtrlComboBox_GetCurSel($cmbLang)
+EndFunc ;==>chkGlobalChat
 
 
 ;Func ChatGuiCheckbox()
@@ -128,47 +149,47 @@ EndFunc
 ;========================================
 ;EndFunc   ;==>ChatGuiCheckbox
 
-Func ChatGuiCheckboxDisableAT()
-	For $i = $chkGlobalChat To $editGeneric ; Save state of all controls on tabs
-		GUICtrlSetState($i, $GUI_DISABLE)
-	Next
-EndFunc   ;==>ChatGuiCheckboxDisableAT
-Func ChatGuiCheckboxEnableAT()
-	For $i = $chkGlobalChat To $editGeneric ; Save state of all controls on tabs
-		GUICtrlSetState($i, $GUI_ENABLE)
-	Next
-	ChatGuiCheckboxUpdateAT()
-EndFunc   ;==>ChatGuiCheckboxEnableAT
+;Func ChatGuiCheckboxDisableAT()
+;	For $i = $chkGlobalChat To $editGeneric ; Save state of all controls on tabs
+;		GUICtrlSetState($i, $GUI_DISABLE)
+;	Next
+;EndFunc   ;==>ChatGuiCheckboxDisableAT
+;Func ChatGuiCheckboxEnableAT()
+;	For $i = $chkGlobalChat To $editGeneric ; Save state of all controls on tabs
+;		GUICtrlSetState($i, $GUI_ENABLE)
+;	Next
+;	ChatGuiCheckboxUpdateAT()
+;EndFunc   ;==>ChatGuiCheckboxEnableAT
 
 
-Func ChatGuiEditUpdate()
-Global $glb1 = GUICtrlRead($editGlobalMessages1)
-Global $glb2 = GUICtrlRead($editGlobalMessages2)
-Global $glb3 = GUICtrlRead($editGlobalMessages3)
-Global $glb4 = GUICtrlRead($editGlobalMessages4)
+;Func ChatGuiEditUpdate()
+;Global $glb1 = GUICtrlRead($editGlobalMessages1)
+;Global $glb2 = GUICtrlRead($editGlobalMessages2)
+;Global $glb3 = GUICtrlRead($editGlobalMessages3)
+;Global $glb4 = GUICtrlRead($editGlobalMessages4)
 
-Global $cResp = GUICtrlRead($editResponses)
-Global $cGeneric = GUICtrlRead($editGeneric)
+;Global $cResp = GUICtrlRead($editResponses)
+;Global $cGeneric = GUICtrlRead($editGeneric)
 
 	; how 2 be lazy 101 =======
-	$glb1 = StringReplace($glb1, @CRLF, "|")
-	$glb2 = StringReplace($glb2, @CRLF, "|")
-	$glb3 = StringReplace($glb3, @CRLF, "|")
-	$glb4 = StringReplace($glb4, @CRLF, "|")
+;	$glb1 = StringReplace($glb1, @CRLF, "|")
+;	$glb2 = StringReplace($glb2, @CRLF, "|")
+;	$glb3 = StringReplace($glb3, @CRLF, "|")
+;	$glb4 = StringReplace($glb4, @CRLF, "|")
 
-	$cResp = StringReplace($cResp, @CRLF, "|")
-	$cGeneric = StringReplace($cGeneric, @CRLF, "|")
+;	$cResp = StringReplace($cResp, @CRLF, "|")
+;	$cGeneric = StringReplace($cGeneric, @CRLF, "|")
 
-	IniWrite($chatIni, "global", "globalMsg1", $glb1)
-	IniWrite($chatIni, "global", "globalMsg2", $glb2)
-	IniWrite($chatIni, "global", "globalMsg3", $glb3)
-	IniWrite($chatIni, "global", "globalMsg4", $glb4)
+;	IniWrite($chatIni, "global", "globalMsg1", $glb1)
+;	IniWrite($chatIni, "global", "globalMsg2", $glb2)
+;;	IniWrite($chatIni, "global", "globalMsg3", $glb3)
+;	IniWrite($chatIni, "global", "globalMsg4", $glb4)
 
-	IniWrite($chatIni, "clan", "genericMsg", $cGeneric)
-	IniWrite($chatIni, "clan", "responseMsg", $cResp)
+;	IniWrite($chatIni, "clan", "genericMsg", $cGeneric)
+;	IniWrite($chatIni, "clan", "responseMsg", $cResp)
 
-	; =========================
-EndFunc   ;==>ChatGuiEditUpdate
+;	; =========================
+;EndFunc   ;==>ChatGuiEditUpdate
 
 ; FUNCTIONS ================================================
 ; All of the following return True if the script should
@@ -608,11 +629,6 @@ Func ChatbotMessage() ; run the chatbot
 	EndIf
 EndFunc   ;==>ChatbotMessage
 
-#cs ----------------------------------------------------------------------------
-	Author:         ChrisDuh
-    ; Chatbot script fixed by rulesss, Kychera
-	Script Function: Sends chat messages in global and clan chat; 11.2016 switching lang global chat - Kychera
-#ce ----------------------------------------------------------------------------
 ;===========Addied kychera=================
 ; #FUNCTION# ====================================================================================================================
 ; Name ..........: _Encoding_JavaUnicodeDecode
