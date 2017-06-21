@@ -135,8 +135,8 @@ Func ReadConfig_PicoMod()
 	
 	; ================================================== Chat PART ================================================== ;
 	
-	IniReadS($ChatbotChatGlobal, $g_sProfileConfigPath, "Pico Chatbot", "chkGlobalChat", $ChatbotChatGlobal, "Bool")
-	IniReadS($ChatbotScrambleGlobal, $g_sProfileConfigPath, "Pico Chatbot", "chkGlobalScramble", $ChatbotScrambleGlobal, "Bool")
+	IniReadS($ChatbotChatGlobal, $g_sProfileConfigPath, "Pico Chatbot", "chkGlobalChat", $ChatbotChatGlobal, "Int")
+	IniReadS($ChatbotScrambleGlobal, $g_sProfileConfigPath, "Pico Chatbot", "chkGlobalScramble", $ChatbotScrambleGlobal, "Int")
 	
 EndFunc   ;==>ReadConfig_PicoMod
 
@@ -388,8 +388,8 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 			
 			; ================================================== Chat PART ================================================== ;
 			
-			$ChatbotChatGlobal = GUICtrlRead($chkGlobalChat) = $GUI_CHECKED ? True : False
-			$ChatbotScrambleGlobal = GUICtrlRead($chkGlobalScramble) = $GUI_CHECKED ? True : False
+			$ChatbotChatGlobal = GUICtrlRead($chkGlobalChat) = $GUI_CHECKED ? 1 : 0
+			$ChatbotScrambleGlobal = GUICtrlRead($chkGlobalScramble) = $GUI_CHECKED ? 1 : 0
 			
 		Case "Read"
 
@@ -542,8 +542,8 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 			
 			; ================================================== Chat PART ================================================== ;
 			
-			GUICtrlSetState($chkGlobalChat, $ChatbotChatGlobal = True ? $GUI_CHECKED : $GUI_UNCHECKED)
-			GUICtrlSetState($chkGlobalScramble, $ChatbotScrambleGlobal = True ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($chkGlobalChat, $ChatbotChatGlobal = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($chkGlobalScramble, $ChatbotScrambleGlobal = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
             chkGlobalChat()
 			
 	EndSwitch

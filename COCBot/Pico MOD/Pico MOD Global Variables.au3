@@ -155,8 +155,8 @@ Global $iChkWaveFactor = 0
 Global $iTxtWaveFactor = 100
 
 ;Chatbot - modification by ruless,kychera
-Global $ChatbotChatGlobal = False
-Global $ChatbotScrambleGlobal = False
+Global $ChatbotChatGlobal = 0
+Global $ChatbotScrambleGlobal = 0
 Global $ChatbotSwitchLang = False
 Global $ChatbotChatClan = False
 Global $ChatbotClanUseResponses = False
