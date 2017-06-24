@@ -68,10 +68,9 @@ Global $g_alblBldBaseStats[4] = ["", "", ""], $g_chkCollectBldGE = 0, $g_chkColl
 Global $g_chkBBSuggestedUpgrades = 0, $g_chkBBSuggestedUpgradesIgnoreGold = 0 , $g_chkBBSuggestedUpgradesIgnoreElixir , $g_chkBBSuggestedUpgradesIgnoreHall = 0
 
 ; ================================================== Chat FEATURES PART ================================================== ;
-Global $chatIni = ""
 Global $cmblang = 0,  $icmblang = 0
 Global $chkGlobalChat = 0,$chkGlobalScramble = 0,$chkSwitchLang = 0,$TxtGlobChatTimeDalay = 0, $chkClanChat = 0
-Global $chkUseResponses = 0,$chkUseGeneric = 0,$chkChatPushbullet = 0,$chkPbSendNewChats = 0
+Global $chkUseResponses = 0,$chkUseGeneric = 0,$chkChatNotify = 0,$chkPbSendNewChats = 0
 Global $editGlobalMessages1 = "", $editGlobalMessages2 = "",$editGlobalMessages3 = "",$editGlobalMessages4 = ""
 Global $editResponses = 0,$editGeneric = 0,$ChatbotQueuedChats[0],$ChatbotReadQueued = False,$ChatbotReadInterval = 0,$ChatbotIsOnInterval = False,$TmpResp
 Global $g_alblAinGlobal,$g_alblSGchats,$g_alblSwitchlang,$g_alblChatclan,$g_alblUsecustomresp,$g_alblUsegenchats,$g_alblNotifyclanchat,$g_alblSwitchlang,$g_alblUseremotechat,$g_alblTimeDalay
@@ -621,10 +620,10 @@ Func TabItem6()
    GUICtrlSetOnEvent(-1, "chkUseGeneric")
    $g_alblUsegenchats = GUICtrlCreateLabel("Use generic chats", $x + 7, $y, -1, -1)
    $y += 22
-   $chkChatPushbullet = GUICtrlCreateCheckbox("", $x - 10, $y, 13, 13)
-   GUICtrlSetTip($chkChatPushbullet, "Send and recieve chats via pushbullet or telegram." & @CRLF & "Use BOT <myvillage> GETCHATS <interval|NOW|STOP> to get the latest clan" & @CRLF &  "chat as an image, and BOT <myvillage> SENDCHAT <chat message> to send a chat to your clan") 
-   GUICtrlSetState($chkChatPushbullet, $ChatbotUsePushbullet)
-   GUICtrlSetOnEvent(-1, "chkChatPushbullet")
+   $chkChatNotify = GUICtrlCreateCheckbox("", $x - 10, $y, 13, 13)
+   GUICtrlSetTip($chkChatNotify, "Send and recieve chats via pushbullet or telegram." & @CRLF & "Use BOT <myvillage> GETCHATS <interval|NOW|STOP> to get the latest clan" & @CRLF &  "chat as an image, and BOT <myvillage> SENDCHAT <chat message> to send a chat to your clan") 
+   GUICtrlSetState($chkChatNotify, $ChatbotUseNotify)
+   GUICtrlSetOnEvent(-1, "chkChatNotify")
    $g_alblUseremotechat = GUICtrlCreateLabel("Use remote for chatting", $x + 7, $y, -1, -1)
    $y += 22
    $chkPbSendNewChats = GUICtrlCreateCheckbox("", $x - 10, $y, 13, 13)

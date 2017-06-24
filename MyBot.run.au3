@@ -309,7 +309,6 @@ EndFunc   ;==>InitializeAndroid
 ; ===============================================================================================================================
 Func SetupProfileFolder()
 	$g_sProfileConfigPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\config.ini"
-	$chatIni = $g_sProfilePath & "\" & $g_sProfileCurrentName &  "\chat.ini"
 	$g_sProfileBuildingStatsPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\stats_buildings.ini"
 	$g_sProfileBuildingPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\building.ini"
 	$g_sProfileLogsPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\Logs\"
