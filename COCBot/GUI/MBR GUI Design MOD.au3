@@ -245,7 +245,7 @@ Func TabItem2()
 	$x += 10
 	$y += 60
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnChat, $x, $y + 5, 32, 32)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnChat, $x, $y + 5, 32, 32)
 	$g_Label1 = GUICtrlCreateLabel("Read the Clan Chat", $x + 40, $y + 5, 110, 17)
 	$g_acmbPriority[0] = GUICtrlCreateCombo("", $x + 155, $y, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, $g_sFrequenceChain, "Never")
@@ -265,7 +265,7 @@ Func TabItem2()
 
 	$y += 81
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnRepeat, $x, $y + 5, 32, 32)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnRepeat, $x, $y + 5, 32, 32)
 	$g_Label5 = GUICtrlCreateLabel("Watch Defenses", $x + 40, $y + 5, 110, 17)
 	$g_acmbPriority[3] = GUICtrlCreateCombo("", $x + 155, $y, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, $g_sFrequenceChain, "Never")
@@ -283,7 +283,7 @@ Func TabItem2()
 
 	$y += 56
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnClan, $x, $y + 5, 32, 32)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnClan, $x, $y + 5, 32, 32)
 	$g_Label9 = GUICtrlCreateLabel("Look at War log", $x + 40, $y + 5, 110, 17)
 	$g_acmbPriority[5] = GUICtrlCreateCombo("", $x + 155, $y, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, $g_sFrequenceChain, "Never")
@@ -299,7 +299,7 @@ Func TabItem2()
 
 	$y += 56
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnTarget, $x, $y + 5, 32, 32)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnTarget, $x, $y + 5, 32, 32)
 	$g_Label14 = GUICtrlCreateLabel("Look at Current War", $x + 40, $y + 5, 110, 17)
 	$g_acmbPriority[9] = GUICtrlCreateCombo("", $x + 155, $y, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, $g_sFrequenceChain, "Never")
@@ -316,7 +316,7 @@ Func TabItem2()
 
 	$y += 56
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnSettings, $x, $y + 5, 32, 32)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSettings, $x, $y + 5, 32, 32)
 	$g_Label17 = GUICtrlCreateLabel("Do nothing", $x + 40, $y + 5, 110, 17)
 	$g_acmbPriority[11] = GUICtrlCreateCombo("", $x + 155, $y, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, $g_sFrequenceChain, "Never")
@@ -361,9 +361,9 @@ Func TabItem3()
 	_GUICtrlSetTip(-1, "Check to force Treasury collection" & _
 			@CRLF & "Treasury will be collected all the time, ignoring any criteria")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnGold, $x + 160, $y + 15, 24, 24)
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnElixir, $x + 160, $y + 45, 24, 24)
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnDark, $x + 160, $y + 75, 24, 24)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnGold, $x + 160, $y + 15, 24, 24)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnElixir, $x + 160, $y + 45, 24, 24)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDark, $x + 160, $y + 75, 24, 24)
 
 	$g_chkGoldTrCollect = GUICtrlCreateCheckbox("Collect when Gold <", $x + 190, $y + 18, 112, 17)
 	GUICtrlSetOnEvent(-1, "chkResTrCollect")
@@ -408,55 +408,55 @@ Func TabItem4()
 
 	Local $x = 21, $y = 45
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnTH11, $x + 5, $y + 50, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnTH11, $x + 5, $y + 50, 40, 40)
 	$g_chkIgnoreTH = GUICtrlCreateCheckbox("", $x + 20, $y + 90, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreTH")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnKing, $x + 95, $y + 50, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnKing, $x + 95, $y + 50, 40, 40)
 	$g_chkIgnoreKing = GUICtrlCreateCheckbox("", $x + 110, $y + 90, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreKing")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnQueen, $x + 140, $y + 50, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnQueen, $x + 140, $y + 50, 40, 40)
 	$g_chkIgnoreQueen = GUICtrlCreateCheckbox("", $x + 155, $y + 90, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreQueen")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnWarden, $x + 185, $y + 50, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnWarden, $x + 185, $y + 50, 40, 40)
 	$g_chkIgnoreWarden = GUICtrlCreateCheckbox("", $x + 200, $y + 90, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreWarden")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnCC, $x + 275, $y + 50, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnCC, $x + 275, $y + 50, 40, 40)
 	$g_chkIgnoreCC = GUICtrlCreateCheckbox("", $x + 290, $y + 90, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreCC")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnLaboratory, $x + 365, $y + 50, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnLaboratory, $x + 365, $y + 50, 40, 40)
 	$g_chkIgnoreLab = GUICtrlCreateCheckbox("", $x + 380, $y + 90, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreLab")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnBarrack, $x + 5, $y + 120, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBarrack, $x + 5, $y + 120, 40, 40)
 	$g_chkIgnoreBarrack = GUICtrlCreateCheckbox("", $x + 20, $y + 160, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreBarrack")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnDarkBarrack, $x + 50, $y + 120, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDarkBarrack, $x + 50, $y + 120, 40, 40)
 	$g_chkIgnoreDBarrack = GUICtrlCreateCheckbox("", $x + 65, $y + 160, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreDBarrack")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnSpellFactory, $x + 140, $y + 120, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSpellFactory, $x + 140, $y + 120, 40, 40)
 	$g_chkIgnoreFactory = GUICtrlCreateCheckbox("", $x + 155, $y + 160, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreFactory")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnDarkSpellFactory, $x + 185, $y + 120, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDarkSpellFactory, $x + 185, $y + 120, 40, 40)
 	$g_chkIgnoreDFactory = GUICtrlCreateCheckbox("", $x + 200, $y + 160, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreDFactory")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnMine, $x + 275, $y + 120, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnMine, $x + 275, $y + 120, 40, 40)
 	$g_chkIgnoreGColl = GUICtrlCreateCheckbox("", $x + 290, $y + 160, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreGColl")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnCollector, $x + 320, $y + 120, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnCollector, $x + 320, $y + 120, 40, 40)
 	$g_chkIgnoreEColl = GUICtrlCreateCheckbox("", $x + 335, $y + 160, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreEColl")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnDrill, $x + 365, $y + 120, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDrill, $x + 365, $y + 120, 40, 40)
 	$g_chkIgnoreDColl = GUICtrlCreateCheckbox("", $x + 380, $y + 160, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreDColl")
 
@@ -484,15 +484,15 @@ Func TabItem5()
 
 	GUICtrlCreateGroup("Builders Base Stats", $x - 10, $y - 20, 442, 50)
 
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldGold, $x, $y - 2, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldGold, $x, $y - 2, 24, 24)
 		$g_alblBldBaseStats[$eLootGold] = GUICtrlCreateLabel("---", $x + 35, $y + 2, 100, -1)
 			GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldElixir, $x + 140, $y - 2, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldElixir, $x + 140, $y - 2, 24, 24)
 		$g_alblBldBaseStats[$eLootElixir] = GUICtrlCreateLabel("---", $x + 175, $y + 2, 100, -1)
 			GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldTrophy, $x + 280, $y - 2, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldTrophy, $x + 280, $y - 2, 24, 24)
 		$g_alblBldBaseStats[$eLootTrophy] = GUICtrlCreateLabel("---", $x + 315, $y + 2, 100, -1)
 			GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 
@@ -505,16 +505,16 @@ Func TabItem5()
 
 		$x += 45
 
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldGold, $x, $y - 2, 24, 24)
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldElixir, $x + 28, $y - 2, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldGold, $x, $y - 2, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldElixir, $x + 28, $y - 2, 24, 24)
 		$g_chkCollectBldGE = GUICtrlCreateCheckbox("Collect Gold and Elixir", $x + 60, $y - 2, -1, -1)
 			GUICtrlSetOnEvent(-1, "chkCollectBldGE")
 
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnGem, $x + 14, $y + 28, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnGem, $x + 14, $y + 28, 24, 24)
 		$g_chkCollectBldGems = GUICtrlCreateCheckbox("Collect Gems", $x + 60, $y + 28)
 			GUICtrlSetOnEvent(-1, "chkCollectBldGems")
 
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldClockBtn, $x + 14, $y + 58, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldClockBtn, $x + 14, $y + 58, 24, 24)
 		$g_chkActivateClockTower = GUICtrlCreateCheckbox("Activate Clock Tower when available (awesome !)", $x + 60, $y + 58)
 			GUICtrlSetOnEvent(-1, "chkActivateClockTower")
 
@@ -525,7 +525,7 @@ Func TabItem5()
 
 	GUICtrlCreateGroup("Suggested Upgrades ", $x - 10, $y - 20, 442, 233)
 
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnMBisland, $x , $y , 64, 64)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnMBisland, $x , $y , 64, 64)
 		$g_chkBBSuggestedUpgrades = GUICtrlCreateCheckbox("Suggested Upgrades", $x + 70, $y + 25, -1, -1)
 			;GUICtrlSetState(-1, $GUI_UNCHECKED)
 			GUICtrlSetOnEvent(-1, "chkActivateBBSuggestedUpgrades")

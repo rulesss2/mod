@@ -65,21 +65,21 @@ Func CreateVillageMisc()
 
 	  $x += 90
 		GUICtrlCreateLabel(ChrW(8805), $x + 22, $y + 2, -1, -1)
-		GUICtrlCreateIcon ($g_sLibIconPath, $eIcnGold, $x + 84, $y, 16, 16)
+		_GUICtrlCreateIcon ($g_sLibIconPath, $eIcnGold, $x + 84, $y, 16, 16)
 		$g_hTxtRestartGold = GUICtrlCreateInput("10000", $x + 32, $y, 50, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "TxtRestartGold_Info_01", "Minimum Gold value for the bot to resume attacking after halting because of low gold."))
 			GUICtrlSetLimit(-1, 7)
 
 	  $x += 90
 		GUICtrlCreateLabel(ChrW(8805), $x + 22, $y + 2, -1, -1)
-		GUICtrlCreateIcon ($g_sLibIconPath, $eIcnElixir, $x + 84, $y, 16, 16)
+		_GUICtrlCreateIcon ($g_sLibIconPath, $eIcnElixir, $x + 84, $y, 16, 16)
 		$g_hTxtRestartElixir = GUICtrlCreateInput("25000", $x + 32, $y, 50, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "TxtRestartElixir_Info_01", "Minimum Elixir value for the bot to resume attacking after halting because of low elixir."))
 			GUICtrlSetLimit(-1, 7)
 
 	  $x += 90
 		GUICtrlCreateLabel(ChrW(8805), $x + 22, $y + 2, -1, -1)
-		GUICtrlCreateIcon ($g_sLibIconPath, $eIcnDark, $x + 84, $y, 16, 16)
+		_GUICtrlCreateIcon ($g_sLibIconPath, $eIcnDark, $x + 84, $y, 16, 16)
 		$g_hTxtRestartDark = GUICtrlCreateInput("500", $x + 32, $y, 50, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "TxtRestartDark_Info_01", "Minimum Dark Elixir value for the bot to resume attacking after halting because of low dark elixir."))
 			GUICtrlSetLimit(-1, 6)
@@ -87,18 +87,18 @@ Func CreateVillageMisc()
 
    Local $x = 15, $y = 148
    GUICtrlCreateGroup(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "Group_02", "Rearm, Collect, Clear"), $x -10, $y - 20 , $g_iSizeWGrpTab2, 235)
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnTrap, $x + 7, $y, 24, 24)
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnXbow, $x + 32, $y, 24, 24)
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnInferno, $x + 57, $y, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnTrap, $x + 7, $y, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnXbow, $x + 32, $y, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnInferno, $x + 57, $y, 24, 24)
 		$g_hChkTrap = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTrap", "Rearm Traps && Reload Xbows and Infernos"), $x + 100, $y + 4, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTrap_Info_01", "Check this to automatically Rearm Traps, Reload Xbows and Infernos (if any) in your Village."))
 			GUICtrlSetState(-1, $GUI_CHECKED)
 
 	  $y += 35
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnMine, $x - 5, $y, 24, 24)
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnCollector, $x + 20, $y, 24, 24)
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnDrill, $x + 45, $y, 24, 24)
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnLootCart, $x + 70, $y, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnMine, $x - 5, $y, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnCollector, $x + 20, $y, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDrill, $x + 45, $y, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnLootCart, $x + 70, $y, 24, 24)
 		$g_hChkCollect = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollect", "Collect Resources && Loot Cart"), $x + 100, $y + 4, -1, -1, -1)
 ;			GUICtrlSetOnEvent(-1, "ChkCollect")
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCollect_Info_01", "Check this to automatically collect the Village's Resources") & @CRLF & _
@@ -107,7 +107,7 @@ Func CreateVillageMisc()
 			GUICtrlSetState(-1, $GUI_CHECKED)
 
 ;		$y += 35
-;		GUICtrlCreateIcon($g_sLibIconPath, $eIcnTreasury, $x + 22, $y - 10, 48, 48)
+;		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnTreasury, $x + 22, $y - 10, 48, 48)
 ;		$g_hChkTreasuryCollect = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTreasuryCollect", "Treasury"), $x + 100, $y + 4, -1, -1)
 ;			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTreasuryCollect_Info_01", "Check this to automatically collect Treasury when FULL,") & @CRLF & _
 ;					GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTreasuryCollect_Info_02", "'OR' when Storage values are BELOW minimum values on right,") & @CRLF & _
@@ -118,7 +118,7 @@ Func CreateVillageMisc()
 ;
 		$x += 170
 ;		$y -= 10
-;		GUICtrlCreateIcon ($g_sLibIconPath, $eIcnGold, $x + 58, $y + 4, 16, 16)
+;		_GUICtrlCreateIcon ($g_sLibIconPath, $eIcnGold, $x + 58, $y + 4, 16, 16)
 ;		GUICtrlCreateLabel("<", $x + 50, $y + 6, -1, -1)
 ;		$g_hTxtTreasuryGold = GUICtrlCreateInput("1000000", $x + 75, $y + 4, 50, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 ;			GUICtrlSetState (-1, $GUI_DISABLE)
@@ -129,7 +129,7 @@ Func CreateVillageMisc()
 ;		$y += 12
 ;		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LblTreasuryOr", "Or"), $x, $y + 6, -1, -1)
 ;		$y += 12
-;		GUICtrlCreateIcon ($g_sLibIconPath, $eIcnElixir, $x + 58, $y + 4, 16, 16)
+;		_GUICtrlCreateIcon ($g_sLibIconPath, $eIcnElixir, $x + 58, $y + 4, 16, 16)
 ;		GUICtrlCreateLabel("<", $x + 50, $y + 6, -1, -1)
 ;		$g_hTxtTreasuryElixir = GUICtrlCreateInput("1000000", $x + 75, $y + 4, 50, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 ;			GUICtrlSetState (-1, $GUI_DISABLE)
@@ -140,7 +140,7 @@ Func CreateVillageMisc()
 ;		$y -= 12
 		$x += 126
 ;		GUICtrlCreateLabel(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "LblTreasuryOr", -1), $x + 4, $y + 6, -1, -1)
-;		GUICtrlCreateIcon ($g_sLibIconPath, $eIcnDark, $x + 58, $y + 4, 16, 16)
+;		_GUICtrlCreateIcon ($g_sLibIconPath, $eIcnDark, $x + 58, $y + 4, 16, 16)
 ;		GUICtrlCreateLabel("<", $x + 50, $y + 6, -1, -1)
 ;		$g_hTxtTreasuryDark = GUICtrlCreateInput("1000", $x + 75, $y + 4, 50, 18, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
 ;			GUICtrlSetState (-1, $GUI_DISABLE)
@@ -150,20 +150,20 @@ Func CreateVillageMisc()
 
 	$x -= (170 + 126)
 	  $y += 35
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnTombstone, $x + 32 , $y, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnTombstone, $x + 32 , $y, 24, 24)
 		$g_hChkTombstones = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTombstones", "Clear Tombstones"), $x + 100, $y + 4, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkTombstones_Info_01", "Check this to automatically clear tombstones after enemy attack."))
 			GUICtrlSetState(-1, $GUI_CHECKED)
 
 	  $y += 35
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnTree, $x + 20, $y, 24, 24)
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnBark, $x + 45, $y, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnTree, $x + 20, $y, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBark, $x + 45, $y, 24, 24)
 		$g_hChkCleanYard = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCleanYard", "Remove Obstacles"), $x + 100, $y + 4, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkCleanYard_Info_01", "Check this to automatically clear Yard from Trees, Trunks, etc."))
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
 
 	  $y += 35
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnGembox, $x + 32, $y, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnGembox, $x + 32, $y, 24, 24)
 		$g_hChkGemsBox = GUICtrlCreateCheckbox(GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkGemsBox", "Remove GemBox"), $x + 100, $y + 4, -1, -1)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Misc", "ChkGemsBox_Info_01", "Check this to automatically clear GemBox."))
 			GUICtrlSetState(-1, $GUI_UNCHECKED)
