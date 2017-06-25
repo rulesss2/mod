@@ -1,11 +1,9 @@
-  _____ ___   _   __  __   ___           ___   ___
+﻿  _____ ___   _   __  __   ___           ___   ___
  |_   _| __| /_\ |  \/  | |   \ ___  __ / _ \ / __|
    | | | _| / _ \| |\/| | | |) / _ \/ _| (_) | (__
    |_| |___/_/ \_\_|  |_| |___/\___/\__|\___/ \___|
 
-
 			Based on MyBot.run v7.2
-
   _____               ____              ____  ______ 
  |  __ \             / __ \            |___ \|____  |
  | |  | | ___   ___ | |  | | ___  __   ____) |   / / 
@@ -13,7 +11,7 @@
  | |__| | (_) | (__ | |__| | (__   \ V /___) | / /   
  |_____/ \___/ \___(_)____/ \___|   \_/|____(_)_/    
                                                    
-	- MBR Official v7.2
+	- MBR Official v7.2 - 7.2.1
 	- Mod Version Rename
 	- Fixed the way to detect the Builder base
 	- Fixed Train icon detection
@@ -29,9 +27,15 @@
 	- Fixed Profile Page report when exist a 'claim reward' button visible
 	- Fixed CC Request Remain Time, May SC update
 	- Fixed the Weak Base detection for Air Defenses
+	- Fixed Boosted Heroes Buttons
+	- Fixed Scripted Attack Dead bases apply settings
+	- Fixed 20 Seconds launch delay (due to Android initialization) (v7.2.1)
 	- Improvements on Weak Base log
 	- Improvements to donate window detection and when grayed troop is in first slot fix
 	- Improvements Zoomout Setlog and Tidy code
+	- Improvements ADB handling when ADB process killed (v7.2.1)
+	- Improvements GUI icons to the new function , reduce a lot of GDI objects (v7.2.1)
+	- Improvements On Main Loop and Idle
 	- Added 'Sleep Before' cmd for CSV attack
 	- Added Giants deploy on standard attack on middle of the side not at corner
 	- Added the CSV '%' cmd from Mr.Viper
@@ -39,16 +43,18 @@
   	  «« DROP remain to use DropTroopFromINI for drop remain troops »»
 	- Added Collect resource on Builder Base
 	- Added Clock Tower Activation on Builder Base
-	- Added Suggested Upgrades on Builder Island
+	- Added Suggested Upgrades on Builder Island and placing new buildings
 	- Added Suggested Upgrades on Main Village with ignore list
 	- Added Classic FFF
 	- Added 'Start' cmd to Telegram
 	- Added Unicode send text on Request CC with **MEmu**
-	- Added check if the Barracks or Spell Factory are boosted , divide by 4 the remain train time.
+	- Added Check if the Barracks or Spell Factory are boosted.
 	- Added Switch Account from Rorotiti
 	- Added Treasury from Rorotiti
 	- Added Humanization Features from Rorotiti
 	- Added Drop Troops Order on standard Attack
+	- Added 'Attack Now' Button on CSV attack Alive Bases
+	- Removed The Donate Ratio from Donate, only disable Castle usage on attack
 							
 							
  				 Doc Oc v3.6.1												   
