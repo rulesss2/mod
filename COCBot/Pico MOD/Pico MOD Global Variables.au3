@@ -99,11 +99,6 @@ Global $g_iGoldBB = 0, $g_iElixirBB = 0, $g_iTrophiesBB = 0, $g_aBuilder[2] = [0
 
 Global $bCanUseUnicodeKeyboard = False
 
-; move the Request CC Troops (MMHK) - Added rulesss
-Global $g_bReqCCFirst = False
-Global $chkReqCCFirst = 0 
-Global $g_hLblEarly
-
 ; ================================================== Drop order troops by Kychera ================================================== ;
 
 Global Enum $eTroopBarbarianS, $eTroopArcherS, $eTroopGiantS, $eTroopGoblinS, $eTroopWallBreakerS, $eTroopBalloonS, _

@@ -29,15 +29,15 @@ Func RequestCC($ClickPAtEnd = True, $specifyText = "")
 
 	SetLog("Requesting Clan Castle Troops", $COLOR_INFO)
 
-	;open army overview
-	If IsMainPage() Then
-		If Not $g_bUseRandomClick Then
-			Click($aArmyTrainButton[0], $aArmyTrainButton[1], 1, 0, "#0334")
-		Else
-			ClickR($aArmyTrainButtonRND, $aArmyTrainButton[0], $aArmyTrainButton[1], 1, 0)
-		EndIf
-	EndIf
-	If _Sleep($DELAYREQUESTCC1) Then Return
+;~ 	;open army overview
+;~ 	If IsMainPage() Then
+;~ 		If Not $g_bUseRandomClick Then
+;~ 			Click($aArmyTrainButton[0], $aArmyTrainButton[1], 1, 0, "#0334")
+;~ 		Else
+;~ 			ClickR($aArmyTrainButtonRND, $aArmyTrainButton[0], $aArmyTrainButton[1], 1, 0)
+;~ 		EndIf
+;~ 	EndIf
+;~ 	If _Sleep($DELAYREQUESTCC1) Then Return
 
 	checkAttackDisable($g_iTaBChkIdle) ; Early Take-A-Break detection
 
@@ -70,11 +70,11 @@ Func RequestCC($ClickPAtEnd = True, $specifyText = "")
 		setlog("The Pixel on " & $aRequestTroopsAO[0] & "-" & $aRequestTroopsAO[1] & " was: " & $color, $COLOR_ERROR)
 	EndIf
 
-	;exit from army overview
-	If _Sleep($DELAYREQUESTCC1) Then Return
-	If $ClickPAtEnd Then ClickP($aAway, 2, 0, "#0335")
-    If _Sleep($DELAYREQUESTCC1) Then Return
-	
+;~ 	;exit from army overview
+;~ 	If _Sleep($DELAYREQUESTCC1) Then Return
+;~ 	If $ClickPAtEnd Then ClickP($aAway, 2, 0, "#0335")
+;~ 	If _Sleep($DELAYREQUESTCC1) Then Return
+
 EndFunc   ;==>RequestCC
 
 

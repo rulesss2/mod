@@ -107,15 +107,6 @@ Func CreateRequestSubTab()
 		$g_hTxtRequestCC = GUICtrlCreateInput(GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "TxtRequestCC", "Anything please"), $x +40+30 , $y + 15, 214, 20,  BitOR($SS_CENTER, $ES_AUTOHSCROLL))
 			GUICtrlSetState(-1, $GUI_DISABLE)
 			_GUICtrlSetTip(-1, GetTranslatedFileIni("MBR GUI Design Child Village - Donate-CC", "TxtRequestCC_Info_01", "This text is used on your request for troops in the Clan chat."))
-        
-         ; MOD ; MMHK - added rulesss ; move the Request CC Troops function to the beginning of the run loop
- 		$y += 20
- 		$chkReqCCFirst = GUICtrlCreateCheckbox("", $x + 294, $y - 4, 13, 13)
- 			GUICtrlSetTip(-1, "Request troops at the beginning of the run loop")
-      		GUICtrlSetState(-1, $GUI_DISABLE)
- 		    GUICtrlSetOnEvent(-1, "chkReqCCFirst")
- 		$g_hLblEarly = GUICtrlCreateLabel("Early", $x + 311, $y - 4, -1, -1)
- 		    GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
 			
 		$x += 29 + 30
 		$y += 60

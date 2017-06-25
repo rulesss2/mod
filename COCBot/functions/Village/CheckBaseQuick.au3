@@ -40,7 +40,7 @@ Func CheckBaseQuick($bStopRecursion = False, $sReturnHome = "")
 
 		If $g_iDebugSetlog = 1 Then Setlog("CheckBaseQuick now...", $COLOR_DEBUG)
 
-		RequestCC() ; fill CC
+		checkArmyCamp(True, True, False, True)
 		If _Sleep($DELAYRUNBOT1) Then Return
 		checkMainScreen(False) ; required here due to many possible exits
 		If $g_bRestart = True Then

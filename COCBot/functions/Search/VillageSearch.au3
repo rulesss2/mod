@@ -518,7 +518,7 @@ Func SearchLimit($iSkipped)
 		WEnd
 		$g_bIsSearchLimit = True
 		ReturnHome(False, False) ;If End battle is available
-		getArmyCapacity(True, True)
+		getArmyCapacity(True, True, False)
 		$g_bRestart = True ; set force runbot restart flag
 		$g_bIsClientSyncError = True ; set OOS flag for fast restart
 		Return True
