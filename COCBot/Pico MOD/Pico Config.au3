@@ -99,9 +99,6 @@ Func ReadConfig_PicoMod()
 
 	IniReadS($icmbCSVSpeed[$LB], $g_sProfileConfigPath, "Pico CSV Speed", "cmbCSVSpeed[LB]", $icmbCSVSpeed[$LB], "Int")
 	IniReadS($icmbCSVSpeed[$DB], $g_sProfileConfigPath, "Pico CSV Speed", "cmbCSVSpeed[DB]", $icmbCSVSpeed[$DB], "Int")
-	
-	; Move the Request CC Troops - Added By rulesss
-	$g_bReqCCFirst = (IniRead($g_sProfileConfigPath, "planned", "ReqCCFirst", 0) = 1)
     
 	; ================================================== CUSTOM DROP ORDER ================================================== ;kychera
 	IniReadS($g_bCustomTrainDropOrderEnable, $g_sProfileConfigPath, "Pico DropOrder", "chkTroopDropOrder", $g_bCustomTrainDropOrderEnable, "Bool")
@@ -133,6 +130,19 @@ Func ReadConfig_PicoMod()
 	IniReadS($icmbForecastHopingSwitchMin, $g_sProfileConfigPath, "Pico Forecast", "cmbForecastHopingSwitchMin", 0, "Int")
 	IniReadS($itxtForecastHopingSwitchMin, $g_sProfileConfigPath, "Pico Forecast", "txtForecastHopingSwitchMin", 2, "Int")
 	IniReadS($icmbSwLang, $g_sProfileConfigPath, "Pico Forecast", "cmbSwLang", 1, "int")
+	
+	; ================================================== Chat PART ================================================== ;
+	
+	IniReadS($ChatbotChatGlobal, $g_sProfileConfigPath, "Pico Chatbot", "chkGlobalChat", $ChatbotChatGlobal, "Int")
+	IniReadS($ChatbotScrambleGlobal, $g_sProfileConfigPath, "Pico Chatbot", "chkGlobalScramble", $ChatbotScrambleGlobal, "Int")
+	IniReadS($iTxtGlobChatTimeDalay, $g_sProfileConfigPath, "Pico Chatbot", "TxtGlobChatTimeDalay", 0 ,"Int")
+	IniReadS($ChatbotSwitchLang, $g_sProfileConfigPath, "Pico Chatbot", "chkSwitchLang", $ChatbotSwitchLang, "Int")
+	IniReadS($icmbLang, $g_sProfileConfigPath, "Pico Chatbot", "cmbLang", 8, "int")
+	IniReadS($ChatbotChatClan, $g_sProfileConfigPath, "Pico Chatbot", "chkClanChat", $ChatbotChatClan, "Int")
+	IniReadS($ChatbotClanUseResponses, $g_sProfileConfigPath, "Pico Chatbot", "chkUseResponses", $ChatbotClanUseResponses, "Int")
+	IniReadS($ChatbotClanAlwaysMsg, $g_sProfileConfigPath, "Pico Chatbot", "chkUseGeneric", $ChatbotClanAlwaysMsg, "Int")
+	IniReadS($ChatbotUseNotify, $g_sProfileConfigPath, "Pico Chatbot", "chkChatNotify", $ChatbotUseNotify, "Int")
+	IniReadS($ChatbotPbSendNew, $g_sProfileConfigPath, "Pico Chatbot", "chkPbSendNewChats", $ChatbotPbSendNew, "Int")
 	
 EndFunc   ;==>ReadConfig_PicoMod
 
@@ -221,10 +231,7 @@ Func SaveConfig_PicoMod()
 
 	_Ini_Add("Pico CSV Speed", "cmbCSVSpeed[LB]", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB]))
 	_Ini_Add("Pico CSV Speed", "cmbCSVSpeed[DB]", _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB]))
-	
-	; Move the Request CC Troops 
-	_Ini_Add("planned", "ReqCCFirst", $g_bReqCCFirst ? 1 : 0)
-    
+	    
 	; ================================================== CUSTOM DROP ORDER ================================================== ;kychera
 	_Ini_Add("Pico DropOrder", "chkTroopDropOrder", $g_bCustomTrainDropOrderEnable)
 	For $p = 0 To UBound($icmbDropTroops) - 1
@@ -254,6 +261,19 @@ Func SaveConfig_PicoMod()
 	_Ini_Add("Pico Forecast", "chkForecastHopingSwitchMax", $ichkForecastHopingSwitchMax ? 1 : 0)
 	_Ini_Add("Pico Forecast", "chkForecastHopingSwitchMin", $ichkForecastHopingSwitchMin ? 1 : 0)
 	_Ini_Add("Pico Forecast", "cmbSwLang", _GUICtrlComboBox_GetCurSel($cmbSwLang))
+	
+	; ================================================== Chat PART ================================================== ;
+	
+	_Ini_Add("Pico Chatbot", "chkGlobalChat", $ChatbotChatGlobal)
+	_Ini_Add("Pico Chatbot", "chkGlobalScramble", $ChatbotScrambleGlobal)
+	_Ini_Add("Pico Chatbot", "TxtGlobChatTimeDalay", GUICtrlRead($TxtGlobChatTimeDalay))
+    _Ini_Add("Pico Chatbot", "chkSwitchLang", $ChatbotSwitchLang)
+	_Ini_Add("Pico Chatbot", "cmbLang", _GUICtrlComboBox_GetCurSel($cmbLang))
+	_Ini_Add("Pico Chatbot", "chkClanChat", $ChatbotChatClan)
+	_Ini_Add("Pico Chatbot", "chkUseResponses", $ChatbotClanUseResponses)
+	_Ini_Add("Pico Chatbot", "chkUseGeneric", $ChatbotClanAlwaysMsg)
+	_Ini_Add("Pico Chatbot", "chkChatNotify", $ChatbotUseNotify)
+	_Ini_Add("Pico Chatbot", "chkPbSendNewChats", $ChatbotPbSendNew)
 	
 EndFunc   ;==>SaveConfig_PicoMod
 
@@ -346,10 +366,7 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 
 			$icmbCSVSpeed[$LB] = _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$LB])
 			$icmbCSVSpeed[$DB] = _GUICtrlComboBox_GetCurSel($cmbCSVSpeed[$DB])
-            
-			;Move the Request CC Troops 
-			$g_bReqCCFirst = GUICtrlRead($chkReqCCFirst) = $GUI_CHECKED ? 1 : 0
-			
+            			
 			; ================================================== CUSTOM DROP ORDER ================================================== ;
 			$g_bCustomTrainDropOrderEnable = GUICtrlRead($g_hChkCustomTrainDropOrderEnable) = $GUI_CHECKED ? True : False
 			For $p = 0 To UBound($icmbDropTroops) - 1
@@ -378,6 +395,19 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 			$icmbForecastHopingSwitchMin = _GUICtrlComboBox_GetCurSel($cmbForecastHopingSwitchMin)
 			$itxtForecastHopingSwitchMin = GUICtrlRead($txtForecastHopingSwitchMin)
 			$icmbSwLang = _GUICtrlComboBox_GetCurSel($cmbSwLang)
+			$iTxtForecastPause = GUICtrlRead($txtForecastPause)
+			; ================================================== Chat PART ================================================== ;
+			
+			$ChatbotChatGlobal = GUICtrlRead($chkGlobalChat) = $GUI_CHECKED ? 1 : 0
+			$ChatbotScrambleGlobal = GUICtrlRead($chkGlobalScramble) = $GUI_CHECKED ? 1 : 0
+			$iTxtGlobChatTimeDalay = GUICtrlRead($TxtGlobChatTimeDalay)
+			$ChatbotSwitchLang = GUICtrlRead($chkSwitchLang) = $GUI_CHECKED ? 1 : 0
+			$icmbLang = _GUICtrlComboBox_GetCurSel($cmbLang)
+			$ChatbotChatClan = GUICtrlRead($chkClanChat) = $GUI_CHECKED ? 1 : 0
+			$ChatbotClanUseResponses = GUICtrlRead($chkUseResponses) = $GUI_CHECKED ? 1 : 0
+			$ChatbotClanAlwaysMsg = GUICtrlRead($chkUseGeneric) = $GUI_CHECKED ? 1 : 0
+			$ChatbotUseNotify = GUICtrlRead($chkChatNotify) = $GUI_CHECKED ? 1 : 0
+			$ChatbotPbSendNew = GUICtrlRead($chkPbSendNewChats) = $GUI_CHECKED ? 1 : 0
 			
 		Case "Read"
 
@@ -478,10 +508,7 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 
 			_GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$LB], $icmbCSVSpeed[$LB])
 			_GUICtrlComboBox_SetCurSel($cmbCSVSpeed[$DB], $icmbCSVSpeed[$DB])
-            
-			;Move the Request CC Troops 
-			GUICtrlSetState($chkReqCCFirst, $g_bReqCCFirst = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
-			
+        			
 			; ================================================== CUSTOM DROP ORDER ================================================== ;
 			GUICtrlSetState($g_hChkCustomTrainDropOrderEnable, $g_bCustomTrainDropOrderEnable = True ? $GUI_CHECKED : $GUI_UNCHECKED)
 			For $p = 0 To UBound($icmbDropTroops) - 1
@@ -531,7 +558,27 @@ Func ApplyConfig_PicoMod($TypeReadSave)
 			GUICtrlSetData($txtForecastHopingSwitchMin, $itxtForecastHopingSwitchMin)
 			chkForecastHopingSwitchMin()
 			_GUICtrlComboBox_SetCurSel($cmbSwLang, $icmbSwLang)
-
+			
+			; ================================================== Chat PART ================================================== ;
+			
+			GUICtrlSetState($chkGlobalChat, $ChatbotChatGlobal = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($chkGlobalScramble, $ChatbotScrambleGlobal = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetData($TxtGlobChatTimeDalay, $iTxtGlobChatTimeDalay)
+			GUICtrlSetState($chkSwitchLang, $ChatbotSwitchLang = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)			
+			_GUICtrlComboBox_SetCurSel($cmbLang, $icmbLang)
+			GUICtrlSetState($chkClanChat, $ChatbotChatClan = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($chkUseResponses, $ChatbotClanUseResponses = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($chkUseGeneric, $ChatbotClanAlwaysMsg = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($chkChatNotify, $ChatbotUseNotify = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			GUICtrlSetState($chkPbSendNewChats, $ChatbotPbSendNew = 1 ? $GUI_CHECKED : $GUI_UNCHECKED)
+			chkGlobalChat()
+			chkGlobalScramble()
+			chkSwitchLang()
+			chkClanChat()
+			chkUseResponses()
+			chkUseGeneric()
+			chkChatNotify()
+			chkPbSendNewChats()
 	EndSwitch
 
 EndFunc   ;==>ApplyConfig_PicoMod

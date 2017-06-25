@@ -60,6 +60,18 @@ Func checkArmyCamp($bOpenArmyWindow = False, $bCloseArmyWindow = False, $bGetHer
 	getArmyCCStatus(False, False, $bSetLog, False) ; Last parameter is to check the Army Window
 	If _Sleep($DELAYCHECKARMYCAMP6) Then Return ; 10ms improve pause button response
 
+	; $g_bCanRequestCC was updated on previous Function getArmyCCStatus()
+	If $g_bCanRequestCC = True Then
+		; If Use CC Balanced : check the ratio
+		If $g_bUseCCBalanced Then
+			If Number(Number($g_iTroopsDonated) / Number($g_iTroopsReceived)) >= (Number($g_iCCDonated) / Number($g_iCCReceived)) Then
+				RequestCC()
+			EndIf
+		Else
+			RequestCC()
+		EndIf
+	EndIf
+
 	If Not $g_bFullArmy Then DeleteExcessTroops()
 
 	If $bCloseArmyWindow Then

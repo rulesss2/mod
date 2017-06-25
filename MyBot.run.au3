@@ -309,7 +309,6 @@ EndFunc   ;==>InitializeAndroid
 ; ===============================================================================================================================
 Func SetupProfileFolder()
 	$g_sProfileConfigPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\config.ini"
-	$chatIni = $g_sProfilePath & "\" & $g_sProfileCurrentName &  "\chat.ini"
 	$g_sProfileBuildingStatsPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\stats_buildings.ini"
 	$g_sProfileBuildingPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\building.ini"
 	$g_sProfileLogsPath = $g_sProfilePath & "\" & $g_sProfileCurrentName & "\Logs\"
@@ -654,6 +653,8 @@ Func runBot() ;Bot that runs everything in order
 			;==================
 
 
+=======
+
 			If $g_bRestart = True Then ContinueLoop
 			If _Sleep($DELAYRUNBOT3) Then Return
 			VillageReport()
@@ -670,17 +671,18 @@ Func runBot() ;Bot that runs everything in order
 			If _Sleep($DELAYRUNBOT5) Then Return
 			checkMainScreen(False)
 			If $g_bRestart = True Then ContinueLoop
-            ; MOD ; MMHK ; move the Request CC Troops function to the beginning of the run loop
-			$g_bcanRequestCC = True ; coz almost always empty cc after raids, and no other lines above could check if true, other than Idle(): set True - Train(), CheckOverviewFullArmy(); set False - RequestCC()
-			If ($g_bReqCCFirst) Then
-				RequestCC()
-				If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
-			EndIf
+
+			; ProMac
+			; First is nececssary Check Army camp all values  , will give all INFO and Request CC if needed
+			ProfileReport()
+			If _Sleep($DELAYRUNBOT5) Then Return
+			checkMainScreen(False)
+			checkArmyCamp(True, True, False, True)
+
 			; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
 			;Local $aRndFuncList = ['Collect', 'CheckTombs', 'ReArm', 'CleanYard']
-			Local $aRndFuncList = ['Collect', 'CheckTombs', 'ReArm', 'CleanYard', 'CollectTreasury', 'SendChat', 'GoToBBFeatures']
+			Local $aRndFuncList = ['Collect', 'CheckTombs', 'ReArm', 'CleanYard', 'CollectTreasury', 'GoToBBFeatures', 'SendChat', 'LabCheck']
 			; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
-
 			While 1
 				If $g_bRunState = False Then Return
 				If $g_bRestart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
@@ -700,21 +702,21 @@ Func runBot() ;Bot that runs everything in order
 			If $g_bRestart = True Then ContinueLoop
 			If $iChkForecastBoost = 1 Then
 				$currentForecast = readCurrentForecast()
-					If $currentForecast >= Number($iTxtForecastBoost, 3) Then
-						If _GUICtrlComboBox_GetCurSel($g_hCmbBoostBarracks) > 0 Then
-							SetLog("Boost Time !", $COLOR_GREEN)
-						Else
-							SetLog("Boost barracks disabled!", $COLOR_GREEN)
-						EndIf
+				If $currentForecast >= Number($iTxtForecastBoost, 3) Then
+					If _GUICtrlComboBox_GetCurSel($g_hCmbBoostBarracks) > 0 Then
+						 SetLog("Boost Time !", $COLOR_GREEN)
 					Else
-					SetLog("Forecast index is below the required value, no boost !", $COLOR_RED)
+						 SetLog("Boost barracks disabled!", $COLOR_GREEN)
 					EndIf
+				Else
+			    SetLog("Forecast index is below the required value, no boost !", $COLOR_RED)
+				EndIf
  			EndIf
 			If $iChkForecastPause = 1 Then
 				$currentForecast = readCurrentForecast()
 			EndIf
 			If IsSearchAttackEnabled() Then ; if attack is disabled skip reporting, requesting, donating, training, and boosting
-				Local $aRndFuncList = ['ReplayShare', 'NotifyReport', 'DonateCC,Train', 'BoostBarracks', 'BoostSpellFactory', 'BoostKing', 'BoostQueen', 'BoostWarden', 'RequestCC']
+				Local $aRndFuncList = ['ReplayShare', 'NotifyReport', 'DonateCC,Train', 'Boost']
 				While 1
 					If $g_bRunState = False Then Return
 					If $g_bRestart = True Then ContinueLoop 2 ; must be level 2 due to loop-in-loop
@@ -823,11 +825,9 @@ EndFunc   ;==>runBot
 
 Func Idle() ;Sequence that runs until Full Army
 	Static $iCollectCounter = 0 ; Collect counter, when reaches $g_iCollectAtCount, it will collect
-
+ 
 	Local $TimeIdle = 0 ;In Seconds
-	
 	ForecastSwitch()
-
 	If $g_iDebugSetlog = 1 Then SetLog("Func Idle ", $COLOR_DEBUG)
 
 	; ================================================== ADDITION BY ROROTITI - PICO MOD ================================================== ;
@@ -966,7 +966,7 @@ Func Idle() ;Sequence that runs until Full Army
 		If $g_bRestart = True Then ExitLoop
 		$TimeIdle += Round(__TimerDiff($hTimer) / 1000, 2) ;In Seconds
 
-		If $g_bCanRequestCC = True Then RequestCC()
+		;If $g_bCanRequestCC = True Then RequestCC()
 
 		SetLog("Time Idle: " & StringFormat("%02i", Floor(Floor($TimeIdle / 60) / 60)) & ":" & StringFormat("%02i", Floor(Mod(Floor($TimeIdle / 60), 60))) & ":" & StringFormat("%02i", Floor(Mod($TimeIdle, 60))))
 
@@ -1056,13 +1056,12 @@ Func Attack() ;Selects which algorithm
 	$g_bAttackActive = False
 EndFunc   ;==>Attack
 
-
 Func QuickAttack()
 
 	Local $quicklymilking = 0
 	Local $quicklythsnipe = 0
 
-	getArmyCapacity(True, True)
+	;getArmyCapacity(True, True)
 
 	If ($g_aiAttackAlgorithm[$DB] = 2 And IsSearchModeActive($DB)) Or (IsSearchModeActive($TS)) Then
 		VillageReport()
@@ -1139,10 +1138,12 @@ Func _RunFunction($action)
 		    EndIf
 		Case "DonateCC,Train"
 			If $g_iActiveDonate And $g_bChkDonate Then
+
 				If $g_bFirstStart Then
 					getArmyCapacity(True, False)
 					getArmySpellCapacity(False, True)
 				EndIf
+
 				;If SkipDonateNearFullTroops(True) = False And BalanceDonRec(True) Then DonateCC()
 				If SkipDonateNearFullTroops(True) = False Then DonateCC()
 			EndIf
@@ -1158,26 +1159,21 @@ Func _RunFunction($action)
 					If $g_iActualTrainSkip >= $g_iMaxTrainSkip Then
 						$g_iActualTrainSkip = 0
 					EndIf
-					CheckOverviewFullArmy(True, False) ; use true parameter to open train overview window
-					If ISArmyWindow(False, $ArmyTAB) Then CheckExistentArmy("Spells") ; Imgloc Method
-					getArmyHeroCount(False, True)
 				EndIf
 			Else
 				If $g_iDebugSetlogTrain = 1 Then Setlog("Halt mode - training disabled", $COLOR_DEBUG)
 			EndIf
-		Case "BoostBarracks"
+		Case "Boost"
 			BoostBarracks()
-		Case "BoostSpellFactory"
 			BoostSpellFactory()
-		Case "BoostKing"
 			BoostKing()
-		Case "BoostQueen"
 			BoostQueen()
-		Case "BoostWarden"
 			BoostWarden()
-		Case "RequestCC"
-		    If Not ($g_bReqCCFirst) Then RequestCC() ; MOD ; MMHK ; move the Request CC Troops function to the beginning of the run loop
-			If _Sleep($DELAYRUNBOT1) = False Then checkMainScreen(False)
+
+		Case "LabCheck"
+			Setlog("Checking Lab Status", $COLOR_INFO)
+			LabGuiDisplay()
+
 		Case "Laboratory"
 			Laboratory()
 			If _Sleep($DELAYRUNBOT3) = False Then checkMainScreen(False)

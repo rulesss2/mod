@@ -216,6 +216,10 @@ Func EnterSwitchAccountProcess()
 		If _Sleep(250) Then Return
 		SendText("CONFIRM")
 
+		; Reset the Rearm and Tombs
+		$g_abNotNeedAllTime[0] = True
+		$g_abNotNeedAllTime[1] = True
+
 		$iCheckStep = 0 ; Another Fancy Sleep wait for Click Confirm Button
 		While Not _ColorCheck(_GetPixelColor(480, 200, True), "81CB2C", 20)
 			If _Sleep(100) Then Return
@@ -261,37 +265,37 @@ Func GetWaitTime()
 	If IsWaitforSpellsActive() Then getArmySpellTime()
 	If IsWaitforHeroesActive() Then
 
-		If GUICtrlRead($g_hChkABActivateSearches) = $GUI_CHECKED Then
-			If GUICtrlRead($g_hchkABKingWait) = $GUI_CHECKED Then
-				$HeroesRemainingWait[0] = getArmyHeroTime($eKing)
+		If $g_abSearchSearchesEnable[$LB] = 1 Then
+			If $g_iHeroWaitAttackNoBit[$LB][0] = 1 Then
+				$HeroesRemainingWait[0] = getArmyHeroTime($eHeroKing)
 			EndIf
-			If GUICtrlRead($g_hChkABQueenWait) = $GUI_CHECKED Then
-				$HeroesRemainingWait[1] = getArmyHeroTime($eQueen)
+			If $g_iHeroWaitAttackNoBit[$LB][1] = 1 Then
+				$HeroesRemainingWait[1] = getArmyHeroTime($eHeroQueen)
 			EndIf
-			If GUICtrlRead($g_hChkABWardenWait) = $GUI_CHECKED Then
-				$HeroesRemainingWait[2] = getArmyHeroTime($eWarden)
-			EndIf
-		EndIf
-		If GUICtrlRead($g_hchkDBActivateSearches) = $GUI_CHECKED Then
-			If GUICtrlRead($g_hchkDBKingWait) = $GUI_CHECKED Then
-				$HeroesRemainingWait[0] = getArmyHeroTime($eKing)
-			EndIf
-			If GUICtrlRead($g_hchkDBQueenWait) = $GUI_CHECKED Then
-				$HeroesRemainingWait[1] = getArmyHeroTime($eQueen)
-			EndIf
-			If GUICtrlRead($g_hchkDBWardenWait) = $GUI_CHECKED Then
-				$HeroesRemainingWait[2] = getArmyHeroTime($eWarden)
+			If $g_iHeroWaitAttackNoBit[$LB][2] = 1 Then
+				$HeroesRemainingWait[2] = getArmyHeroTime($eHeroWarden)
 			EndIf
 		EndIf
-		If GUICtrlRead($g_hchkTSActivateSearches) = $GUI_CHECKED Then
-			If GUICtrlRead($g_hchkTSKingAttack) = $GUI_CHECKED Then
-				$HeroesRemainingWait[0] = getArmyHeroTime($eKing)
+		If $g_abSearchSearchesEnable[$DB] = 1 Then
+			If $g_iHeroWaitAttackNoBit[$DB][0] = 1 Then
+				$HeroesRemainingWait[0] = getArmyHeroTime($eHeroKing)
 			EndIf
-			If GUICtrlRead($g_hchkTSQueenAttack) = $GUI_CHECKED Then
-				$HeroesRemainingWait[1] = getArmyHeroTime($eQueen)
+			If $g_iHeroWaitAttackNoBit[$DB][1] = 1 Then
+				$HeroesRemainingWait[1] = getArmyHeroTime($eHeroQueen)
 			EndIf
-			If GUICtrlRead($g_hchkTSWardenAttack) = $GUI_CHECKED Then
-				$HeroesRemainingWait[2] = getArmyHeroTime($eWarden)
+			If $g_iHeroWaitAttackNoBit[$DB][2] = 1 Then
+				$HeroesRemainingWait[2] = getArmyHeroTime($eHeroWarden)
+			EndIf
+		EndIf
+		If $g_abSearchSearchesEnable[$TS] = 1 Then
+			If $g_iHeroWaitAttackNoBit[$TS][0] = 1 Then
+				$HeroesRemainingWait[0] = getArmyHeroTime($eHeroKing)
+			EndIf
+			If $g_iHeroWaitAttackNoBit[$TS][1] = 1 Then
+				$HeroesRemainingWait[1] = getArmyHeroTime($eHeroQueen)
+			EndIf
+			If $g_iHeroWaitAttackNoBit[$TS][2] = 1 Then
+				$HeroesRemainingWait[2] = getArmyHeroTime($eHeroWarden)
 			EndIf
 		EndIf
 

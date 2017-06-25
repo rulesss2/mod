@@ -11,7 +11,7 @@
  | |__| | (_) | (__ | |__| | (__   \ V /___) | / /   
  |_____/ \___/ \___(_)____/ \___|   \_/|____(_)_/    
                                                    
-	- MBR Official v7.2
+	- MBR Official v7.2 - 7.2.1
 	- Mod Version Rename
 	- Fixed the way to detect the Builder base
 	- Fixed Train icon detection
@@ -28,10 +28,16 @@
 	- Fixed CC Request Remain Time, May SC update
 	- Fixed the Weak Base detection for Air Defenses
 	- Fixed Boosted Heroes Buttons
+
 	- Fixed Scripted Attack Dead bases apply settings 
+  
+	- Fixed 20 Seconds launch delay (due to Android initialization) (v7.2.1)
 	- Improvements on Weak Base log
 	- Improvements to donate window detection and when grayed troop is in first slot fix
 	- Improvements Zoomout Setlog and Tidy code
+	- Improvements ADB handling when ADB process killed (v7.2.1)
+	- Improvements GUI icons to the new function , reduce a lot of GDI objects (v7.2.1)
+	- Improvements On Main Loop and Idle
 	- Added 'Sleep Before' cmd for CSV attack
 	- Added Giants deploy on standard attack on middle of the side not at corner
 	- Added the CSV '%' cmd from Mr.Viper

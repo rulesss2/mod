@@ -67,15 +67,17 @@ Global $g_SmartMinGold = 0, $g_SmartMinElixir = 0, $g_SmartMinDark = 0
 Global $g_alblBldBaseStats[4] = ["", "", ""], $g_chkCollectBldGE = 0, $g_chkCollectBldGems = 0, $g_chkActivateClockTower = 0
 Global $g_chkBBSuggestedUpgrades = 0, $g_chkBBSuggestedUpgradesIgnoreGold = 0 , $g_chkBBSuggestedUpgradesIgnoreElixir , $g_chkBBSuggestedUpgradesIgnoreHall = 0
 
-; ================================================== ChatBot FEATURES PART ================================================== ;
-Global $chatIni = ""
+; ================================================== Chat FEATURES PART ================================================== ;
 Global $cmblang = 0,  $icmblang = 0
-Global $chkGlobalChat = 0,$chkGlobalScramble = 0,$chkSwitchLang = 0,$chkchatdelay = 0,$ichkchatdelay = 0,$ChatbotChatDelayLabel = "",$chatdelaycount = 0,$chkClanChat = 0
-Global $chkUseResponses = 0,$chkUseGeneric = 0,$chkChatPushbullet = 0,$chkPbSendNewChats = 0
+Global $chkGlobalChat = 0,$chkGlobalScramble = 0,$chkSwitchLang = 0,$TxtGlobChatTimeDalay = 0, $chkClanChat = 0
+Global $chkUseResponses = 0,$chkUseGeneric = 0,$chkChatNotify = 0,$chkPbSendNewChats = 0
 Global $editGlobalMessages1 = "", $editGlobalMessages2 = "",$editGlobalMessages3 = "",$editGlobalMessages4 = ""
 Global $editResponses = 0,$editGeneric = 0,$ChatbotQueuedChats[0],$ChatbotReadQueued = False,$ChatbotReadInterval = 0,$ChatbotIsOnInterval = False,$TmpResp
+
 Global $g_alblAinGlobal,$g_alblSGchats,$g_alblSwitchlang,$g_alblChatclan,$g_alblUsecustomresp,$g_alblUsegenchats,$g_alblNotifyclanchat,$g_alblSwitchlang,$g_alblUseremotechat
 Global $g_chkPlacingNewBuildings = 0
+=======
+Global $g_alblAinGlobal,$g_alblSGchats,$g_alblSwitchlang,$g_alblChatclan,$g_alblUsecustomresp,$g_alblUsegenchats,$g_alblNotifyclanchat,$g_alblSwitchlang,$g_alblUseremotechat,$g_alblTimeDalay
 
 Global $g_hGUI_MOD = 0
 
@@ -247,7 +249,7 @@ Func TabItem2()
 	$x += 10
 	$y += 60
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnChat, $x, $y + 5, 32, 32)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnChat, $x, $y + 5, 32, 32)
 	$g_Label1 = GUICtrlCreateLabel("Read the Clan Chat", $x + 40, $y + 5, 110, 17)
 	$g_acmbPriority[0] = GUICtrlCreateCombo("", $x + 155, $y, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, $g_sFrequenceChain, "Never")
@@ -267,7 +269,7 @@ Func TabItem2()
 
 	$y += 81
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnRepeat, $x, $y + 5, 32, 32)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnRepeat, $x, $y + 5, 32, 32)
 	$g_Label5 = GUICtrlCreateLabel("Watch Defenses", $x + 40, $y + 5, 110, 17)
 	$g_acmbPriority[3] = GUICtrlCreateCombo("", $x + 155, $y, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, $g_sFrequenceChain, "Never")
@@ -285,7 +287,7 @@ Func TabItem2()
 
 	$y += 56
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnClan, $x, $y + 5, 32, 32)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnClan, $x, $y + 5, 32, 32)
 	$g_Label9 = GUICtrlCreateLabel("Look at War log", $x + 40, $y + 5, 110, 17)
 	$g_acmbPriority[5] = GUICtrlCreateCombo("", $x + 155, $y, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, $g_sFrequenceChain, "Never")
@@ -301,7 +303,7 @@ Func TabItem2()
 
 	$y += 56
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnTarget, $x, $y + 5, 32, 32)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnTarget, $x, $y + 5, 32, 32)
 	$g_Label14 = GUICtrlCreateLabel("Look at Current War", $x + 40, $y + 5, 110, 17)
 	$g_acmbPriority[9] = GUICtrlCreateCombo("", $x + 155, $y, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, $g_sFrequenceChain, "Never")
@@ -318,7 +320,7 @@ Func TabItem2()
 
 	$y += 56
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnSettings, $x, $y + 5, 32, 32)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSettings, $x, $y + 5, 32, 32)
 	$g_Label17 = GUICtrlCreateLabel("Do nothing", $x + 40, $y + 5, 110, 17)
 	$g_acmbPriority[11] = GUICtrlCreateCombo("", $x + 155, $y, 75, 25, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
 	GUICtrlSetData(-1, $g_sFrequenceChain, "Never")
@@ -363,9 +365,9 @@ Func TabItem3()
 	_GUICtrlSetTip(-1, "Check to force Treasury collection" & _
 			@CRLF & "Treasury will be collected all the time, ignoring any criteria")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnGold, $x + 160, $y + 15, 24, 24)
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnElixir, $x + 160, $y + 45, 24, 24)
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnDark, $x + 160, $y + 75, 24, 24)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnGold, $x + 160, $y + 15, 24, 24)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnElixir, $x + 160, $y + 45, 24, 24)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDark, $x + 160, $y + 75, 24, 24)
 
 	$g_chkGoldTrCollect = GUICtrlCreateCheckbox("Collect when Gold <", $x + 190, $y + 18, 112, 17)
 	GUICtrlSetOnEvent(-1, "chkResTrCollect")
@@ -410,55 +412,55 @@ Func TabItem4()
 
 	Local $x = 21, $y = 45
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnTH11, $x + 5, $y + 50, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnTH11, $x + 5, $y + 50, 40, 40)
 	$g_chkIgnoreTH = GUICtrlCreateCheckbox("", $x + 20, $y + 90, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreTH")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnKing, $x + 95, $y + 50, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnKing, $x + 95, $y + 50, 40, 40)
 	$g_chkIgnoreKing = GUICtrlCreateCheckbox("", $x + 110, $y + 90, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreKing")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnQueen, $x + 140, $y + 50, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnQueen, $x + 140, $y + 50, 40, 40)
 	$g_chkIgnoreQueen = GUICtrlCreateCheckbox("", $x + 155, $y + 90, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreQueen")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnWarden, $x + 185, $y + 50, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnWarden, $x + 185, $y + 50, 40, 40)
 	$g_chkIgnoreWarden = GUICtrlCreateCheckbox("", $x + 200, $y + 90, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreWarden")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnCC, $x + 275, $y + 50, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnCC, $x + 275, $y + 50, 40, 40)
 	$g_chkIgnoreCC = GUICtrlCreateCheckbox("", $x + 290, $y + 90, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreCC")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnLaboratory, $x + 365, $y + 50, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnLaboratory, $x + 365, $y + 50, 40, 40)
 	$g_chkIgnoreLab = GUICtrlCreateCheckbox("", $x + 380, $y + 90, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreLab")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnBarrack, $x + 5, $y + 120, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBarrack, $x + 5, $y + 120, 40, 40)
 	$g_chkIgnoreBarrack = GUICtrlCreateCheckbox("", $x + 20, $y + 160, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreBarrack")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnDarkBarrack, $x + 50, $y + 120, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDarkBarrack, $x + 50, $y + 120, 40, 40)
 	$g_chkIgnoreDBarrack = GUICtrlCreateCheckbox("", $x + 65, $y + 160, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreDBarrack")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnSpellFactory, $x + 140, $y + 120, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnSpellFactory, $x + 140, $y + 120, 40, 40)
 	$g_chkIgnoreFactory = GUICtrlCreateCheckbox("", $x + 155, $y + 160, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreFactory")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnDarkSpellFactory, $x + 185, $y + 120, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDarkSpellFactory, $x + 185, $y + 120, 40, 40)
 	$g_chkIgnoreDFactory = GUICtrlCreateCheckbox("", $x + 200, $y + 160, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreDFactory")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnMine, $x + 275, $y + 120, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnMine, $x + 275, $y + 120, 40, 40)
 	$g_chkIgnoreGColl = GUICtrlCreateCheckbox("", $x + 290, $y + 160, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreGColl")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnCollector, $x + 320, $y + 120, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnCollector, $x + 320, $y + 120, 40, 40)
 	$g_chkIgnoreEColl = GUICtrlCreateCheckbox("", $x + 335, $y + 160, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreEColl")
 
-	GUICtrlCreateIcon($g_sLibIconPath, $eIcnDrill, $x + 365, $y + 120, 40, 40)
+	_GUICtrlCreateIcon($g_sLibIconPath, $eIcnDrill, $x + 365, $y + 120, 40, 40)
 	$g_chkIgnoreDColl = GUICtrlCreateCheckbox("", $x + 380, $y + 160, 17, 17)
 	GUICtrlSetOnEvent(-1, "chkIgnoreDColl")
 
@@ -486,15 +488,15 @@ Func TabItem5()
 
 	GUICtrlCreateGroup("Builders Base Stats", $x - 10, $y - 20, 442, 50)
 
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldGold, $x, $y - 2, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldGold, $x, $y - 2, 24, 24)
 		$g_alblBldBaseStats[$eLootGold] = GUICtrlCreateLabel("---", $x + 35, $y + 2, 100, -1)
 			GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldElixir, $x + 140, $y - 2, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldElixir, $x + 140, $y - 2, 24, 24)
 		$g_alblBldBaseStats[$eLootElixir] = GUICtrlCreateLabel("---", $x + 175, $y + 2, 100, -1)
 			GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldTrophy, $x + 280, $y - 2, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldTrophy, $x + 280, $y - 2, 24, 24)
 		$g_alblBldBaseStats[$eLootTrophy] = GUICtrlCreateLabel("---", $x + 315, $y + 2, 100, -1)
 			GUICtrlSetFont(-1, 9, $FW_BOLD, Default, "Arial", $CLEARTYPE_QUALITY)
 
@@ -507,16 +509,16 @@ Func TabItem5()
 
 		$x += 45
 
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldGold, $x, $y - 2, 24, 24)
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldElixir, $x + 28, $y - 2, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldGold, $x, $y - 2, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldElixir, $x + 28, $y - 2, 24, 24)
 		$g_chkCollectBldGE = GUICtrlCreateCheckbox("Collect Gold and Elixir", $x + 60, $y - 2, -1, -1)
 			GUICtrlSetOnEvent(-1, "chkCollectBldGE")
 
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnGem, $x + 14, $y + 28, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnGem, $x + 14, $y + 28, 24, 24)
 		$g_chkCollectBldGems = GUICtrlCreateCheckbox("Collect Gems", $x + 60, $y + 28)
 			GUICtrlSetOnEvent(-1, "chkCollectBldGems")
 
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldClockBtn, $x + 14, $y + 58, 24, 24)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnBldClockBtn, $x + 14, $y + 58, 24, 24)
 		$g_chkActivateClockTower = GUICtrlCreateCheckbox("Activate Clock Tower when available (awesome !)", $x + 60, $y + 58)
 			GUICtrlSetOnEvent(-1, "chkActivateClockTower")
 
@@ -527,7 +529,7 @@ Func TabItem5()
 
 	GUICtrlCreateGroup("Suggested Upgrades ", $x - 10, $y - 20, 442, 233)
 
-		GUICtrlCreateIcon($g_sLibIconPath, $eIcnMBisland, $x , $y , 64, 64)
+		_GUICtrlCreateIcon($g_sLibIconPath, $eIcnMBisland, $x , $y , 64, 64)
 		$g_chkBBSuggestedUpgrades = GUICtrlCreateCheckbox("Suggested Upgrades", $x + 70, $y + 25, -1, -1)
 			;GUICtrlSetState(-1, $GUI_UNCHECKED)
 			GUICtrlSetOnEvent(-1, "chkActivateBBSuggestedUpgrades")
@@ -551,7 +553,6 @@ Func TabItem5()
 EndFunc   ;==>TabItem5
 
 Func TabItem6()
- ChatbotReadSettings()
     	
 	Local $x = 25, $y = 47
 
@@ -560,20 +561,27 @@ Func TabItem6()
    $chkGlobalChat = GUICtrlCreateCheckbox("", $x - 10, $y, 13, 13)
 	_GUICtrlSetTip($chkGlobalChat, "Use global chat to send messages")
    GUICtrlSetState($chkGlobalChat, $ChatbotChatGlobal)
-   GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
+   GUICtrlSetOnEvent(-1, "chkGlobalChat")
 	$g_alblAinGlobal = GUICtrlCreateLabel("Advertise in global", $x + 7, $y, -1, -1)
 	GUICtrlSetBkColor(-1, $GUI_BKCOLOR_TRANSPARENT)
    $y += 18
    $chkGlobalScramble = GUICtrlCreateCheckbox("", $x - 10, $y, 13, 13)
 	_GUICtrlSetTip($chkGlobalScramble, "Scramble the message pieces defined in the textboxes below to be in a random order")
    GUICtrlSetState($chkGlobalScramble, $ChatbotScrambleGlobal)
-   GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
+   GUICtrlSetOnEvent(-1, "chkGlobalScramble")
    $g_alblSGchats = GUICtrlCreateLabel("Scramble global chats", $x + 7, $y, -1, -1)
+   $y += 22
+   $g_alblTimeDalay = GUICtrlCreateLabel("Time Dalay", $x + 8, $y - 2, -1, -1)
+   $TxtGlobChatTimeDalay = GUICtrlCreateInput("0", $x + 70, $y - 5, 30, 20, BitOR($GUI_SS_DEFAULT_INPUT, $ES_CENTER, $ES_NUMBER))
+   _GUICtrlSetTip($TxtGlobChatTimeDalay, "Global Chat time dalay in seconds.")
+   GUICtrlSetLimit(-1, 3)
+   GUICtrlSetOnEvent(-1, "txtGlobChatTimeDalay")
+   GUICtrlSetState($TxtGlobChatTimeDalay, $iTxtGlobChatTimeDalay)
    $y += 18
    $chkSwitchLang = GUICtrlCreateCheckbox("", $x - 10, $y, 13, 13)
 	_GUICtrlSetTip($chkSwitchLang, "Switch languages after spamming for a new global chatroom")
    GUICtrlSetState($chkSwitchLang, $ChatbotSwitchLang)
-   GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
+   GUICtrlSetOnEvent(-1, "chkSwitchLang")
    $g_alblSwitchlang = GUICtrlCreateLabel("Switch languages", $x + 7, $y, -1, -1)
 	;======kychera===========
    $cmbLang = GUICtrlCreateCombo("", $x + 120, $y - 3, 45, 45, BitOR($CBS_DROPDOWNLIST, $CBS_AUTOHSCROLL))
@@ -605,43 +613,43 @@ Func TabItem6()
    $chkClanChat = GUICtrlCreateCheckbox("", $x - 10, $y, 13, 13)
 	_GUICtrlSetTip($chkClanChat, "Use clan chat to send messages")
    GUICtrlSetState($chkClanChat, $ChatbotChatClan)
-   GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
+   GUICtrlSetOnEvent(-1, "chkClanChat")
    $g_alblChatclan = GUICtrlCreateLabel("Chat in clan chat" & ":", $x + 7, $y, -1, -1)
    $y += 22
-   $chkUseResponses = GUICtrlCreateCheckbox("", $x - 10, $y, 13, 13);GUICtrlCreateCheckbox(GetTranslated(106,18,"Use custom responses"), $x - 10, $y)
+   $chkUseResponses = GUICtrlCreateCheckbox("", $x - 10, $y, 13, 13)
    GUICtrlSetTip($chkUseResponses, "Use the keywords and responses defined below")
    GUICtrlSetState($chkUseResponses, $ChatbotClanUseResponses)
-   GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
+   GUICtrlSetOnEvent(-1, "chkUseResponses")
    $g_alblUsecustomresp = GUICtrlCreateLabel("Use custom responses", $x + 7, $y, -1, -1)
    $y += 22
    $chkUseGeneric = GUICtrlCreateCheckbox("", $x - 10, $y, 13, 13)
    GUICtrlSetTip($chkUseGeneric, "Use generic chats if reading the latest chat failed or there are no new chats")
    GUICtrlSetState($chkUseGeneric, $ChatbotClanAlwaysMsg)
-   GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
+   GUICtrlSetOnEvent(-1, "chkUseGeneric")
    $g_alblUsegenchats = GUICtrlCreateLabel("Use generic chats", $x + 7, $y, -1, -1)
    $y += 22
-   $chkChatPushbullet = GUICtrlCreateCheckbox("", $x - 10, $y, 13, 13)
-   GUICtrlSetTip($chkChatPushbullet, "Send and recieve chats via pushbullet or telegram." & @CRLF & "Use BOT <myvillage> GETCHATS <interval|NOW|STOP> to get the latest clan" & @CRLF &  "chat as an image, and BOT <myvillage> SENDCHAT <chat message> to send a chat to your clan") 
-   GUICtrlSetState($chkChatPushbullet, $ChatbotUsePushbullet)
-   GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
+   $chkChatNotify = GUICtrlCreateCheckbox("", $x - 10, $y, 13, 13)
+   GUICtrlSetTip($chkChatNotify, "Send and recieve chats via pushbullet or telegram." & @CRLF & "Use BOT <myvillage> GETCHATS <interval|NOW|STOP> to get the latest clan" & @CRLF &  "chat as an image, and BOT <myvillage> SENDCHAT <chat message> to send a chat to your clan") 
+   GUICtrlSetState($chkChatNotify, $ChatbotUseNotify)
+   GUICtrlSetOnEvent(-1, "chkChatNotify")
    $g_alblUseremotechat = GUICtrlCreateLabel("Use remote for chatting", $x + 7, $y, -1, -1)
    $y += 22
    $chkPbSendNewChats = GUICtrlCreateCheckbox("", $x - 10, $y, 13, 13)
    GUICtrlSetTip($chkPbSendNewChats, "Will send an image of your clan chat via pushbullet & telegram when a new chat is detected. Not guaranteed to be 100% accurate.")
    GUICtrlSetState($chkPbSendNewChats, $ChatbotPbSendNew)
-   GUICtrlSetOnEvent(-1, "ChatGuiCheckboxUpdate")
+   GUICtrlSetOnEvent(-1, "chkPbSendNewChats")
    $g_alblNotifyclanchat = GUICtrlCreateLabel("Notify me new clan chat", $x + 7, $y, -1, -1)
    $y += 25
 
    $editResponses = GUICtrlCreateEdit(_ArrayToString($ClanResponses, ":", -1, -1, @CRLF), $x - 15, $y, 206, 80)
    GUICtrlSetTip($editResponses, "Look for the specified keywords in clan messages and respond with the responses. One item per line, in the format keyword:response")
-   GUICtrlSetOnEvent(-1, "ChatGuiEditUpdate")
+   GUICtrlSetOnEvent(-1, "editResponses")
    $y += 92
    $editGeneric = GUICtrlCreateEdit(_ArrayToString($ClanMessages, @CRLF), $x - 15, $y, 206, 80)
    GUICtrlSetTip($editGeneric, "Generic messages to send, one per line")
-   GUICtrlSetOnEvent(-1, "ChatGuiEditUpdate")
-
-   ChatGuicheckboxUpdateAT()
+   GUICtrlSetOnEvent(-1, "editGeneric")
+      
+   GUICtrlCreateGroup("", -99, -99, 1, 1)
    
 EndFunc   ;==>TabItem6
 

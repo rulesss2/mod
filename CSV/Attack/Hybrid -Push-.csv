@@ -71,9 +71,15 @@ DROP  |Z          |4          |1          |HaSpell    |0          |0          |1
 DROP  |Z          |11         |1          |HaSpell    |0          |0          |100        |           |
 DROP  |C-D        |2-8        |50%        |Mini       |50-60      |20-30      |300-500    |           |
 DROP  |Z          |0          |1          |RSpell     |1          |0          |100-200    |           |
+
 DROP  |A          |1          |1          |king       |0          |0          |200-300    |           |
 DROP  |X          |0          |1          |Jspell     |0          |0          |500-600    |           |
 DROP  |P          |0          |1          |Jspell     |0          |0          |500-600    |           |
+=======
+DROP  |A          |1          |1          |king       |0          |0          |100-200    |           |
+DROP  |X          |0          |1          |Jspell     |0          |0          |100-200    |           |
+DROP  |P          |0          |1          |Jspell     |0          |0          |100-200    |           |
+
 DROP  |I          |1          |1          |FSpell     |0          |0          |0          |           |
 DROP  |Q          |11         |1          |HaSpell    |0          |0          |100        |           |
 DROP  |Q          |4          |1          |HaSpell    |0          |0          |100        |           |
@@ -91,10 +97,14 @@ DROP  |A          |1          |1          |warden     |0          |0          |5
 DROP  |H          |1          |1          |FSpell     |0          |0          |0          |           |
 DROP  |R          |0          |1          |RSpell     |0          |0          |100-200    |3000-4000  |
 DROP  |R          |0          |1          |HSpell     |1          |0          |100-200    |2000-3000  |
+
 DROP  |S          |0          |1          |HaSpell    |0          |0          |100        |           |
+=======
+DROP  |T          |0          |1          |HaSpell    |0          |0          |100        |           |
+
 RECALC|           |           |           |           |0          |0          |0          |           |
-DROP  |S          |5          |1          |HaSpell    |0          |0          |100        |           |
-DROP  |T          |4          |1          |HaSpell    |0          |0          |100        |           |
+DROP  |T          |5          |1          |HaSpell    |0          |0          |100        |           |
+DROP  |S          |4          |1          |HaSpell    |0          |0          |100        |           |
 RECALC|           |           |           |           |0          |0          |0          |           |
 DROP  |U          |2          |1          |HaSpell    |0          |0          |100        |           |
 DROP  |V          |2          |1          |HaSpell    |0          |0          |100        |           |

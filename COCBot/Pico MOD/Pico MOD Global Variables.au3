@@ -99,11 +99,6 @@ Global $g_iGoldBB = 0, $g_iElixirBB = 0, $g_iTrophiesBB = 0, $g_aBuilder[2] = [0
 
 Global $bCanUseUnicodeKeyboard = False
 
-; move the Request CC Troops (MMHK) - Added rulesss
-Global $g_bReqCCFirst = False
-Global $chkReqCCFirst = 0 
-Global $g_hLblEarly
-
 ; ================================================== Drop order troops by Kychera ================================================== ;
 
 Global Enum $eTroopBarbarianS, $eTroopArcherS, $eTroopGiantS, $eTroopGoblinS, $eTroopWallBreakerS, $eTroopBalloonS, _
@@ -155,14 +150,15 @@ Global $iChkWaveFactor = 0
 Global $iTxtWaveFactor = 100
 
 ;Chatbot - modification by ruless,kychera
-Global $ChatbotChatGlobal = False
-Global $ChatbotScrambleGlobal = False
-Global $ChatbotSwitchLang = False
-Global $ChatbotChatClan = False
-Global $ChatbotClanUseResponses = False
-Global $ChatbotClanAlwaysMsg = False
-Global $ChatbotUsePushbullet = False
-Global $ChatbotPbSendNew = False
+Global $ChatbotChatGlobal = 0
+Global $ChatbotScrambleGlobal = 0
+Global $ChatbotSwitchLang = 0
+Global $icmbLang = 8
+Global $ChatbotChatClan = 0
+Global $ChatbotClanUseResponses = 0
+Global $ChatbotClanAlwaysMsg = 0
+Global $ChatbotUseNotify = 0
+Global $ChatbotPbSendNew = 0
 Global $ClanMessages = ""
 Global $ClanResponses = ""
 Global $GlobalMessages1 = ""
@@ -171,6 +167,9 @@ Global $GlobalMessages3 = ""
 Global $GlobalMessages4 = ""
 Global $ChatbotStartTime
 Global $message = ""
+Global $globChatTimeDalay 
+Global $iTxtGlobChatTimeDalay = 0
+Global $startGlobChatTimer = TimerInit()
 
 ; Forecast - (modification rulesss,kychera)
 Global Const $COLOR_DEEPPINK = 0xFF1493
